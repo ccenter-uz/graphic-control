@@ -19,7 +19,7 @@ export const LoginForm = () => {
         inputType="password"
         iconSrc={LoginImg}
       />
-      <BaseButton>Подтвердить</BaseButton>
+      <BaseButton>Войти</BaseButton>
     </form>
   );
 };

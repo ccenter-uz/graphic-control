@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { HomeHeader } from "@widgets/home-header";
 
 import BaseContainer from "@shared/ui/base-cotainer";
