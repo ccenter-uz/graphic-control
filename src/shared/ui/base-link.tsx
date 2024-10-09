@@ -1,15 +1,15 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 type Props = {
-  children: ReactNode;
   to: string;
+  title: string;
   className?: string;
 };
 
-const BaseLink: FC<Props> = ({ children, to, className }) => {
+const BaseLink: FC<Props> = ({ to, title, className }) => {
   return (
-    <Link to={to} className={`${className} text-[#007AFF] `}>
-      {children}
+    <Link to={to} className={`${className} text-[#007AFF]`}>
+      {title}
     </Link>
   );
 };

@@ -4,7 +4,7 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import PageTitle from "@shared/ui/page-title";
 
-import LoginImg from "../../assets/images/login-img.svg";
+import LoginImg from "../../assets/images/login.svg";
 
 const LoginPage = () => {
   return (
@@ -13,9 +13,11 @@ const LoginPage = () => {
         <PageTitle>Авторизация</PageTitle>
         <img src={LoginImg} className="my-10 mx-auto" />
         <LoginForm />
-        <BaseLink to="https://t.me/uztelecom_cce" className="ml-auto mt-auto">
-          Поддержка
-        </BaseLink>
+        <BaseLink
+          to="https://t.me/uztelecom_cce"
+          title="Поддержка"
+          className="ml-auto mt-auto"
+        />
       </div>
     </BaseContainer>
   );

@@ -27,7 +27,7 @@
       "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/features/logout/ui/logout.tsx"],
   "references": [
     {
       "path": "./tsconfig.node.json"
