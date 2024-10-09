@@ -1,9 +1,9 @@
 export const Internationalization = () => {
   return (
     <select className="bg-[#F0F7FE]">
-      <option value="uz">Uz</option>
-      <option value="cyr">Cyr</option>
-      <option value="ru">Ru</option>
+      <option value="uz">O`zb</option>
+      <option value="cyr">Ўзб</option>
+      <option value="ru">Рус</option>
     </select>
   );
 };

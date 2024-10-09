@@ -8,7 +8,9 @@ type Props = {
 const BaseButton: FC<Props> = ({ children, className }) => {
   return (
     <button
-      className={`${className} text-white p-2.5 rounded-lg w-full bg-gradient-to-r from-[#174880] to-[#3981EC]`}
+      className={`${
+        className ? className : "w-full"
+      } text-white p-2.5 rounded-lg bg-gradient-to-r from-[#174880] to-[#3981EC]`}
     >
       {children}
     </button>

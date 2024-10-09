@@ -1,9 +1,13 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 
 import logoutImg from "../../../../assets/images/logout.svg";
-export const Logout: FC = () => {
+
+type Props = {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+};
+export const Logout: FC<Props> = ({ onClick }) => {
   return (
-    <button>
+    <button onClick={onClick}>
       <img src={logoutImg} alt="back img" />
     </button>
   );
