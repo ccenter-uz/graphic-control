@@ -6,7 +6,7 @@ import translationRus from "./rus/translation.json";
 import translationUzb from "./uzb/translation.json";
 
 i18next.use(initReactI18next).init({
-  lng: "uzb",
+  lng: "rus",
   debug: true,
   resources: {
     rus: {

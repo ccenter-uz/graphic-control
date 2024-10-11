@@ -11,29 +11,30 @@ import calendarList from "../../assets/images/calendar-list.svg";
 import calendarTick from "../../assets/images/calendar-tick.svg";
 
 const Home = () => {
+  const { t } = useTranslation();
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">
       <HomeHeader />
       <div className="grid gap-7 mt-11 px-6">
         <HomeLink
           to="new-preference"
-          title="Новое предпочтение"
+          title={t("home.new-preference")}
           imgSrc={calendarTick}
         />
         <HomeLink
           to="my-current-schedule"
-          title="Мой текущий график"
+          title={t("home.my-current-schedule")}
           imgSrc={calendarClock}
         />
         <HomeLink
           to="my-preferences"
-          title="Мои предпочтения"
+          title={t("home.my-preferences")}
           imgSrc={calendarList}
         />
       </div>
       <BaseLink
         to="https://t.me/uztelecom_cce"
-        title="Поддержка"
+        title={t("home.support")}
         className="ml-auto mt-auto"
       />
     </BaseContainer>

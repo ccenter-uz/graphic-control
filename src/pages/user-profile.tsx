@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Logout } from "@features/logout";
 
@@ -6,13 +7,13 @@ import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
-import Curtain from "@shared/ui/curtain";
 import HeaderContainer from "@shared/ui/header-container";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
 import userImg from "../../assets/images/user.svg";
 
 const UserProfile = () => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleLogoutClick = () => {
@@ -28,21 +29,20 @@ const UserProfile = () => {
           <Logout onClick={handleLogoutClick} />
         </div>
         <p className="text-[#394e34] text-center mt-3">
-          Mahammadjanov Ibrohim Doniyor o’g’li
+          Махаммаджанов Иброхим Дониёр угли
         </p>
       </HeaderContainer>
       <div className="px-6 mt-12 grid gap-4">
-        <UserSingleInfo title="ID" value="625897" />
-        <UserSingleInfo title="Логин" value="625897" />
-        <UserSingleInfo title="Пароль" value="625897" />
-        <UserSingleInfo title="Тел номер" value="625897" />
+        <UserSingleInfo title={t("user-profile.ID")} value="625897" />
+        <UserSingleInfo title={t("user-profile.username")} value="625897" />
+        <UserSingleInfo title={t("user-profile.password")} value="625897" />
+        <UserSingleInfo title={t("user-profile.phone-number")} value="625897" />
       </div>
       {isModalOpen && (
         <ConfirmModal state={isModalOpen} setState={setIsModalOpen} />
       )}
-      {isModalOpen && <Curtain />}
       <BaseLink
-        title="Поддрежка"
+        title={t("user-profile.support")}
         to="https://t.me/uztelecom_cce"
         className="ml-auto mt-auto"
       />

@@ -13,16 +13,39 @@ const ConfirmModal: FC<Props> = ({ state, setState }) => {
   };
 
   return (
-    <div className="px-5 py-6 border rounded-lg mx-6 bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999]">
-      <p className="text-center mb-8">Вы действительно хотите выйти?</p>
-      <div className="flex justify-between">
-        <SecondaryButton className="w-1/3" onClick={handleCancelClick}>
-          Отмена
-        </SecondaryButton>
-        <BaseButton className="w-1/3">Выйти</BaseButton>
+    <div
+      onClick={handleCancelClick}
+      className="absolute w-full h-screen flex items-center justify-center bg-white bg-opacity-30 backdrop-blur-sm top-0 left-0"
+    >
+      <div
+        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+          e.stopPropagation()
+        }
+        className="my-auto px-5 py-6 border rounded-lg bg-white z-[9999]"
+      >
+        <p className="text-center mb-8">Вы действительно хотите выйти?</p>
+        <div className="flex justify-between">
+          <SecondaryButton className="w-1/3" onClick={handleCancelClick}>
+            Отмена
+          </SecondaryButton>
+          <BaseButton className="w-1/3">Выйти</BaseButton>
+        </div>
       </div>
     </div>
   );
 };
 
 export default ConfirmModal;
+
+// useEffect(() => {
+//     let handler = (e) => {
+//       if (!modalRef?.current.contains(e.target)) {
+//         setIsActiveEntering(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handler);
+
+//     return () => {
+//       document.removeEventListener("mousedown", handler);
+//     };
+//   });
