@@ -5,9 +5,9 @@ import { Logout } from "@features/logout";
 
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
-import BaseLink from "@shared/ui/base-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
+import BaseLink from "@shared/ui/support-link";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
 import userImg from "../../assets/images/user.svg";

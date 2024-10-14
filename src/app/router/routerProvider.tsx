@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "@pages/home";
 import LoginPage from "@pages/login";
 import MyCurrentSchedule from "@pages/my-current-schedule";
-import SelectShedule from "@pages/select-schedule";
+import NewPreference from "@pages/new-preference";
 import UserProfile from "@pages/user-profile";
 
 export const router = createBrowserRouter([
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
     element: <MyCurrentSchedule />,
   },
   {
-    path: "/select-schedule",
-    element: <SelectShedule />,
+    path: "/new-preference",
+    element: <NewPreference />,
   },
 ]);

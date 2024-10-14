@@ -4,7 +4,7 @@ import { HomeHeader } from "@widgets/home-header";
 
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
-import HomeLink from "@shared/ui/home-link";
+import SupportLink from "@shared/ui/support-link";
 
 import calendarClock from "../../assets/images/calendar-clock.svg";
 import calendarList from "../../assets/images/calendar-list.svg";
@@ -16,23 +16,23 @@ const Home = () => {
     <BaseContainer className="h-screen bg-[#f9fdff]">
       <HomeHeader />
       <div className="grid gap-7 mt-11 px-6">
-        <HomeLink
+        <BaseLink
           to="new-preference"
           title={t("home.new-preference")}
           imgSrc={calendarTick}
         />
-        <HomeLink
+        <BaseLink
           to="my-current-schedule"
           title={t("home.my-current-schedule")}
           imgSrc={calendarClock}
         />
-        <HomeLink
+        <BaseLink
           to="my-preferences"
           title={t("home.my-preferences")}
           imgSrc={calendarList}
         />
       </div>
-      <BaseLink
+      <SupportLink
         to="https://t.me/uztelecom_cce"
         title={t("home.support")}
         className="ml-auto mt-auto"

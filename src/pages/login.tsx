@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { LoginForm } from "@widgets/login-form";
 
 import BaseContainer from "@shared/ui/base-cotainer";
-import BaseLink from "@shared/ui/base-link";
 import PageTitle from "@shared/ui/page-title";
+import BaseLink from "@shared/ui/support-link";
 
 import LoginImg from "../../assets/images/login.svg";
 

@@ -21,5 +21,9 @@
   },
   "my-current-schedule": {
     "working-time-info": "Режим работы"
+  },
+  "new-preference": {
+    "title": "Какой график предпочитаете?",
+    "btnTitle": "Смена"
   }
 }
