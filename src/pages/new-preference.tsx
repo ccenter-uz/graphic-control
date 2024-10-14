@@ -10,6 +10,15 @@ import UserProfileLink from "@shared/ui/user-profile-link";
 import ClockImg from "../../assets/images/clock.svg";
 
 const NewPreference = () => {
+  const links = [
+    { id: 1, link: "07-16" },
+    { id: 2, link: "08-17" },
+    { id: 3, link: "09-18" },
+    { id: 4, link: "11-20" },
+    { id: 5, link: "13-22" },
+    { id: 6, link: "15-24" },
+    { id: 7, link: "17-02" },
+  ];
   const { t } = useTranslation();
   return (
     <BaseContainer className="bg-[#F9FDFF]">
@@ -19,16 +28,27 @@ const NewPreference = () => {
         <UserProfileLink />
       </HeaderContainer>
       <div className="px-6 mt-6">
-        <BaseLink title="Такой же как и прошлом месяце" to="/" color="blue" />
+        <BaseLink
+          title={t("new-preference.main-btn-title")}
+          to="/"
+          isBlue={true}
+        />
         <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
-          <BaseLink title="07-16" to="/" imgSrc={ClockImg} />
-          <BaseLink title="08-17" to="/" imgSrc={ClockImg} />
-          <BaseLink title="09-18" to="/" imgSrc={ClockImg} />
-          <BaseLink title="11-20" to="/" imgSrc={ClockImg} />
-          <BaseLink title="13-22" to="/" imgSrc={ClockImg} />
-          <BaseLink title="15-24" to="/" imgSrc={ClockImg} />
-          <BaseLink title="17-08" to="/" imgSrc={ClockImg} />
-          <BaseLink title={t("new-preference.btnTitle")} to="/" color="blue" />
+          {links?.map((item, index) => {
+            return (
+              <BaseLink
+                key={index}
+                to={`/new-preference/select-supervisor/${item?.link}`}
+                title={item?.link}
+                imgSrc={ClockImg}
+              />
+            );
+          })}
+          <BaseLink
+            title={t("new-preference.smena")}
+            to="select-supervisor/smena"
+            isBlue={true}
+          />
         </div>
       </div>
     </BaseContainer>

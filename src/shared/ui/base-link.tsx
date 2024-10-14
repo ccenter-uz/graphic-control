@@ -7,10 +7,10 @@ type Props = {
   title: string;
   to: string;
   imgSrc?: string;
-  color?: string;
+  isBlue?: boolean;
 };
 
-const BaseLink: FC<Props> = ({ to, title, imgSrc, color }) => {
+const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue }) => {
   return (
     <Link to={to}>
       <div className="flex items-center justify-between bg-white border rounded px-4 py-3">
@@ -22,9 +22,7 @@ const BaseLink: FC<Props> = ({ to, title, imgSrc, color }) => {
           ""
         )}
         <p
-          className={`${
-            color === "blue" ? "text-[#506DD7]" : "text-[#94A3B8]"
-          } text-sm`}
+          className={`${isBlue ? "text-[#506DD7]" : "text-[#94A3B8]"} text-sm`}
         >
           {title}
         </p>
