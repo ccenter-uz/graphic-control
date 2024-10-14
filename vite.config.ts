@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => {
         "@features": path.resolve("src/features"),
         "@entities": path.resolve("src/entities"),
         "@shared": path.resolve("src/shared"),
+        "@assets": path.resolve("assets/images"),
       },
     },
   };

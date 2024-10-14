@@ -1,21 +1,27 @@
+import { useTranslation } from "react-i18next";
+
 import { LoginForm } from "@widgets/login-form";
 
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import PageTitle from "@shared/ui/page-title";
 
-import LoginImg from "../../assets/images/login-img.svg";
+import LoginImg from "../../assets/images/login.svg";
 
 const LoginPage = () => {
+  const TgSupportLink = "https://t.me/uztelecom_cce";
+  const { t } = useTranslation();
   return (
-    <BaseContainer className="borderr">
+    <BaseContainer>
       <div className="py-8 h-screen flex flex-col">
-        <PageTitle>Авторизация</PageTitle>
+        <PageTitle>{t("login.title")}</PageTitle>
         <img src={LoginImg} className="my-10 mx-auto" />
         <LoginForm />
-        <BaseLink to="https://t.me/uztelecom_cce" className="ml-auto mt-auto">
-          Поддержка
-        </BaseLink>
+        <BaseLink
+          to={TgSupportLink}
+          title={t("login.support")}
+          className="ml-auto mt-auto"
+        />
       </div>
     </BaseContainer>
   );

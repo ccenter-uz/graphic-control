@@ -1,14 +1,15 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
   className?: string;
+  bgColor?: string;
 };
 
 const BaseContainer: FC<Props> = ({ children, className }) => {
   return (
     <div
-      className={`${className} flex flex-col w-[390px] my-0 mx-auto px-[54px]`}
+      className={`${className} relative h-screen flex-col w-[500px] my-0 mx-auto px-[54px]`}
     >
       {children}
     </div>

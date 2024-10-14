@@ -1,14 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
-import LoginPage from "@pages/login";
 import "./i18n/config";
-
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-]);
+import { router } from "./router/routerProvider";
 
 const App = () => {
   return <RouterProvider router={router} />;

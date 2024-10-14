@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "Авторизация",
+    "username": "Юзернейм",
+    "password": "Пароль",
+    "submit": "Войти",
+    "support": "Поддержка"
+  },
+  "home": {
+    "new-preference": "Новое предпочтение",
+    "my-current-schedule": "Мой текущий график",
+    "my-preferences": "Мои предпочтения",
+    "support": "Поддержка"
+  },
+  "user-profile": {
+    "ID": "ID",
+    "username": "Юзернейм",
+    "password": "Пароль",
+    "phone-number": "Тел номер",
+    "support": "Поддержка"
+  },
+  "my-current-schedule": {
+    "working-time-info": "Режим работы"
+  }
+}

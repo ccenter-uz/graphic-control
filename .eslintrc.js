@@ -26,6 +26,7 @@ module.exports = {
           "@features/*/**",
           "@entities/*/**",
           "@shared/*/*/**",
+          "@assets/*/**",
 
           "../**/app",
           "../**/processes",
@@ -34,6 +35,7 @@ module.exports = {
           "../**/features",
           "../**/entities",
           "../**/shared",
+          "/assets/images",
         ],
       },
     ],
@@ -49,6 +51,7 @@ module.exports = {
           "@features/**",
           "@entities/**",
           "@shared/**",
+          "@assets/**",
         ].map((pattern) => ({
           pattern,
           group: "internal",
@@ -187,6 +190,32 @@ module.exports = {
           },
           {
             target: "src/shared",
+            from: "src/entities",
+          },
+
+          // assets/images
+          {
+            target: "assets/images",
+            from: "src/app",
+          },
+          {
+            target: "assets/images",
+            from: "src/processes",
+          },
+          {
+            target: "assets/images",
+            from: "src/pages",
+          },
+          {
+            target: "assets/images",
+            from: "src/widgets",
+          },
+          {
+            target: "assets/images",
+            from: "src/features",
+          },
+          {
+            target: "assets/images",
             from: "src/entities",
           },
         ],
