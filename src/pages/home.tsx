@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { HomeHeader } from "@widgets/home-header";
 
+import { TgSupportLink } from "@shared/constants/links";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import SupportLink from "@shared/ui/support-link";
@@ -33,7 +34,7 @@ const Home = () => {
         />
       </div>
       <SupportLink
-        to="https://t.me/uztelecom_cce"
+        to={TgSupportLink}
         title={t("home.support")}
         className="ml-auto mt-auto"
       />

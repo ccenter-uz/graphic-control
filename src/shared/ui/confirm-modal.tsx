@@ -36,16 +36,3 @@ const ConfirmModal: FC<Props> = ({ state, setState }) => {
 };
 
 export default ConfirmModal;
-
-// useEffect(() => {
-//     let handler = (e) => {
-//       if (!modalRef?.current.contains(e.target)) {
-//         setIsActiveEntering(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handler);
-
-//     return () => {
-//       document.removeEventListener("mousedown", handler);
-//     };
-//   });

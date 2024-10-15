@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Logout } from "@features/logout";
 
+import { TgSupportLink } from "@shared/constants/links";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import ConfirmModal from "@shared/ui/confirm-modal";
@@ -43,7 +44,7 @@ const UserProfile = () => {
       )}
       <BaseLink
         title={t("user-profile.support")}
-        to="https://t.me/uztelecom_cce"
+        to={TgSupportLink}
         className="ml-auto mt-auto"
       />
     </BaseContainer>

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { scheduleLinks } from "@shared/constants/local-data";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
@@ -10,15 +11,6 @@ import UserProfileLink from "@shared/ui/user-profile-link";
 import ClockImg from "../../assets/images/clock.svg";
 
 const NewPreference = () => {
-  const links = [
-    { id: 1, link: "07-16" },
-    { id: 2, link: "08-17" },
-    { id: 3, link: "09-18" },
-    { id: 4, link: "11-20" },
-    { id: 5, link: "13-22" },
-    { id: 6, link: "15-24" },
-    { id: 7, link: "17-02" },
-  ];
   const { t } = useTranslation();
   return (
     <BaseContainer className="bg-[#F9FDFF]">
@@ -34,7 +26,7 @@ const NewPreference = () => {
           isBlue={true}
         />
         <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
-          {links?.map((item, index) => {
+          {scheduleLinks?.map((item, index) => {
             return (
               <BaseLink
                 key={index}
