@@ -1,4 +1,9 @@
 {
+  "shared": {
+    "working_hours": {
+      "title": "Режим работы"
+    }
+  },
   "login": {
     "title": "Авторизация",
     "username": "Юзернейм",
@@ -19,8 +24,8 @@
     "phone-number": "Тел номер",
     "support": "Поддержка"
   },
-  "my-current-schedule": {
-    "working-time-info": "Режим работы"
+  "my_current_schedule": {
+    "title": "Мой текущий график"
   },
   "new-preference": {
     "title": "Какой график предпочитаете?",
