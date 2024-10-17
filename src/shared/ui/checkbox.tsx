@@ -1,7 +1,8 @@
 import { ChangeEvent, FC, useState } from "react";
 
-import moonImg from "../../../assets/images/moon.svg";
-import sunImg from "../../../assets/images/sun.svg";
+import { moonPath, sunPath } from "@shared/constants/svg-paths";
+
+import SvgIcon from "./svg-icon";
 
 type Props = {
   isWorkDay?: boolean;
@@ -68,9 +69,11 @@ const Checkbox: FC<Props> = ({
     >
       {label}
       {isOrder && isWorkDay ? (
-        <img
-          src={isNight ? moonImg : sunImg}
-          alt={isNight ? "moon image" : "sun image"}
+        <SvgIcon
+          path={isNight ? moonPath : sunPath}
+          color={isNight ? "" : "#007AFF"}
+          width={20}
+          height={20}
           className="w-3 h-3 absolute right-0.5 top-0.5"
         />
       ) : (

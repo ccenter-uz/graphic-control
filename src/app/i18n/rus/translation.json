@@ -4,6 +4,9 @@
       "title": "Режим работы"
     }
   },
+  "widgets": {
+    "login-form": {}
+  },
   "login": {
     "title": "Авторизация",
     "username": "Юзернейм",

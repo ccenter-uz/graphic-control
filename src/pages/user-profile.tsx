@@ -11,7 +11,7 @@ import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
-import userImg from "../../assets/images/user.svg";
+import userProfileImg from "../../assets/images/user-profile.svg";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const UserProfile = () => {
       <HeaderContainer>
         <div className="flex justify-between items-start">
           <BackLink to="/" />
-          <img src={userImg} alt="user img" />
+          <img src={userProfileImg} alt="user img" />
           <Logout onClick={handleLogoutClick} />
         </div>
         <p className="text-[#394e34] text-center mt-3">
