@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { Logout } from "@features/logout";
 
+import { TgSupportLink } from "@shared/constants/links";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
-import BaseLink from "@shared/ui/base-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
+import BaseLink from "@shared/ui/support-link";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
 import userImg from "../../assets/images/user.svg";
@@ -43,7 +44,7 @@ const UserProfile = () => {
       )}
       <BaseLink
         title={t("user-profile.support")}
-        to="https://t.me/uztelecom_cce"
+        to={TgSupportLink}
         className="ml-auto mt-auto"
       />
     </BaseContainer>

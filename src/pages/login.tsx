@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 
 import { LoginForm } from "@widgets/login-form";
 
+import { TgSupportLink } from "@shared/constants/links";
 import BaseContainer from "@shared/ui/base-cotainer";
-import BaseLink from "@shared/ui/base-link";
 import PageTitle from "@shared/ui/page-title";
+import BaseLink from "@shared/ui/support-link";
 
 import LoginImg from "../../assets/images/login.svg";
 
 const LoginPage = () => {
-  const TgSupportLink = "https://t.me/uztelecom_cce";
   const { t } = useTranslation();
   return (
     <BaseContainer>

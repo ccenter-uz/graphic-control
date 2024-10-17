@@ -21,5 +21,14 @@
   },
   "my-current-schedule": {
     "working-time-info": "Режим работы"
+  },
+  "new-preference": {
+    "title": "Какой график предпочитаете?",
+    "main-btn-title": "Такой же как и в прошлом месяце",
+    "smena": "Смена"
+  },
+  "select-supervisor": {
+    "title": "Выберите сменного Супервайзера",
+    "second-title": "255-КЦ"
   }
 }

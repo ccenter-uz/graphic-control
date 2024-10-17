@@ -1,0 +1,84 @@
+import BaseDay from "@shared/ui/checkbox";
+
+const SupervisorsSchedule = () => {
+  return (
+    <div className="flex">
+      <BaseDay
+        isWorkDay={true}
+        isOrder={true}
+        isNight={false}
+        isHoliday={false}
+        isToday={false}
+        isCheckable={false}
+        label={1}
+      />
+      <BaseDay
+        isWorkDay={true}
+        isOrder={true}
+        isNight={true}
+        isHoliday={false}
+        isToday={false}
+        isCheckable={false}
+        label={2}
+      />
+      <BaseDay
+        isWorkDay={true}
+        isOrder={false}
+        isNight={false}
+        isHoliday={false}
+        isToday={false}
+        isCheckable={false}
+        label={3}
+      />
+      <BaseDay
+        isWorkDay={true}
+        isOrder={true}
+        isNight={true}
+        isHoliday={true}
+        isToday={false}
+        isCheckable={false}
+        label={4}
+      />
+      <BaseDay
+        isWorkDay={false}
+        isOrder={true}
+        isNight={false}
+        isHoliday={false}
+        isToday={false}
+        isCheckable={false}
+        label={5}
+      />
+      <BaseDay
+        isWorkDay={false}
+        isOrder={true}
+        isNight={false}
+        isHoliday={true}
+        isToday={false}
+        isCheckable={false}
+        label={6}
+      />
+      <BaseDay
+        isWorkDay={false}
+        isOrder={true}
+        isNight={false}
+        isHoliday={false}
+        isToday={false}
+        isCheckable={false}
+        label={6}
+        isTrueOption={true}
+      />
+      <BaseDay
+        isWorkDay={true}
+        isOrder={true}
+        isNight={false}
+        isHoliday={false}
+        isToday={true}
+        isCheckable={false}
+        label={6}
+        isTrueOption={false}
+      />
+    </div>
+  );
+};
+
+export default SupervisorsSchedule;
