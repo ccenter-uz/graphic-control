@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 
+import { LoginPath, passwordPath } from "@shared/constants/svg-paths";
 import BaseButton from "@shared/ui/base-button";
 import { BaseInput } from "@shared/ui/base-input";
-
-import passwordImg from "../../../../assets/images/password.svg";
-import smsImg from "../../../../assets/images/sms.svg";
 
 export const LoginForm = () => {
   const { t } = useTranslation();
@@ -14,13 +12,13 @@ export const LoginForm = () => {
         isInputError={false}
         inputPlaceholder={t("login.username")}
         inputType="text"
-        iconSrc={smsImg}
+        iconSrc={LoginPath}
       />
       <BaseInput
         isInputError={false}
         inputPlaceholder={t("login.password")}
         inputType="password"
-        iconSrc={passwordImg}
+        iconSrc={passwordPath}
       />
       <BaseButton>Войти</BaseButton>
     </form>

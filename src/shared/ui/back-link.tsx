@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import backImg from "../../../assets/images/arrow-left.svg";
+import { backLinkPath } from "@shared/constants/svg-paths";
+
+import SvgIcon from "./svg-icon";
 
 type Props = {
   to: string;
@@ -10,7 +12,7 @@ type Props = {
 const BackLink: FC<Props> = ({ to }) => {
   return (
     <Link to={to}>
-      <img src={backImg} alt="back img" />
+      <SvgIcon width={24} height={24} color="#94A3B8" path={backLinkPath} />
     </Link>
   );
 };

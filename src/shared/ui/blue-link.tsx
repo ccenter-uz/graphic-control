@@ -6,7 +6,7 @@ type Props = {
   className?: string;
 };
 
-const SupportLink: FC<Props> = ({ to, title, className }) => {
+const BlueLink: FC<Props> = ({ to, title, className }) => {
   return (
     <Link to={to} className={`${className} text-[#007AFF]`}>
       {title}
@@ -14,4 +14,4 @@ const SupportLink: FC<Props> = ({ to, title, className }) => {
   );
 };
 
-export default SupportLink;
+export default BlueLink;

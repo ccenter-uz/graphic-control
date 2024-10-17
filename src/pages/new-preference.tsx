@@ -1,14 +1,13 @@
 import { useTranslation } from "react-i18next";
 
 import { scheduleLinks } from "@shared/constants/local-data";
+import { clockPath } from "@shared/constants/svg-paths";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import UserProfileLink from "@shared/ui/user-profile-link";
-
-import ClockImg from "../../assets/images/clock.svg";
 
 const NewPreference = () => {
   const { t } = useTranslation();
@@ -32,7 +31,7 @@ const NewPreference = () => {
                 key={index}
                 to={`/new-preference/select-supervisor/${item?.link}`}
                 title={item?.link}
-                imgSrc={ClockImg}
+                imgSrc={clockPath}
               />
             );
           })}
