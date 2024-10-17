@@ -4,13 +4,13 @@ import moonImg from "../../../assets/images/moon.svg";
 import sunImg from "../../../assets/images/sun.svg";
 
 type Props = {
-  isWorkDay: boolean;
-  isOrder: boolean;
+  isWorkDay?: boolean;
+  isOrder?: boolean;
   isNight?: boolean;
-  isHoliday: boolean;
-  isToday: boolean;
-  label: number;
-  isCheckable: boolean;
+  isHoliday?: boolean;
+  isToday?: boolean;
+  label?: number;
+  isCheckable?: boolean;
   isTrueOption?: boolean;
 };
 
@@ -24,25 +24,28 @@ const Checkbox: FC<Props> = ({
   isCheckable,
   isTrueOption,
 }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isWorkDayState, setIsWorkDayState] = useState<boolean>(
+    isWorkDay || false,
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
-    setIsChecked((prevState) => !prevState);
+    console.log(e?.target?.checked);
+
+    setIsWorkDayState((prevState) => !prevState);
   };
 
   return (
     <label
-      className={`relative flex items-center justify-center w-11 h-11 text-xl cursor-pointer rounded ${
+      className={`relative flex items-center justify-center w-11 h-11 text-xl rounded ${
         isTrueOption
           ? "bg-green-200"
-          : isOrder && isWorkDay && isNight
+          : isOrder && isWorkDayState && isNight
           ? "bg-[#eaebec]"
-          : isOrder && isWorkDay && !isNight
+          : isOrder && isWorkDayState && !isNight
           ? "bg-[#EBF4FD]"
-          : isWorkDay
+          : isWorkDayState
           ? "bg-[#EBF4FD]"
-          : !isWorkDay
+          : !isWorkDayState
           ? "bg-[#fff]"
           : ""
       } ${
@@ -50,16 +53,18 @@ const Checkbox: FC<Props> = ({
           ? "text-green-500"
           : isHoliday
           ? "text-[#C43D46]"
-          : isOrder && isWorkDay && isNight
+          : isOrder && isWorkDayState && isNight
           ? " text-[#64748B]"
-          : isOrder && isWorkDay && !isNight
+          : isOrder && isWorkDayState && !isNight
           ? " text-[#59A2F0]"
-          : isWorkDay
+          : isWorkDayState
           ? "text-[#59A2F0]"
-          : !isWorkDay
+          : !isWorkDayState
           ? "text-[#ccc]"
           : ""
-      } ${isToday ? "font-bold" : ""}`}
+      } ${isToday ? "font-bold" : ""} ${
+        !isCheckable ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
     >
       {label}
       {isOrder && isWorkDay ? (
@@ -73,11 +78,12 @@ const Checkbox: FC<Props> = ({
       )}
       <input
         type="checkbox"
-        checked={isChecked}
+        checked={isWorkDayState}
         onChange={handleChange}
-        className="absolute opacity-0 cursor-pointer"
-        value="false"
-        disabled={isCheckable}
+        className={`${
+          !isCheckable ? "cursor-not-allowed" : "cursor-pointer"
+        } absolute opacity-0`}
+        disabled={!isCheckable}
       />
     </label>
   );

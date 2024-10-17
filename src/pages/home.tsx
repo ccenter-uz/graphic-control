@@ -5,7 +5,7 @@ import { HomeHeader } from "@widgets/home-header";
 import { TgSupportLink } from "@shared/constants/links";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
-import SupportLink from "@shared/ui/support-link";
+import BlueLink from "@shared/ui/blue-link";
 
 import calendarClock from "../../assets/images/calendar-clock.svg";
 import calendarList from "../../assets/images/calendar-list.svg";
@@ -33,7 +33,7 @@ const Home = () => {
           imgSrc={calendarList}
         />
       </div>
-      <SupportLink
+      <BlueLink
         to={TgSupportLink}
         title={t("home.support")}
         className="ml-auto mt-auto"
