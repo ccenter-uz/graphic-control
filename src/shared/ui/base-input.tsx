@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
 
+import SvgIcon from "./svg-icon";
+
 type Props = {
   iconSrc?: string;
   iconAlt?: string;
@@ -15,7 +17,7 @@ export const BaseInput: FC<Props> = (props) => {
   return (
     <div className={`w-full`}>
       <div
-        className={`rounded-lg flex  bg-[#f6f6fb] ${
+        className={`rounded-lg flex items-center  bg-[#f6f6fb] ${
           isFocused && !props.isInputError
             ? "border border-[#007AFF]"
             : props.isInputError
@@ -24,7 +26,13 @@ export const BaseInput: FC<Props> = (props) => {
         }`}
       >
         {props.iconSrc ? (
-          <img src={props.iconSrc} alt={props.iconAlt} className="px-3" />
+          <SvgIcon
+            path={props.iconSrc}
+            width={13}
+            height={14}
+            color="#64748B"
+            className="ml-3"
+          />
         ) : (
           ""
         )}

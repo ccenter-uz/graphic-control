@@ -3,13 +3,14 @@ import { useTranslation } from "react-i18next";
 import { HomeHeader } from "@widgets/home-header";
 
 import { TgSupportLink } from "@shared/constants/links";
+import {
+  calendarClockPath,
+  calendarListPath,
+  calendarTickPath,
+} from "@shared/constants/svg-paths";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
-import SupportLink from "@shared/ui/support-link";
-
-import calendarClock from "../../assets/images/calendar-clock.svg";
-import calendarList from "../../assets/images/calendar-list.svg";
-import calendarTick from "../../assets/images/calendar-tick.svg";
+import BlueLink from "@shared/ui/blue-link";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -20,20 +21,20 @@ const Home = () => {
         <BaseLink
           to="new-preference"
           title={t("home.new-preference")}
-          imgSrc={calendarTick}
+          imgSrc={calendarTickPath}
         />
         <BaseLink
           to="my-current-schedule"
           title={t("home.my-current-schedule")}
-          imgSrc={calendarClock}
+          imgSrc={calendarClockPath}
         />
         <BaseLink
           to="my-preferences"
           title={t("home.my-preferences")}
-          imgSrc={calendarList}
+          imgSrc={calendarListPath}
         />
       </div>
-      <SupportLink
+      <BlueLink
         to={TgSupportLink}
         title={t("home.support")}
         className="ml-auto mt-auto"

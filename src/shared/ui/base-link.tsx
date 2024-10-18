@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import arrowRight from "../../../assets/images/arrow-right.svg";
+import { arrowRightPath } from "@shared/constants/svg-paths";
+
+import SvgIcon from "./svg-icon";
 
 type Props = {
   title: string;
@@ -15,8 +17,8 @@ const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue }) => {
     <Link to={to}>
       <div className="flex items-center justify-between bg-white border rounded px-4 py-3">
         {imgSrc ? (
-          <div className="bg-[#F0F7FE] rounded-full">
-            <img src={imgSrc} alt="Calendar clock" className="p-1.5" />
+          <div className="p-1.5 rounded-full bg-[#F0F7FE]">
+            <SvgIcon path={imgSrc} color="#94A3B8" height={16} width={16} />
           </div>
         ) : (
           ""
@@ -26,7 +28,7 @@ const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue }) => {
         >
           {title}
         </p>
-        <img src={arrowRight} alt="Arrow right" />
+        <SvgIcon path={arrowRightPath} width={18} height={18} />
       </div>
     </Link>
   );

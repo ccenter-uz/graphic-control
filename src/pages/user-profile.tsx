@@ -6,12 +6,12 @@ import { Logout } from "@features/logout";
 import { TgSupportLink } from "@shared/constants/links";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
+import BlueLink from "@shared/ui/blue-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
-import BaseLink from "@shared/ui/support-link";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
-import userImg from "../../assets/images/user.svg";
+import userProfileImg from "../../assets/images/user-profile.svg";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const UserProfile = () => {
       <HeaderContainer>
         <div className="flex justify-between items-start">
           <BackLink to="/" />
-          <img src={userImg} alt="user img" />
+          <img src={userProfileImg} alt="user img" />
           <Logout onClick={handleLogoutClick} />
         </div>
         <p className="text-[#394e34] text-center mt-3">
@@ -42,7 +42,7 @@ const UserProfile = () => {
       {isModalOpen && (
         <ConfirmModal state={isModalOpen} setState={setIsModalOpen} />
       )}
-      <BaseLink
+      <BlueLink
         title={t("user-profile.support")}
         to={TgSupportLink}
         className="ml-auto mt-auto"
