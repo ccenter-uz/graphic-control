@@ -38,5 +38,9 @@
   "select-supervisor": {
     "title": "Выберите сменного Супервайзера",
     "second-title": "255-КЦ"
+  },
+  "done": {
+    "title": "Готово",
+    "button_title": "Перейти в главное меню"
   }
 }
