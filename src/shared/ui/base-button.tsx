@@ -12,7 +12,7 @@ const BaseButton: FC<Props> = ({ children, className, onClick }) => {
       onClick={onClick}
       className={`${
         className ? className : "w-full"
-      } text-white p-2.5 rounded-lg bg-gradient-to-r from-[#174880] to-[#3981EC]`}
+      } text-white p-2.5 rounded-lg bg-gradient`}
     >
       {children}
     </button>

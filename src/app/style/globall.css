@@ -31,3 +31,7 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
+
+.bg-gradient {
+  background: linear-gradient(to right, #174880, #3981ec);
+}

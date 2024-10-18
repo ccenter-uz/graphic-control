@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Done from "@pages/done";
-import Error from "@pages/error";
 import Home from "@pages/home";
 import LoginPage from "@pages/login";
 import MyCurrentSchedule from "@pages/my-current-schedule";
