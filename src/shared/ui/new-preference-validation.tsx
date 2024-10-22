@@ -4,11 +4,12 @@ import BaseModal from "./base-modal";
 import ExplanationBtn from "./explanation-btn";
 
 type Props = {
+  title: string;
   isError?: boolean;
   isSuccess?: boolean;
 };
 
-const NewPreferenceValidation: FC<Props> = ({ isError, isSuccess }) => {
+const NewPreferenceValidation: FC<Props> = ({ title, isError, isSuccess }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -25,7 +26,7 @@ const NewPreferenceValidation: FC<Props> = ({ isError, isSuccess }) => {
               : "text-[#64748B]"
           }`}
         >
-          1. Не ставьте подряд 6 рабочих дней
+          {title}
         </p>
         <ExplanationBtn
           className="ml-2"

@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 import HeaderTitle from "@shared/ui/header-title";
 import WeekendCheckbox from "@shared/ui/weekend-checkbox";
 
+type Props = {
+  setValidation: (validations: {
+    isError: boolean;
+    isSuccess: boolean;
+  }) => void;
+};
+
 interface FormState {
   checkbox1: boolean;
   checkbox2: boolean;
@@ -13,8 +20,8 @@ interface FormState {
   checkbox7: boolean;
 }
 
-export const SelectWeekendDays: React.FC = () => {
-  const [formState, setFormState] = useState<FormState>({
+export const SelectWeekendDays: React.FC<Props> = ({ setValidation }) => {
+  const defaultFormState: FormState = {
     checkbox1: false,
     checkbox2: false,
     checkbox3: false,
@@ -22,16 +29,10 @@ export const SelectWeekendDays: React.FC = () => {
     checkbox5: false,
     checkbox6: false,
     checkbox7: false,
-  });
-  const [isDisabled, setIsDisabled] = useState<FormState>({
-    checkbox1: false,
-    checkbox2: false,
-    checkbox3: false,
-    checkbox4: false,
-    checkbox5: false,
-    checkbox6: false,
-    checkbox7: false,
-  });
+  };
+
+  const [formState, setFormState] = useState<FormState>(defaultFormState);
+  const [isDisabled, setIsDisabled] = useState<FormState>(defaultFormState);
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     const { name, checked } = event.target;
@@ -46,32 +47,36 @@ export const SelectWeekendDays: React.FC = () => {
     const values = Object.values(formState);
     const abledValuesLength = values.filter((v) => v).length;
 
-    if (abledValuesLength === 2) {
+    if (abledValuesLength < 2) {
+      setValidation({
+        isError: true,
+        isSuccess: false,
+      });
+    } else {
+      setValidation({
+        isError: false,
+        isSuccess: true,
+      });
+    }
+
+    if (abledValuesLength >= 2) {
       const checkIsTwoCheckboxChecked = Object.values(formState).reduce(
         (acc, value, index) => ({
           ...acc,
           [keys[index]]: !value,
         }),
-        {},
+        {} as FormState,
       );
       setIsDisabled(checkIsTwoCheckboxChecked);
     } else {
-      setIsDisabled({
-        checkbox1: false,
-        checkbox2: false,
-        checkbox3: false,
-        checkbox4: false,
-        checkbox5: false,
-        checkbox6: false,
-        checkbox7: false,
-      });
+      setIsDisabled(defaultFormState);
     }
-  }, [formState]);
+  }, [formState, setValidation]);
 
   return (
     <>
-      <HeaderTitle className="text-center mt-6">
-        Выберите предпочитаемые выходные дни
+      <HeaderTitle className="mt-5">
+        Выберите 2 предпочитаемые выходные дни
       </HeaderTitle>
       <form
         onChange={handleFormChange}

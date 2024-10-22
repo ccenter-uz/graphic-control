@@ -35,3 +35,59 @@ body {
 .bg-gradient {
   background: linear-gradient(to right, #174880, #3981ec);
 }
+
+/* ------- Custom checkbox -------- */
+
+.weekend-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.weekend-checkbox input[type="checkbox"] {
+  /* Hides the native checkbox */
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.weekend-checkbox span {
+  height: 20px; /* Size of the weekend checkbox */
+  width: 20px;
+  border: 1px solid #64748b; /* Border color when unchecked */
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+}
+
+.weekend-checkbox input[type="checkbox"]:checked + span {
+  background: linear-gradient(to right, #174880, #3981ec);
+  border-color: #3981ec;
+}
+
+.weekend-checkbox span::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  opacity: 0;
+}
+
+.weekend-checkbox input[type="checkbox"]:checked + span::before {
+  opacity: 1;
+}
+
+.weekend-checkbox input[type="checkbox"]:disabled + span {
+  background-color: #e2e8f0; /* Background color when disabled */
+  border-color: #cbd5e1; /* Border color when disabled */
+  cursor: not-allowed;
+  opacity: 0.5;
+}

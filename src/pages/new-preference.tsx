@@ -24,7 +24,7 @@ const NewPreference = () => {
           to="/"
           isBlue={true}
         />
-        <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6 borderr">
+        <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
           {scheduleLinks?.map((item, index) => {
             return (
               <BaseLink

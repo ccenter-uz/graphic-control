@@ -6,6 +6,7 @@ import LoginPage from "@pages/login";
 import MyCurrentSchedule from "@pages/my-current-schedule";
 import NewPreference from "@pages/new-preference";
 import NewPreferenceStep1 from "@pages/new-preference-step-1";
+import NewPreferenceStep2 from "@pages/new-preference-step-2";
 import SelectSupervisor from "@pages/select-supervisor";
 import SupervisorsSchedule from "@pages/supervisors-schedule";
 import UserProfile from "@pages/user-profile";
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: "/new-preference/:id/step-1",
         element: <NewPreferenceStep1 />,
+      },
+      {
+        path: "/new-preference/:id/step-2",
+        element: <NewPreferenceStep2 />,
       },
     ],
   },

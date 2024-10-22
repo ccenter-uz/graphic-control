@@ -9,7 +9,7 @@ type Props = {
 
 const WeekendCheckbox: FC<Props> = ({ title, name, isChecked, isDisabled }) => {
   return (
-    <label className="text-[#64748B] text-sm flex items-center gap-2">
+    <label className="weekend-checkbox">
       <input
         readOnly
         type="checkbox"
@@ -17,6 +17,7 @@ const WeekendCheckbox: FC<Props> = ({ title, name, isChecked, isDisabled }) => {
         checked={isChecked}
         disabled={isDisabled}
       />
+      <span></span>
       {title}
     </label>
   );
