@@ -24,18 +24,19 @@ const NewPreference = () => {
           to="/"
           isBlue={true}
         />
-        <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
+        <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6 borderr">
           {scheduleLinks?.map((item, index) => {
             return (
               <BaseLink
                 key={index}
-                to={`/new-preference/select-supervisor/${item?.link}`}
+                to={`/new-preference/${item?.link}`}
                 title={item?.link}
                 imgSrc={clockPath}
               />
             );
           })}
           <BaseLink
+            className="min-h-[54px]"
             title={t("new-preference.smena")}
             to="select-supervisor/smena"
             isBlue={true}

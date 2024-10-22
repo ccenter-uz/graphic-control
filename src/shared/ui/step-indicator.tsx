@@ -2,16 +2,25 @@ import React from "react";
 
 interface StepIndicatorProps {
   currentStep: number;
+  className?: string;
 }
 
-const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
+const StepIndicator: React.FC<StepIndicatorProps> = ({
+  currentStep,
+  className,
+}) => {
   const steps = [1, 2, 3, 4];
   return (
-    <div className="flex justify-between items-center w-full max-w-md px-0 relative">
+    <div
+      className={`${className} flex justify-between items-center w-full max-w-md px-0 relative`}
+    >
       {steps.map((step, index) => (
-        <div key={index} className="relative flex-1 flex items-center">
+        <div
+          key={index}
+          className="relative flex-1 flex items-center last:flex-none"
+        >
           <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-xs z-10
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-medium z-10
             ${currentStep >= step ? "bg-gradient" : "bg-gray-300"}
             `}
           >
