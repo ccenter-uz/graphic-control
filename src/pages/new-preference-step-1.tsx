@@ -12,7 +12,6 @@ const NewPreferenceStep1 = () => {
     isSuccess: false,
   });
   const [timeParams] = useSearchParams();
-  console.log(timeParams);
 
   return (
     <>

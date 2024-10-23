@@ -36,32 +36,7 @@ body {
   background: linear-gradient(to right, #174880, #3981ec);
 }
 
-/* ------- Custom checkbox -------- */
-
-.weekend-checkbox {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.weekend-checkbox input[type="checkbox"] {
-  /* Hides the native checkbox */
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.weekend-checkbox span {
-  height: 20px; /* Size of the weekend checkbox */
-  width: 20px;
-  border: 1px solid #64748b; /* Border color when unchecked */
-  border-radius: 4px;
-  display: inline-block;
-  position: relative;
-}
+/* ------ Tick of custom checkbox ------ */
 
 .weekend-checkbox input[type="checkbox"]:checked + span {
   background: linear-gradient(to right, #174880, #3981ec);
