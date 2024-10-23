@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     element: <NewPreference />,
   },
   {
-    path: "/new-preference/select-supervisor/smena",
+    path: "/new-preference/select-supervisor",
     element: <SelectSupervisor />,
   },
   {
@@ -47,19 +47,19 @@ export const router = createBrowserRouter([
     element: <Error errorNumber="404" errorMessage="Страница не найдена" />,
   },
   {
-    path: "/new-preference/:id",
+    path: "/new-preference/steps",
     element: <NewPreferenceStepsLayout backLinkTo="/new-preference" />,
     children: [
       {
         index: true,
-        element: <Navigate to="step-1" replace />,
+        element: <Navigate to="/new-preference/steps/1" replace />,
       },
       {
-        path: "/new-preference/:id/step-1",
+        path: "/new-preference/steps/1",
         element: <NewPreferenceStep1 />,
       },
       {
-        path: "/new-preference/:id/step-2",
+        path: "/new-preference/steps/2",
         element: <NewPreferenceStep2 />,
       },
     ],

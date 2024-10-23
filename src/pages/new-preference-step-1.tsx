@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { SelectWeekendDays } from "@widgets/select-weekend-days";
 
@@ -11,14 +11,15 @@ const NewPreferenceStep1 = () => {
     isError: false,
     isSuccess: false,
   });
-  const { id } = useParams<{ id: string }>();
+  const [timeParams] = useSearchParams();
+  console.log(timeParams);
 
   return (
     <>
       <SelectWeekendDays setValidation={setValidation} />
-      <WorkingHours hours={id} />
+      <WorkingHours hours={timeParams.get("time")?.toString()} />
       <Link
-        to={`/new-preference/${id}/step-2`}
+        to={`/new-preference/steps/2?${timeParams}`}
         className={`${validation.isError ? "pointer-events-none" : ""}`}
       >
         <BaseButton isDisabled={validation.isError ? true : false}>
