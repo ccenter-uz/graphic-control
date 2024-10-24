@@ -4,15 +4,6 @@ const SupervisorsSchedule = () => {
   return (
     <div className="flex">
       <CheckboxGroup />
-      {/* <BaseDay
-        isWorkDay={true}
-        isOrder={true}
-        isNight={false}
-        isHoliday={false}
-        isToday={false}
-        isCheckable={false}
-        label={1}
-      /> */}
     </div>
   );
 };

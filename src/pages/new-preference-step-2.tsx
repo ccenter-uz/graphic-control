@@ -1,17 +1,6 @@
 import { chunkArray } from "@shared/lib/chunkArray";
 import BaseDay from "@shared/ui/checkbox";
 
-// {
-//   id: 1,
-//   isWorkDay: true,
-//   isOrder: false,
-//   isNight: true,
-//   isHoliday: false,
-//   isToday: false,
-//   isCheckable: true,
-//   label: 1,
-// },
-
 export const checkboxGroupDataa = [
   {
     id: 1,
@@ -22,66 +11,6 @@ export const checkboxGroupDataa = [
     isToday: false,
     isCheckable: true,
     label: 1,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: true,
-    isNight: false,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 2,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: false,
-    isNight: true,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 3,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: false,
-    isNight: true,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 4,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: false,
-    isNight: true,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 5,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: false,
-    isNight: true,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 6,
-  },
-  {
-    id: 1,
-    isWorkDay: true,
-    isOrder: false,
-    isNight: true,
-    isHoliday: false,
-    isToday: false,
-    isCheckable: true,
-    label: 7,
   },
 ];
 
