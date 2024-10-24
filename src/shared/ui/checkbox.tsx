@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 
 import { moonPath, sunPath } from "@shared/constants/svg-paths";
 
@@ -29,9 +29,7 @@ const Checkbox: FC<Props> = ({
     isWorkDay || false,
   );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e?.target?.checked);
-
+  const handleChange = () => {
     setIsWorkDayState((prevState) => !prevState);
   };
 

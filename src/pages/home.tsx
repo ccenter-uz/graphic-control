@@ -37,7 +37,7 @@ const Home = () => {
       <BlueLink
         to={TgSupportLink}
         title={t("home.support")}
-        className="ml-auto mt-auto"
+        className="ml-auto mt-auto mb-6"
       />
     </BaseContainer>
   );

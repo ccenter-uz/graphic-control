@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 
 import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
@@ -11,6 +12,7 @@ import UserProfileLink from "@shared/ui/user-profile-link";
 
 const NewPreference = () => {
   const { t } = useTranslation();
+  const [timeParams] = useSearchParams();
   return (
     <BaseContainer className="bg-[#F9FDFF]">
       <HeaderContainer className="flex items-center justify-between">
@@ -26,18 +28,20 @@ const NewPreference = () => {
         />
         <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
           {scheduleLinks?.map((item, index) => {
+            timeParams.set("time", item?.time);
             return (
               <BaseLink
                 key={index}
-                to={`/new-preference/select-supervisor/${item?.link}`}
-                title={item?.link}
+                to={`/new-preference/steps/1?${timeParams}`}
+                title={item?.time}
                 imgSrc={clockPath}
               />
             );
           })}
           <BaseLink
+            className="min-h-[54px]"
             title={t("new-preference.smena")}
-            to="select-supervisor/smena"
+            to="select-supervisor"
             isBlue={true}
           />
         </div>

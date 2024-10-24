@@ -10,12 +10,15 @@ type Props = {
   to: string;
   imgSrc?: string;
   isBlue?: boolean;
+  className?: string;
 };
 
-const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue }) => {
+const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue, className }) => {
   return (
     <Link to={to}>
-      <div className="flex items-center justify-between bg-white border rounded px-4 py-3">
+      <div
+        className={`${className} flex items-center justify-between bg-white border rounded px-4 py-3`}
+      >
         {imgSrc ? (
           <div className="p-1.5 rounded-full bg-[#F0F7FE]">
             <SvgIcon path={imgSrc} color="#94A3B8" height={16} width={16} />
