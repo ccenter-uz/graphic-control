@@ -1,4 +1,5 @@
 type ICheckbox = {
+  isMustOffday: boolean | undefined;
   id: number;
   isWorkDay: boolean;
   isOrder: boolean;
@@ -9,10 +10,10 @@ type ICheckbox = {
   label: number;
 };
 
-export const chunkArray = (array: ICheckbox[], chunkSize: number) => {
+export const monthToWeeks = (array: ICheckbox[]) => {
   const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
+  for (let i = 0; i < array.length; i += 7) {
+    chunks.push(array.slice(i, i + 7));
   }
   return chunks;
 };

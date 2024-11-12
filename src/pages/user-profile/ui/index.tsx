@@ -11,9 +11,9 @@ import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
-import userProfileImg from "../../assets/images/user-profile.svg";
+import userProfileImg from "../../../../assets/images/user-profile.svg";
 
-const UserProfile = () => {
+export const UserProfile = () => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -50,5 +50,3 @@ const UserProfile = () => {
     </BaseContainer>
   );
 };
-
-export default UserProfile;

@@ -11,7 +11,7 @@ import { SubheaderInfo } from "@shared/ui/subheader-info";
 import UserProfileLink from "@shared/ui/user-profile-link";
 import WorkingHours from "@shared/ui/working-hours";
 
-const MyCurrentSchedule = () => {
+export const MyCurrentSchedule = () => {
   const { t } = useTranslation();
   const [timeParams] = useSearchParams();
   const time = timeParams.get("time")?.toString();
@@ -34,5 +34,3 @@ const MyCurrentSchedule = () => {
     </BaseContainer>
   );
 };
-
-export default MyCurrentSchedule;

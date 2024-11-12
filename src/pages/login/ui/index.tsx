@@ -7,9 +7,9 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import BlueLink from "@shared/ui/blue-link";
 import PageTitle from "@shared/ui/page-title";
 
-import LoginImg from "../../assets/images/login.svg";
+import LoginImg from "../../../../assets/images/login.svg";
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const { t } = useTranslation();
   return (
     <BaseContainer>
@@ -26,5 +26,3 @@ const LoginPage = () => {
     </BaseContainer>
   );
 };
-
-export default LoginPage;

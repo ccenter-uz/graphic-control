@@ -399,3 +399,38 @@ export const layoutData = [
     value: "1",
   },
 ];
+
+export const arr = [
+  {
+    id: 1,
+    whichDay: 5,
+  },
+  {
+    id: 2,
+    whichDay: 6,
+  },
+  {
+    id: 3,
+    whichDay: 7,
+  },
+  {
+    id: 4,
+    whichDay: 1,
+  },
+  {
+    id: 5,
+    whichDay: 2,
+  },
+  {
+    id: 6,
+    whichDay: 3,
+  },
+  {
+    id: 7,
+    whichDay: 4,
+  },
+  {
+    id: 8,
+    whichDay: 5,
+  },
+];

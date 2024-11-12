@@ -1,33 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
+import { weekDays } from "@shared/constants/weekDays";
+import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import HeaderTitle from "@shared/ui/header-title";
 import WeekendCheckbox from "@shared/ui/weekend-checkbox";
 
-type Props = {
-  setValidation: (validations: {
-    isError: boolean;
-    isSuccess: boolean;
-  }) => void;
-};
-
-interface FormState {
+interface IFormState {
   [key: string]: boolean;
 }
 
-const defaultFormState: FormState = {
-  monday: false,
-  tuesday: false,
-  wednesday: false,
-  thursday: false,
-  friday: false,
-  saturday: false,
-  sunday: false,
-};
+const defaultFormState: IFormState = Object.keys(weekDays).reduce(
+  (acc, current) => {
+    return {
+      ...acc,
+      [current]: false,
+    };
+  },
+  {},
+);
 
-export const SelectWeekendDays: React.FC<Props> = ({ setValidation }) => {
-  const [formState, setFormState] = useState<FormState>(defaultFormState);
-  const [isDisabled, setIsDisabled] = useState<FormState>(defaultFormState);
-
+export const SelectWeekendDays: React.FC = () => {
+  const [formState, setFormState] = useState<IFormState>(defaultFormState);
+  const [isDisabled, setIsDisabled] = useState<IFormState>(defaultFormState);
+  const { setOffDays } = useContext(NewPreferenceContext) || {};
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     const { name, checked } = event.target;
     setFormState((prevState) => ({
@@ -41,24 +36,22 @@ export const SelectWeekendDays: React.FC<Props> = ({ setValidation }) => {
       (value) => value,
     ).length;
 
-    setValidation({
-      isError: checkedDays < 2,
-      isSuccess: checkedDays >= 2,
-    });
-
     setIsDisabled(() =>
       Object.keys(formState).reduce(
         (acc, key) => ({
           ...acc,
           [key]: formState[key] ? false : checkedDays >= 2,
         }),
-        {} as FormState,
+        {},
       ),
     );
-  }, [formState, setValidation]);
+
+    setOffDays &&
+      setOffDays(Object.keys(formState).filter((key) => formState[key]));
+  }, [formState, setOffDays]);
 
   return (
-    <>
+    <div>
       <HeaderTitle className="mt-5">
         Выберите 2 предпочитаемые выходные дни
       </HeaderTitle>
@@ -69,13 +62,13 @@ export const SelectWeekendDays: React.FC<Props> = ({ setValidation }) => {
         {Object.keys(formState).map((day) => (
           <WeekendCheckbox
             key={day}
-            title={day[0].toUpperCase() + day.slice(1)} // Capitalize first letter
+            title={day[0].toUpperCase() + day.slice(1)}
             name={day}
             isChecked={formState[day]}
             isDisabled={isDisabled[day]}
           />
         ))}
       </form>
-    </>
+    </div>
   );
 };

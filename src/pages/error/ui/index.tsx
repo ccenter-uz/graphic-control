@@ -5,14 +5,14 @@ import BaseButton from "@shared/ui/base-button";
 import BaseContainer from "@shared/ui/base-cotainer";
 import HeaderTitle from "@shared/ui/header-title";
 
-import errorImg from "../../assets/images/error.png";
+import errorImg from "../../../../assets/images/error.png";
 
 type Props = {
   errorNumber: number | string;
   errorMessage: string;
 };
 
-const Error: FC<Props> = ({ errorNumber, errorMessage }) => {
+export const Error: FC<Props> = ({ errorNumber, errorMessage }) => {
   return (
     <BaseContainer className="pt-20">
       <h6 className="text-lg text-center mb-1">{errorNumber}</h6>
@@ -24,5 +24,3 @@ const Error: FC<Props> = ({ errorNumber, errorMessage }) => {
     </BaseContainer>
   );
 };
-
-export default Error;

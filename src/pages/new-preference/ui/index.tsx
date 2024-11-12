@@ -10,9 +10,10 @@ import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import UserProfileLink from "@shared/ui/user-profile-link";
 
-const NewPreference = () => {
+export const NewPreference = () => {
   const { t } = useTranslation();
   const [timeParams] = useSearchParams();
+
   return (
     <BaseContainer className="bg-[#F9FDFF]">
       <HeaderContainer className="flex items-center justify-between">
@@ -49,5 +50,3 @@ const NewPreference = () => {
     </BaseContainer>
   );
 };
-
-export default NewPreference;

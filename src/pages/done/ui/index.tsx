@@ -6,9 +6,9 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 
-import doneImg from "../../assets/images/done.svg";
+import doneImg from "../../../../assets/images/done.png";
 
-const Done = () => {
+export const Done = () => {
   const { t } = useTranslation();
   return (
     <BaseContainer>
@@ -22,5 +22,3 @@ const Done = () => {
     </BaseContainer>
   );
 };
-
-export default Done;
