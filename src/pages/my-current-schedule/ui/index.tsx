@@ -15,7 +15,6 @@ export const MyCurrentSchedule = () => {
   const { t } = useTranslation();
   const [timeParams] = useSearchParams();
   const time = timeParams.get("time")?.toString();
-  console.log(currentScheduleData);
 
   return (
     <BaseContainer>

@@ -7,11 +7,15 @@ import {
   useState,
 } from "react";
 
+import { ICheckbox } from "@shared/lib/types";
+
 interface NewPreferenceContextType {
   hours: string;
   setHours: Dispatch<SetStateAction<string>>;
   offDays?: string[];
   setOffDays: Dispatch<SetStateAction<string[]>>;
+  daysOfMonth: ICheckbox[];
+  setDaysOfMonth: Dispatch<SetStateAction<ICheckbox[]>>;
 }
 
 interface NewPreferenceContextProviderProps {
@@ -23,6 +27,8 @@ const defaultValue: NewPreferenceContextType = {
   setHours: (() => "") as Dispatch<SetStateAction<string>>,
   offDays: [],
   setOffDays: (() => "") as Dispatch<SetStateAction<string[]>>,
+  daysOfMonth: [],
+  setDaysOfMonth: (() => "") as Dispatch<SetStateAction<ICheckbox[]>>,
 };
 
 export const NewPreferenceContext =
@@ -33,9 +39,17 @@ const NewPreferenceContextProvider: FC<NewPreferenceContextProviderProps> = ({
 }) => {
   const [hours, setHours] = useState<string>("");
   const [offDays, setOffDays] = useState<string[]>([]);
+  const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>([]);
   return (
     <NewPreferenceContext.Provider
-      value={{ hours, setHours, offDays, setOffDays }}
+      value={{
+        hours,
+        setHours,
+        offDays,
+        setOffDays,
+        daysOfMonth,
+        setDaysOfMonth,
+      }}
     >
       {children}
     </NewPreferenceContext.Provider>

@@ -1,3 +1,5 @@
+import { ICheckbox } from "@shared/lib/types";
+
 export const scheduleLinks = [
   { id: 1, time: "07-16" },
   { id: 2, time: "08-17" },
@@ -31,7 +33,7 @@ export const supervisors = [
   },
 ];
 
-export const checkboxGroupData = [
+export const checkboxGroupData: ICheckbox[] = [
   {
     id: 1,
     isWorkDay: true,
@@ -41,6 +43,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: true,
     label: 2,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -51,6 +54,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -61,6 +65,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -71,6 +76,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -81,6 +87,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -91,6 +98,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -101,6 +109,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -111,6 +120,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -121,6 +131,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -131,6 +142,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -141,6 +153,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -151,6 +164,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -161,6 +175,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -171,6 +186,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -181,6 +197,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -191,6 +208,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -201,6 +219,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -211,6 +230,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -221,6 +241,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -231,6 +252,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -241,6 +263,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -251,6 +274,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -261,6 +285,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -271,6 +296,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -281,6 +307,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -291,6 +318,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -301,6 +329,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -311,6 +340,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -321,6 +351,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -331,6 +362,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -341,6 +373,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
   {
     id: 1,
@@ -351,6 +384,7 @@ export const checkboxGroupData = [
     isToday: false,
     isCheckable: false,
     label: 1,
+    shouldBeOffday: false,
   },
 ];
 

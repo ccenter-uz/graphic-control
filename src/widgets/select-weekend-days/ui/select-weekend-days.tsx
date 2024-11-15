@@ -9,6 +9,10 @@ interface IFormState {
   [key: string]: boolean;
 }
 
+interface Props {
+  setIsSubmitBtnAble: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const defaultFormState: IFormState = Object.keys(weekDays).reduce(
   (acc, current) => {
     return {
@@ -19,7 +23,7 @@ const defaultFormState: IFormState = Object.keys(weekDays).reduce(
   {},
 );
 
-export const SelectWeekendDays: React.FC = () => {
+export const SelectWeekendDays: React.FC<Props> = ({ setIsSubmitBtnAble }) => {
   const [formState, setFormState] = useState<IFormState>(defaultFormState);
   const [isDisabled, setIsDisabled] = useState<IFormState>(defaultFormState);
   const { setOffDays } = useContext(NewPreferenceContext) || {};
@@ -48,7 +52,13 @@ export const SelectWeekendDays: React.FC = () => {
 
     setOffDays &&
       setOffDays(Object.keys(formState).filter((key) => formState[key]));
-  }, [formState, setOffDays]);
+    const selectedOffdaysArr = Object.values(formState).filter(
+      (value) => value,
+    );
+    selectedOffdaysArr.length >= 2
+      ? setIsSubmitBtnAble(true)
+      : setIsSubmitBtnAble(false);
+  }, [formState, setIsSubmitBtnAble, setOffDays]);
 
   return (
     <div>

@@ -1,13 +1,4 @@
-interface ICheckbox {
-  id: number;
-  isWorkDay: boolean;
-  isOrder: boolean;
-  isNight: boolean;
-  isHoliday: boolean;
-  isToday: boolean;
-  isCheckable: boolean;
-  label: number;
-}
+import { ICheckbox } from "../types";
 
 export const getExchangeableItem = (
   targetWeek: ICheckbox[],

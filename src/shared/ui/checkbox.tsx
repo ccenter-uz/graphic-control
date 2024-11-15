@@ -1,10 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import {
-  explanationPath,
-  moonPath,
-  sunPath,
-} from "@shared/constants/svg-paths";
+import { asteriskPath, moonPath, sunPath } from "@shared/constants/svg-paths";
 
 import SvgIcon from "./svg-icon";
 
@@ -17,7 +13,7 @@ type Props = {
   label?: number;
   isCheckable?: boolean;
   isTrueOption?: boolean;
-  isMustOffday?: boolean;
+  shouldBeOffday?: boolean;
   className?: string;
   isReset: boolean;
 };
@@ -30,7 +26,7 @@ const Checkbox: FC<Props> = ({
   isToday,
   label,
   isCheckable,
-  isMustOffday,
+  shouldBeOffday,
   className = "",
   isReset,
 }) => {
@@ -41,7 +37,7 @@ const Checkbox: FC<Props> = ({
   }, [isWorkDay, isReset]);
 
   const handleCheckboxChange = () => {
-    setIsWorkDayState((prevState) => !prevState);
+    setIsWorkDayState((prev) => !prev);
   };
 
   return (
@@ -73,12 +69,12 @@ const Checkbox: FC<Props> = ({
       }`}
     >
       {label}
-      {(isOrder && isWorkDayState) || isMustOffday ? (
+      {(isOrder && isWorkDayState) || shouldBeOffday ? (
         <SvgIcon
-          path={isMustOffday ? explanationPath : isNight ? moonPath : sunPath}
-          color={isMustOffday ? "#555" : isNight ? "" : "#007AFF"}
-          width={18}
-          height={18}
+          path={shouldBeOffday ? asteriskPath : isNight ? moonPath : sunPath}
+          color={shouldBeOffday ? "#C43D46" : isNight ? "" : "#007AFF"}
+          width={20}
+          height={20}
           className="w-3 h-3 absolute right-0.5 top-0.5"
         />
       ) : (

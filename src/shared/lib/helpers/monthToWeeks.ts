@@ -1,5 +1,5 @@
 type ICheckbox = {
-  isMustOffday: boolean | undefined;
+  shouldBeOffday: boolean | undefined;
   id: number;
   isWorkDay: boolean;
   isOrder: boolean;
