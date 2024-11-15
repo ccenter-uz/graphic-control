@@ -1,15 +1,16 @@
 import React from "react";
 
 interface StepIndicatorProps {
+  steps: number[];
   currentStep: number | string;
   className?: string;
 }
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({
+  steps,
   currentStep,
   className = "",
 }) => {
-  const steps = [1, 2, 3, 4];
   return (
     <div
       className={`${className} flex justify-between items-center w-full max-w-md px-0 relative`}

@@ -8,6 +8,7 @@ import { NewPreference } from "@pages/new-preference";
 import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
 import { NewPreferenceStep2 } from "@pages/new-preference-step-2";
 import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
+import { NewPreferenceStep4 } from "@pages/new-preference-step-4";
 import { SelectSupervisor } from "@pages/select-supervisor";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
@@ -56,16 +57,20 @@ export const router = createBrowserRouter([
         element: <Navigate to="/new-preference/steps/1" replace />,
       },
       {
-        path: "/new-preference/steps/1",
+        path: "1",
         element: <NewPreferenceStep1 />,
       },
       {
-        path: "/new-preference/steps/2",
+        path: "2",
         element: <NewPreferenceStep2 />,
       },
       {
-        path: "/new-preference/steps/3",
+        path: "3",
         element: <NewPreferenceStep3 />,
+      },
+      {
+        path: "4",
+        element: <NewPreferenceStep4 />,
       },
     ],
   },

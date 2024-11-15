@@ -17,7 +17,7 @@ type Props = {
 export const NewPreferenceStepsLayout: FC<Props> = ({ backLinkTo }) => {
   const location = useLocation();
   const currentStep = location.pathname.charAt(location.pathname.length - 1);
-
+  const steps = [1, 2, 3, 4];
   return (
     <BaseContainer>
       <HeaderContainer className="flex items-center justify-between">
@@ -25,7 +25,7 @@ export const NewPreferenceStepsLayout: FC<Props> = ({ backLinkTo }) => {
         <HeaderTitle>Выберите предпочитаемые выходные дни</HeaderTitle>
         <UserProfileLink />
       </HeaderContainer>
-      <StepIndicator currentStep={currentStep} className="pt-5" />
+      <StepIndicator steps={steps} currentStep={currentStep} className="pt-5" />
       <SubheaderInfo data={layoutData} />
       <Outlet />
     </BaseContainer>

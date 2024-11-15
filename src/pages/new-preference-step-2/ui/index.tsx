@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
-import { getExchangeableItem } from "@shared/lib/getExchangeableItem";
-import { getTargetWeek } from "@shared/lib/getTargetId";
-import { monthToWeeks } from "@shared/lib/monthToWeeks";
-import { switchOffDays } from "@shared/lib/switchOffDays";
+import {
+  getTargetWeek,
+  monthToWeeks,
+  switchOffDays,
+  getExchangeableItem,
+} from "@shared/lib/helpers";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
 import WorkingHours from "@shared/ui/working-hours";
@@ -18,54 +20,47 @@ interface ICheckbox {
   isHoliday: boolean;
   isToday: boolean;
   isCheckable: boolean;
-  isMustOffday: boolean;
+  shouldBeOffday: boolean;
   label: number;
 }
 
+const weekdayNameInRussian = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+const MIDDLE_OF_MONTH_INDEX = 15;
+const FIRST_DAY_OF_WEEK_INDEX = 0;
+const LAST_DAY_OF_WEEK_INDEX = 7;
+const OFFSET_OF_MONTH_INDEX = 32;
+const THIRD_PAGE_PATH = "/new-preference/steps/3";
+
 export const NewPreferenceStep2 = () => {
   const [timeParams] = useSearchParams();
-  const [data, setData] = useState<ICheckbox[]>([]);
   const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
-  const [isResetBtnActive, setIsResetBtnActive] = useState<boolean>(false);
+  const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
   const [isResetState, setIsResetState] = useState<boolean>(false);
   const { offDays } = useContext(NewPreferenceContext) || {};
+  const { daysOfMonth, setDaysOfMonth } =
+    useContext(NewPreferenceContext) ?? {};
   const daysOfLastMonth = 2;
-  const endDayOfLastMonth = 31;
   const amountDaysOfCurrentMonth = 31;
-  const whichDayIsMustOffday = 3;
+  const shouldBeOffday = 3;
 
   useEffect(() => {
-    const daysArray: ICheckbox[] = [];
-    for (
-      let i = endDayOfLastMonth - (daysOfLastMonth - 1);
-      i <= endDayOfLastMonth;
-      i++
-    ) {
-      daysArray.push({
-        id: i + 32,
-        isWorkDay: false,
+    const daysArray: ICheckbox[] = Array.from(
+      { length: amountDaysOfCurrentMonth + daysOfLastMonth },
+      (_, i) => ({
+        id: i < daysOfLastMonth ? i + 32 : i - (daysOfLastMonth - 1),
+        isWorkDay: i < daysOfLastMonth ? false : true,
         isOrder: false,
         isNight: false,
         isHoliday: false,
         isToday: false,
-        isCheckable: false,
-        isMustOffday: false,
-        label: i,
-      });
-    }
-    for (let i = 1; i <= amountDaysOfCurrentMonth; i++) {
-      daysArray.push({
-        id: i,
-        isWorkDay: true,
-        isOrder: false,
-        isNight: false,
-        isHoliday: false,
-        isToday: false,
-        isCheckable: true,
-        isMustOffday: false,
-        label: i,
-      });
-    }
+        isCheckable: i < daysOfLastMonth ? false : true,
+        shouldBeOffday: false,
+        label:
+          i < daysOfLastMonth
+            ? i + 32 - daysOfLastMonth
+            : i - (daysOfLastMonth - 1),
+      }),
+    );
 
     const weeks = monthToWeeks(daysArray);
     const [firstOffDay, secondOffDay] = offDays ? switchOffDays(offDays) : [];
@@ -82,27 +77,34 @@ export const NewPreferenceStep2 = () => {
       }
     });
 
-    whichDayIsMustOffday
+    shouldBeOffday
       ? daysArray.find((item) => {
-          if (item?.id == whichDayIsMustOffday) {
-            item.isMustOffday = true;
+          if (item?.id == shouldBeOffday) {
+            item.shouldBeOffday = true;
           }
         })
       : null;
 
-    setData(daysArray);
+    setDaysOfMonth?.(daysArray);
     setCloneData(daysArray);
-  }, [offDays]);
+  }, [offDays, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
-    setIsResetBtnActive(true);
+    setIsBtnsActive(true);
     const targetId = +e?.target?.id;
-    getTargetWeek(targetId, data);
-    const targetWeek = getTargetWeek(targetId, data)?.filter(
-      (item) => item?.id < 32,
-    );
-    const nextWeek = getTargetWeek(targetId + 7, data);
-    const prevWeek = getTargetWeek(targetId - 7, data);
+    getTargetWeek(targetId, daysOfMonth as ICheckbox[]);
+    const targetWeek = getTargetWeek(
+      targetId,
+      daysOfMonth as ICheckbox[],
+    )?.filter((item) => item?.id < OFFSET_OF_MONTH_INDEX) as ICheckbox[];
+    const nextWeek = getTargetWeek(
+      targetId + LAST_DAY_OF_WEEK_INDEX,
+      daysOfMonth as ICheckbox[],
+    ) as ICheckbox[];
+    const prevWeek = getTargetWeek(
+      targetId - LAST_DAY_OF_WEEK_INDEX,
+      daysOfMonth as ICheckbox[],
+    ) as ICheckbox[];
     const indexOfTargetDay = targetWeek?.findIndex(
       (item) => item?.id == targetId,
     );
@@ -114,10 +116,16 @@ export const NewPreferenceStep2 = () => {
 
     let valueFromTargetWeek;
     if (exchangeableItem === false) {
-      if (targetId < 15) {
-        valueFromTargetWeek = getExchangeableItem(nextWeek ? nextWeek : [], 0);
+      if (targetId < MIDDLE_OF_MONTH_INDEX) {
+        valueFromTargetWeek = getExchangeableItem(
+          nextWeek ? nextWeek : [],
+          FIRST_DAY_OF_WEEK_INDEX,
+        );
       } else {
-        valueFromTargetWeek = getExchangeableItem(prevWeek ? prevWeek : [], 7);
+        valueFromTargetWeek = getExchangeableItem(
+          prevWeek ? prevWeek : [],
+          LAST_DAY_OF_WEEK_INDEX,
+        );
       }
     } else {
       valueFromTargetWeek = getExchangeableItem(
@@ -127,19 +135,20 @@ export const NewPreferenceStep2 = () => {
     }
 
     if (valueFromTargetWeek && typeof valueFromTargetWeek !== "boolean") {
-      const updatedData = data.map((item) =>
+      const updatedData = daysOfMonth?.map((item) =>
         item.id === valueFromTargetWeek.id
           ? { ...item, isWorkDay: true, isCheckable: false }
+          : item?.id === targetId
+          ? { ...item, isWorkDay: false, isCheckable: false }
           : { ...item, isCheckable: false },
       );
 
-      setData(updatedData);
+      setDaysOfMonth?.(updatedData as ICheckbox[]);
     }
   };
   const handleResetClick = () => {
-    console.log(cloneData);
-    setData(cloneData);
-    setIsResetBtnActive(false);
+    setDaysOfMonth?.(cloneData);
+    setIsBtnsActive(false);
     setIsResetState((prev) => !prev);
   };
 
@@ -149,8 +158,8 @@ export const NewPreferenceStep2 = () => {
         <h6 className="text-lg font-semibold">Октябрь 2024</h6>
         <button
           onClick={handleResetClick}
-          className={`${isResetBtnActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
-          disabled={!isResetBtnActive}
+          className={`${isBtnsActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
+          disabled={!isBtnsActive}
         >
           Сбросить выбор
         </button>
@@ -158,17 +167,15 @@ export const NewPreferenceStep2 = () => {
       <table className="my-5">
         <thead>
           <tr>
-            <th className="text-[#3C3C434D]">ПН</th>
-            <th className="text-[#3C3C434D]">BT</th>
-            <th className="text-[#3C3C434D]">СР</th>
-            <th className="text-[#3C3C434D]">ЧТ</th>
-            <th className="text-[#3C3C434D]">ПТ</th>
-            <th className="text-[#3C3C434D]">СБ</th>
-            <th className="text-[#3C3C434D]">ВС</th>
+            {weekdayNameInRussian?.map((item) => (
+              <th key={item} className="text-[#3C3C434D]">
+                {item}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {monthToWeeks(data).map((items, index) => {
+          {monthToWeeks(daysOfMonth ? daysOfMonth : []).map((items, index) => {
             return (
               <tr key={index} onChange={handleTrChange}>
                 {items?.map((item) => {
@@ -181,7 +188,7 @@ export const NewPreferenceStep2 = () => {
                         isHoliday={item.isHoliday}
                         isToday={item.isToday}
                         isCheckable={item.isCheckable}
-                        isMustOffday={item.isMustOffday}
+                        shouldBeOffday={item.shouldBeOffday}
                         label={item.label}
                         isReset={isResetState}
                       />
@@ -194,8 +201,13 @@ export const NewPreferenceStep2 = () => {
         </tbody>
       </table>
       <WorkingHours hours={timeParams.get("time")?.toString()} />
-      <Link to={`/new-preference/steps/3?${timeParams}`}>
-        <BaseButton>Подтвердить</BaseButton>
+      <Link
+        to={`${THIRD_PAGE_PATH}?${timeParams}`}
+        className={`${
+          isBtnsActive ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <BaseButton isDisabled={!isBtnsActive}>Подтвердить</BaseButton>
       </Link>
     </div>
   );

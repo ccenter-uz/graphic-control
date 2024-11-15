@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { checkboxGroupData } from "@shared/constants/local-data";
-import { monthToWeeks } from "@shared/lib/monthToWeeks";
+import { monthToWeeks } from "@shared/lib/helpers";
 import BaseDay from "@shared/ui/checkbox";
 
 import BlueLink from "./blue-link";
@@ -42,6 +42,8 @@ const CheckboxGroup: FC = () => {
                         isToday={item?.isToday}
                         isCheckable={item?.isCheckable}
                         label={item?.label}
+                        shouldBeOffday={item?.shouldBeOffday}
+                        isReset={false}
                       />
                     </td>
                   );
