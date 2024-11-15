@@ -5,7 +5,7 @@ type Props = {
   className?: string;
 };
 
-const HeaderContainer: FC<Props> = ({ children, className }) => {
+const HeaderContainer: FC<Props> = ({ children, className = "" }) => {
   return (
     <div className={`px-6 py-8 rounded-b-2xl bg-[#F0F7FE] ${className}`}>
       {children}

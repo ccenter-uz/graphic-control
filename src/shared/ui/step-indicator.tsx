@@ -7,7 +7,7 @@ interface StepIndicatorProps {
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({
   currentStep,
-  className,
+  className = "",
 }) => {
   const steps = [1, 2, 3, 4];
   return (

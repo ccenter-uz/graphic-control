@@ -7,7 +7,7 @@ import BaseLink from "@shared/ui/base-link";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 
-const SelectSupervisor = () => {
+export const SelectSupervisor = () => {
   const { t } = useTranslation();
   return (
     <BaseContainer>
@@ -33,5 +33,3 @@ const SelectSupervisor = () => {
     </BaseContainer>
   );
 };
-
-export default SelectSupervisor;

@@ -9,7 +9,7 @@ type Props = {
 
 const BaseButton: FC<Props> = ({
   children,
-  className,
+  className = "",
   isDisabled,
   onClick,
 }) => {

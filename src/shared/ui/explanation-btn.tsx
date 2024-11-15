@@ -10,7 +10,7 @@ type Props = {
   color?: string;
 };
 
-const ExplanationBtn: FC<Props> = ({ className, onClick, color }) => {
+const ExplanationBtn: FC<Props> = ({ className = "", onClick, color }) => {
   return (
     <button className={`${className}`} onClick={onClick}>
       <SvgIcon path={explanationPath} width={14} height={14} color={color} />

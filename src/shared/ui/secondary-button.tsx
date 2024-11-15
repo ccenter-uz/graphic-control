@@ -6,7 +6,7 @@ type Props = {
   onClick?: () => void;
 };
 
-const SecondaryButton: FC<Props> = ({ children, className, onClick }) => {
+const SecondaryButton: FC<Props> = ({ children, className = "", onClick }) => {
   return (
     <button
       onClick={onClick}

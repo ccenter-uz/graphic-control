@@ -1,15 +1,16 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import Error from "@pages/error";
-import Home from "@pages/home";
-import LoginPage from "@pages/login";
-import MyCurrentSchedule from "@pages/my-current-schedule";
-import NewPreference from "@pages/new-preference";
-import NewPreferenceStep1 from "@pages/new-preference-step-1";
-import NewPreferenceStep2 from "@pages/new-preference-step-2";
-import SelectSupervisor from "@pages/select-supervisor";
-import SupervisorsSchedule from "@pages/supervisors-schedule";
-import UserProfile from "@pages/user-profile";
+import { Error } from "@pages/error";
+import { Home } from "@pages/home";
+import { LoginPage } from "@pages/login";
+import { MyCurrentSchedule } from "@pages/my-current-schedule";
+import { NewPreference } from "@pages/new-preference";
+import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
+import { NewPreferenceStep2 } from "@pages/new-preference-step-2";
+import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
+import { SelectSupervisor } from "@pages/select-supervisor";
+import { SupervisorsSchedule } from "@pages/supervisors-schedule";
+import { UserProfile } from "@pages/user-profile";
 
 import { NewPreferenceStepsLayout } from "../layouts";
 
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "/new-preference/steps/2",
         element: <NewPreferenceStep2 />,
+      },
+      {
+        path: "/new-preference/steps/3",
+        element: <NewPreferenceStep3 />,
       },
     ],
   },

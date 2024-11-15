@@ -13,7 +13,7 @@ type Props = {
   className?: string;
 };
 
-const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue, className }) => {
+const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue, className = "" }) => {
   return (
     <Link to={to}>
       <div

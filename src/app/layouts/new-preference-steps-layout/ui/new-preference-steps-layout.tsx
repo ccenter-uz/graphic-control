@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
+import { layoutData } from "@shared/constants/local-data";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import StepIndicator from "@shared/ui/step-indicator";
+import { SubheaderInfo } from "@shared/ui/subheader-info";
 import UserProfileLink from "@shared/ui/user-profile-link";
 
 type Props = {
@@ -24,6 +26,7 @@ export const NewPreferenceStepsLayout: FC<Props> = ({ backLinkTo }) => {
         <UserProfileLink />
       </HeaderContainer>
       <StepIndicator currentStep={currentStep} className="pt-5" />
+      <SubheaderInfo data={layoutData} />
       <Outlet />
     </BaseContainer>
   );

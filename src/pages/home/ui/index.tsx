@@ -12,7 +12,7 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import BlueLink from "@shared/ui/blue-link";
 
-const Home = () => {
+export const Home = () => {
   const { t } = useTranslation();
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">
@@ -42,5 +42,3 @@ const Home = () => {
     </BaseContainer>
   );
 };
-
-export default Home;

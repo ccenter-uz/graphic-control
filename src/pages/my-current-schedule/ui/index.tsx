@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 
+import { currentScheduleData } from "@shared/constants/local-data";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import CheckboxGroup from "@shared/ui/checkbox-group";
@@ -9,8 +11,12 @@ import { SubheaderInfo } from "@shared/ui/subheader-info";
 import UserProfileLink from "@shared/ui/user-profile-link";
 import WorkingHours from "@shared/ui/working-hours";
 
-const MyCurrentSchedule = () => {
+export const MyCurrentSchedule = () => {
   const { t } = useTranslation();
+  const [timeParams] = useSearchParams();
+  const time = timeParams.get("time")?.toString();
+  console.log(currentScheduleData);
+
   return (
     <BaseContainer>
       <HeaderContainer>
@@ -22,11 +28,9 @@ const MyCurrentSchedule = () => {
           <UserProfileLink />
         </div>
       </HeaderContainer>
-      <SubheaderInfo />
+      <SubheaderInfo data={currentScheduleData} />
       <CheckboxGroup />
-      <WorkingHours />
+      <WorkingHours hours={time} />
     </BaseContainer>
   );
 };
-
-export default MyCurrentSchedule;

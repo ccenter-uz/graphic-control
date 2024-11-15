@@ -353,3 +353,84 @@ export const checkboxGroupData = [
     label: 1,
   },
 ];
+
+export const currentScheduleData = [
+  {
+    id: 1,
+    title: "Сегодня у вас:",
+    value: "Рабочий день",
+  },
+  {
+    id: 2,
+    title: "Основные входные дни:",
+    value: "Пн-Вт",
+  },
+  {
+    id: 3,
+    title: "Кол-во рабочих дней:",
+    value: "22",
+  },
+  {
+    id: 4,
+    title: "Продуктивность:",
+    value: "87%",
+  },
+];
+
+export const layoutData = [
+  {
+    id: 1,
+    title: "Календарные дни",
+    value: "31",
+  },
+  {
+    id: 2,
+    title: "Рабочие дни",
+    value: "22",
+  },
+  {
+    id: 3,
+    title: "Выходные дни",
+    value: "8",
+  },
+  {
+    id: 4,
+    title: "Праздничные дни",
+    value: "1",
+  },
+];
+
+export const arr = [
+  {
+    id: 1,
+    whichDay: 5,
+  },
+  {
+    id: 2,
+    whichDay: 6,
+  },
+  {
+    id: 3,
+    whichDay: 7,
+  },
+  {
+    id: 4,
+    whichDay: 1,
+  },
+  {
+    id: 5,
+    whichDay: 2,
+  },
+  {
+    id: 6,
+    whichDay: 3,
+  },
+  {
+    id: 7,
+    whichDay: 4,
+  },
+  {
+    id: 8,
+    whichDay: 5,
+  },
+];

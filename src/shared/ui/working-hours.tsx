@@ -1,10 +1,21 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+
+import { scheduleLinks } from "@shared/constants/local-data";
 
 type Props = {
   hours: string | undefined;
 };
 const WorkingHours: FC<Props> = ({ hours }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isActiveHour = scheduleLinks.find((item) => item?.time === hours);
+    if (isActiveHour?.time !== hours) {
+      navigate("/new-preference");
+    }
+  }, [hours, navigate]);
+
   const { t } = useTranslation();
   return (
     <>

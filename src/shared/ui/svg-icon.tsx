@@ -13,7 +13,7 @@ const SvgIcon: FC<SvgIconProps> = ({
   color,
   width,
   height,
-  className,
+  className = "",
 }) => {
   return (
     <svg

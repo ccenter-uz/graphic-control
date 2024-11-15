@@ -1,13 +1,13 @@
 import { FC } from "react";
 
 import { checkboxGroupData } from "@shared/constants/local-data";
-import { chunkArray } from "@shared/lib/chunkArray";
+import { monthToWeeks } from "@shared/lib/monthToWeeks";
 import BaseDay from "@shared/ui/checkbox";
 
 import BlueLink from "./blue-link";
 
 const CheckboxGroup: FC = () => {
-  const chunkedData = chunkArray(checkboxGroupData, 7);
+  const chunkedData = monthToWeeks(checkboxGroupData);
 
   return (
     <div>
