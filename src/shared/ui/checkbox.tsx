@@ -5,6 +5,7 @@ import { asteriskPath, moonPath, sunPath } from "@shared/constants/svg-paths";
 import SvgIcon from "./svg-icon";
 
 type Props = {
+  id: number;
   isWorkDay?: boolean;
   isOrder?: boolean;
   isNight?: boolean;
@@ -12,13 +13,13 @@ type Props = {
   isToday?: boolean;
   label?: number;
   isCheckable?: boolean;
-  isTrueOption?: boolean;
   shouldBeOffday?: boolean;
   className?: string;
   isReset: boolean;
 };
 
 const Checkbox: FC<Props> = ({
+  id,
   isWorkDay = false,
   isOrder,
   isNight,
@@ -81,7 +82,7 @@ const Checkbox: FC<Props> = ({
         ""
       )}
       <input
-        id={label?.toString()}
+        id={id?.toString()}
         type="checkbox"
         checked={isWorkDayState}
         onChange={handleCheckboxChange}
