@@ -41,6 +41,7 @@ export const NewPreferenceStep3 = () => {
     );
     setDaysOfMonth && setDaysOfMonth(checkableDaysOfMonth as ICheckbox[]);
     setCloneData(checkableDaysOfMonth as ICheckbox[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
