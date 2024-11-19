@@ -7,6 +7,8 @@ import {
   monthToWeeks,
   switchOffDays,
   getExchangeableItem,
+  generateCalendarDays,
+  generateOffDays,
 } from "@shared/lib/helpers";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
@@ -44,38 +46,24 @@ export const NewPreferenceStep2 = () => {
   const shouldBeOffday = 3;
 
   useEffect(() => {
-    const daysArray: ICheckbox[] = Array.from(
-      { length: amountDaysOfCurrentMonth + daysOfLastMonth },
-      (_, i) => ({
-        id: i < daysOfLastMonth ? i + 32 : i - (daysOfLastMonth - 1),
-        isWorkDay: i < daysOfLastMonth ? false : true,
-        isOrder: false,
-        isNight: false,
-        isHoliday: false,
-        isToday: false,
-        isCheckable: i < daysOfLastMonth ? false : true,
-        shouldBeOffday: false,
-        label:
-          i < daysOfLastMonth
-            ? i + 32 - daysOfLastMonth
-            : i - (daysOfLastMonth - 1),
-      }),
-    );
+    const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
+    if (storedDaysOfMonthAtStep3 !== null) {
+      localStorage.removeItem("daysOfMonthAtStep3");
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
+    const daysArray: ICheckbox[] = storedDaysArray
+      ? JSON.parse(storedDaysArray)
+      : generateCalendarDays(amountDaysOfCurrentMonth, daysOfLastMonth);
 
     const weeks = monthToWeeks(daysArray);
     const [firstOffDay, secondOffDay] = offDays ? switchOffDays(offDays) : [];
 
-    weeks.forEach((week) => {
-      if (week[firstOffDay]) {
-        week[firstOffDay].isWorkDay = false;
-        week[firstOffDay].isCheckable = false;
-      }
-
-      if (week[secondOffDay]) {
-        week[secondOffDay].isWorkDay = false;
-        week[secondOffDay].isCheckable = false;
-      }
-    });
+    !storedDaysArray
+      ? generateOffDays(weeks as ICheckbox[][], firstOffDay, secondOffDay)
+      : null;
 
     shouldBeOffday
       ? daysArray.find((item) => {
@@ -85,8 +73,13 @@ export const NewPreferenceStep2 = () => {
         })
       : null;
 
+    storedDaysArray ? setIsBtnsActive(true) : null;
+    const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
+    !storedCloneDaysArray
+      ? localStorage.setItem("cloneDaysArrayAtStep2", JSON.stringify(daysArray))
+      : setCloneData(daysArray);
+
     setDaysOfMonth?.(daysArray);
-    setCloneData(daysArray);
   }, [offDays, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
@@ -133,23 +126,41 @@ export const NewPreferenceStep2 = () => {
         indexOfTargetDay ? indexOfTargetDay : 0,
       );
     }
-
     if (valueFromTargetWeek && typeof valueFromTargetWeek !== "boolean") {
       const updatedData = daysOfMonth?.map((item) =>
         item.id === valueFromTargetWeek.id
-          ? { ...item, isWorkDay: true, isCheckable: false }
+          ? {
+              ...item,
+              isWorkDay: true,
+              isCheckable: false,
+              systemSuggestsLikeWorkday: true,
+            }
           : item?.id === targetId
-          ? { ...item, isWorkDay: false, isCheckable: false }
+          ? {
+              ...item,
+              isWorkDay: false,
+              isCheckable: false,
+              customOffday: true,
+            }
           : { ...item, isCheckable: false },
       );
-
       setDaysOfMonth?.(updatedData as ICheckbox[]);
     }
   };
   const handleResetClick = () => {
-    setDaysOfMonth?.(cloneData);
+    const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
+    if (storedCloneDaysArray !== null) {
+      setDaysOfMonth?.(JSON.parse(storedCloneDaysArray));
+    } else {
+      setDaysOfMonth?.(cloneData);
+    }
+
     setIsBtnsActive(false);
     setIsResetState((prev) => !prev);
+  };
+
+  const handleConfirmClick = () => {
+    localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
   };
 
   return (
@@ -182,6 +193,7 @@ export const NewPreferenceStep2 = () => {
                   return (
                     <td key={item?.id} className="p-1">
                       <Checkbox
+                        id={item?.id}
                         isWorkDay={item.isWorkDay}
                         isOrder={item.isOrder}
                         isNight={item.isNight}
@@ -207,7 +219,9 @@ export const NewPreferenceStep2 = () => {
           isBtnsActive ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        <BaseButton isDisabled={!isBtnsActive}>Подтвердить</BaseButton>
+        <BaseButton isDisabled={!isBtnsActive} onClick={handleConfirmClick}>
+          Подтвердить
+        </BaseButton>
       </Link>
     </div>
   );

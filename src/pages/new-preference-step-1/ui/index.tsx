@@ -9,16 +9,18 @@ import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep1 = () => {
   const { setHours } = useContext(NewPreferenceContext) || {};
-
   const [timeParams] = useSearchParams();
   const [isSubmitBtnAble, setIsSubmitBtnAble] = useState<boolean>(true);
 
-  setHours && setHours(timeParams.get("time")?.toString() || "");
+  const timeFromParams = timeParams.get("time");
+  localStorage.setItem("workingHours", timeFromParams || "");
+
+  setHours?.(timeParams.get("time")?.toString() || "");
 
   return (
     <div>
       <SelectWeekendDays setIsSubmitBtnAble={setIsSubmitBtnAble} />
-      <WorkingHours hours={timeParams.get("time")?.toString()} />
+      <WorkingHours hours={localStorage.getItem("workingHours")?.toString()} />
       <Link
         to={`/new-preference/steps/2?${timeParams}`}
         className={`${

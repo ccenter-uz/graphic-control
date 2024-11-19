@@ -13,20 +13,23 @@ interface Props {
   setIsSubmitBtnAble: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const defaultFormState: IFormState = Object.keys(weekDays).reduce(
-  (acc, current) => {
-    return {
-      ...acc,
-      [current]: false,
-    };
-  },
-  {},
-);
-
 export const SelectWeekendDays: React.FC<Props> = ({ setIsSubmitBtnAble }) => {
-  const [formState, setFormState] = useState<IFormState>(defaultFormState);
+  const defaultFormState: IFormState = Object.keys(weekDays).reduce(
+    (acc, current) => {
+      return {
+        ...acc,
+        [current]: false,
+      };
+    },
+    {},
+  );
+  const storedFormData = localStorage.getItem("offDays");
+  const [formState, setFormState] = useState<IFormState>(
+    storedFormData ? JSON.parse(storedFormData) : defaultFormState,
+  );
   const [isDisabled, setIsDisabled] = useState<IFormState>(defaultFormState);
   const { setOffDays } = useContext(NewPreferenceContext) || {};
+
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     const { name, checked } = event.target;
     setFormState((prevState) => ({
@@ -52,12 +55,13 @@ export const SelectWeekendDays: React.FC<Props> = ({ setIsSubmitBtnAble }) => {
 
     setOffDays &&
       setOffDays(Object.keys(formState).filter((key) => formState[key]));
-    const selectedOffdaysArr = Object.values(formState).filter(
+    const selectedOffdaysValues = Object.values(formState).filter(
       (value) => value,
     );
-    selectedOffdaysArr.length >= 2
+    selectedOffdaysValues.length >= 2
       ? setIsSubmitBtnAble(true)
       : setIsSubmitBtnAble(false);
+    localStorage.setItem("offDays", JSON.stringify(formState));
   }, [formState, setIsSubmitBtnAble, setOffDays]);
 
   return (
