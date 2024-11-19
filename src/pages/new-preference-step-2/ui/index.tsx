@@ -46,7 +46,14 @@ export const NewPreferenceStep2 = () => {
   const shouldBeOffday = 3;
 
   useEffect(() => {
-    const storedDaysArray = localStorage.getItem("daysOfMonth");
+    const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
+    if (storedDaysOfMonthAtStep3 !== null) {
+      localStorage.removeItem("daysOfMonthAtStep3");
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
     const daysArray: ICheckbox[] = storedDaysArray
       ? JSON.parse(storedDaysArray)
       : generateCalendarDays(amountDaysOfCurrentMonth, daysOfLastMonth);
@@ -67,9 +74,9 @@ export const NewPreferenceStep2 = () => {
       : null;
 
     storedDaysArray ? setIsBtnsActive(true) : null;
-    const storedCloneDaysArray = localStorage.getItem("cloneDaysArray");
+    const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
     !storedCloneDaysArray
-      ? localStorage.setItem("cloneDaysArray", JSON.stringify(daysArray))
+      ? localStorage.setItem("cloneDaysArrayAtStep2", JSON.stringify(daysArray))
       : setCloneData(daysArray);
 
     setDaysOfMonth?.(daysArray);
@@ -141,7 +148,7 @@ export const NewPreferenceStep2 = () => {
     }
   };
   const handleResetClick = () => {
-    const storedCloneDaysArray = localStorage.getItem("cloneDaysArray");
+    const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
     if (storedCloneDaysArray !== null) {
       setDaysOfMonth?.(JSON.parse(storedCloneDaysArray));
     } else {
@@ -153,7 +160,7 @@ export const NewPreferenceStep2 = () => {
   };
 
   const handleConfirmClick = () => {
-    localStorage.setItem("daysOfMonth", JSON.stringify(daysOfMonth));
+    localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
   };
 
   return (

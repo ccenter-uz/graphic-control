@@ -24,8 +24,6 @@ export const Step4ReasonForm: FC<Props> = ({
   };
 
   useEffect(() => {
-    console.log(textareaValue.length);
-
     if (textareaValue.length === 0) {
       setIsSubmitBtnActive(false);
     } else {
