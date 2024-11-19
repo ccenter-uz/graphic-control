@@ -9,14 +9,13 @@ import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep1 = () => {
   const { setHours } = useContext(NewPreferenceContext) || {};
-
   const [timeParams] = useSearchParams();
   const [isSubmitBtnAble, setIsSubmitBtnAble] = useState<boolean>(true);
 
   const timeFromParams = timeParams.get("time");
   localStorage.setItem("workingHours", timeFromParams || "");
 
-  setHours && setHours(timeParams.get("time")?.toString() || "");
+  setHours?.(timeParams.get("time")?.toString() || "");
 
   return (
     <div>

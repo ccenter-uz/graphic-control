@@ -17,7 +17,7 @@ const BaseTextarea: FC<Props> = ({
   return (
     <textarea
       value={value}
-      className={`w-full border rounded-md text-sm p-1 outline-none ${
+      className={`w-full border min-h-[50px] rounded-md text-sm p-1 outline-none ${
         isFocused && !message
           ? "border border-[#007AFF]"
           : message

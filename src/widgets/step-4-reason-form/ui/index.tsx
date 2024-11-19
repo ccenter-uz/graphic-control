@@ -5,14 +5,17 @@ import BaseTextarea from "@shared/ui/base-textarea";
 
 interface Props {
   className?: string;
+  textareaValue: string;
+  setTextareaValue: Dispatch<React.SetStateAction<string>>;
   setIsSubmitBtnActive: Dispatch<React.SetStateAction<boolean>>;
 }
 export const Step4ReasonForm: FC<Props> = ({
   className = "",
+  textareaValue = "",
+  setTextareaValue,
   setIsSubmitBtnActive,
 }) => {
   const MAX_LETTER = 250;
-  const [textareaValue, setTextareaValue] = useState("");
   const [message, setMessage] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
 
