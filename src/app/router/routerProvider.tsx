@@ -1,5 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
+// eslint-disable-next-line no-restricted-imports
+import LoginLayout from "@app/layouts/login/ui/login";
+
 import { Error } from "@pages/error";
 import { Home } from "@pages/home";
 import { LoginPage } from "@pages/login";
@@ -13,65 +16,91 @@ import { SelectSupervisor } from "@pages/select-supervisor";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
 
-import { NewPreferenceStepsLayout } from "../layouts";
+import {
+  GenericLayout,
+  NewPreferenceStepsLayout,
+  UserLayout,
+} from "../layouts";
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage />,
+    element: <GenericLayout />,
+    children: [
+      {
+        path: "/",
+        element: <UserLayout />,
+        children: [
+          {
+            path: "/",
+            element: <Home />,
+          },
+          {
+            path: "/user",
+            element: <UserProfile />,
+          },
+          {
+            path: "/my-current-schedule",
+            element: <MyCurrentSchedule />,
+          },
+          {
+            path: "/new-preference",
+            element: <NewPreference />,
+          },
+          {
+            path: "/new-preference/select-supervisor",
+            element: <SelectSupervisor />,
+          },
+          {
+            path: "/new-preference/select-supervisor/:id/:supervisor",
+            element: <SupervisorsSchedule />,
+          },
+          {
+            path: "*",
+            element: (
+              <Error errorNumber="404" errorMessage="Страница не найдена" />
+            ),
+          },
+          {
+            path: "/new-preference/steps",
+            element: <NewPreferenceStepsLayout backLinkTo="/new-preference" />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="/new-preference/steps/1" replace />,
+              },
+              {
+                path: "1",
+                element: <NewPreferenceStep1 />,
+              },
+              {
+                path: "2",
+                element: <NewPreferenceStep2 />,
+              },
+              {
+                path: "3",
+                element: <NewPreferenceStep3 />,
+              },
+              {
+                path: "4",
+                element: <NewPreferenceStep4 />,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
-  {
-    path: "/my-current-schedule",
-    element: <MyCurrentSchedule />,
-  },
-  {
-    path: "/new-preference",
-    element: <NewPreference />,
-  },
-  {
-    path: "/new-preference/select-supervisor",
-    element: <SelectSupervisor />,
-  },
-  {
-    path: "/new-preference/select-supervisor/:id/:supervisor",
-    element: <SupervisorsSchedule />,
+    element: <LoginLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+    ],
   },
   {
     path: "*",
     element: <Error errorNumber="404" errorMessage="Страница не найдена" />,
-  },
-  {
-    path: "/new-preference/steps",
-    element: <NewPreferenceStepsLayout backLinkTo="/new-preference" />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/new-preference/steps/1" replace />,
-      },
-      {
-        path: "1",
-        element: <NewPreferenceStep1 />,
-      },
-      {
-        path: "2",
-        element: <NewPreferenceStep2 />,
-      },
-      {
-        path: "3",
-        element: <NewPreferenceStep3 />,
-      },
-      {
-        path: "4",
-        element: <NewPreferenceStep4 />,
-      },
-    ],
   },
 ]);

@@ -1,8 +1,10 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 
 import SvgIcon from "./svg-icon";
 
 type Props = {
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
   iconSrc?: string;
   iconAlt?: string;
   inputType: string;
@@ -11,23 +13,34 @@ type Props = {
   inputErrorText?: string;
 };
 
-export const BaseInput: FC<Props> = (props) => {
+export const BaseInput: FC<Props> = ({
+  inputValue,
+  setInputValue,
+  iconSrc,
+  inputType,
+  inputPlaceholder,
+  isInputError,
+  inputErrorText,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   return (
     <div className={`w-full`}>
       <div
         className={`rounded-lg flex items-center  bg-[#f6f6fb] ${
-          isFocused && !props.isInputError
+          isFocused && !isInputError
             ? "border border-[#007AFF]"
-            : props.isInputError
+            : isInputError
             ? "border border-red-500"
             : "border"
         }`}
       >
-        {props.iconSrc ? (
+        {iconSrc ? (
           <SvgIcon
-            path={props.iconSrc}
+            path={iconSrc}
             width={13}
             height={14}
             color="#64748B"
@@ -37,15 +50,17 @@ export const BaseInput: FC<Props> = (props) => {
           ""
         )}
         <input
-          type={props.inputType}
-          placeholder={props.inputPlaceholder}
+          value={inputValue}
+          type={inputType}
+          placeholder={inputPlaceholder}
           className="text-sm w-full rounded-lg outline-none bg-[#f6f6fb] p-3"
+          onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
       </div>
-      {props?.isInputError ? (
-        <p className="text-xs text-red-500">{props.inputErrorText}</p>
+      {isInputError ? (
+        <p className="text-xs text-red-500">{inputErrorText}</p>
       ) : (
         ""
       )}
