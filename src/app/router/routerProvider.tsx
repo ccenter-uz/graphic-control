@@ -12,6 +12,7 @@ import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
 import { NewPreferenceStep2 } from "@pages/new-preference-step-2";
 import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
 import { NewPreferenceStep4 } from "@pages/new-preference-step-4";
+import { SelectMonth } from "@pages/select-month";
 import { SelectSupervisor } from "@pages/select-supervisor";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
@@ -39,8 +40,12 @@ export const router = createBrowserRouter([
             element: <UserProfile />,
           },
           {
-            path: "/my-current-schedule",
+            path: "/select-month/my-schedule",
             element: <MyCurrentSchedule />,
+          },
+          {
+            path: "/select-month",
+            element: <SelectMonth />,
           },
           {
             path: "/new-preference",

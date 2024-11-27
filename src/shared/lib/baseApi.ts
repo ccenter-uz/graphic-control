@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
-export const realworld = axios.create({
-  baseURL: "https://api.graphic.ccenter.uz/api/v1/",
+export const baseApi = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
 });
 
 export function handleGenericError(error: AxiosError) {

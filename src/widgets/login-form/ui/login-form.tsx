@@ -3,7 +3,9 @@ import { FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import { API_MAP } from "@shared/constants/apiMap";
 import { LoginPath, passwordPath } from "@shared/constants/svg-paths";
+import { baseApi } from "@shared/lib/baseApi";
 import { setErrorText } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
@@ -18,8 +20,8 @@ export const LoginForm = () => {
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post("https://api.graphic.ccenter.uz/api/v1/Auth/user/signIn", {
+    baseApi
+      .post(API_MAP.SIGN_IN, {
         login: usernameValue,
         password: password,
       })
