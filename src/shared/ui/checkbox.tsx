@@ -43,7 +43,7 @@ const Checkbox: FC<Props> = ({
 
   return (
     <label
-      className={`${className} relative flex items-center justify-center w-11 h-11 text-xl rounded ${
+      className={`${className} relative flex items-center justify-center sm:w-11 sm:h-11 xs:w-10 xs:h-10 w-9 h-9 text-xl rounded ${
         isOrder && isWorkDayState && isNight
           ? "bg-[#eaebec]"
           : isOrder && isWorkDayState && !isNight

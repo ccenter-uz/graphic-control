@@ -9,7 +9,7 @@ type Props = {
 const BaseContainer: FC<Props> = ({ children, className = "" }) => {
   return (
     <div
-      className={`${className} relative h-screen flex flex-col w-[375px] my-0 mx-auto px-[10px]`}
+      className={`${className} relative h-screen flex flex-col min-w-[320px] max-w-[375px] w-[100%] my-0 mx-auto px-[10px]`}
     >
       {children}
     </div>
