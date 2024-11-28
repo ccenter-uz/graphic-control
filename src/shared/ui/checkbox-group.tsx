@@ -35,6 +35,7 @@ const CheckboxGroup: FC = () => {
                   return (
                     <td key={item?.id} className="p-1">
                       <BaseDay
+                        id={item?.id}
                         isWorkDay={item?.isWorkDay}
                         isOrder={item?.isOrder}
                         isNight={item?.isNight}

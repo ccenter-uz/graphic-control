@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { LoginForm } from "@widgets/login-form";
 
@@ -11,6 +13,13 @@ import LoginImg from "../../../../assets/images/login.svg";
 
 export const LoginPage = () => {
   const { t } = useTranslation();
+  const token = localStorage.getItem("GCToken");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   return (
     <BaseContainer>
       <div className="py-8 h-screen flex flex-col">

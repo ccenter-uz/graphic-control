@@ -24,7 +24,7 @@ export const Home = () => {
           imgSrc={calendarTickPath}
         />
         <BaseLink
-          to="my-current-schedule"
+          to="select-month"
           title={t("home.my-current-schedule")}
           imgSrc={calendarClockPath}
         />

@@ -9,7 +9,7 @@
   },
   "login": {
     "title": "Авторизация",
-    "username": "Юзернейм",
+    "username": "Логин",
     "password": "Пароль",
     "submit": "Войти",
     "support": "Поддержка"
@@ -22,7 +22,7 @@
   },
   "user-profile": {
     "ID": "ID",
-    "username": "Юзернейм",
+    "username": "Логин",
     "password": "Пароль",
     "phone-number": "Тел номер",
     "support": "Поддержка"
