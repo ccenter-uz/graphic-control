@@ -1,6 +1,7 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import BaseButton from "@shared/ui/base-button";
 import BaseContainer from "@shared/ui/base-cotainer";
 import HeaderTitle from "@shared/ui/header-title";
@@ -8,16 +9,21 @@ import HeaderTitle from "@shared/ui/header-title";
 import errorImg from "../../../../assets/images/error.png";
 
 type Props = {
-  errorNumber: number | string;
-  errorMessage: string;
+  errorNumber?: number | string;
+  errorMessage?: string;
 };
 
-export const Error: FC<Props> = ({ errorNumber, errorMessage }) => {
+export const Error: FC<Props> = () => {
+  const { errorInfo } = useContext(NewPreferenceContext) || {};
+  console.log(errorInfo);
+
   return (
     <BaseContainer className="pt-20">
-      <h6 className="text-lg text-center mb-1">{errorNumber}</h6>
+      <h6 className="text-lg text-center mb-1">{errorInfo?.errorStatus}</h6>
       <img src={errorImg} alt="error img" className="mx-auto mb-14" />
-      <HeaderTitle className="text-center mb-6">{errorMessage}</HeaderTitle>
+      <HeaderTitle className="text-center mb-6">
+        {errorInfo?.errorMessage}
+      </HeaderTitle>
       <Link to="/">
         <BaseButton>Перейти в главное меню</BaseButton>
       </Link>

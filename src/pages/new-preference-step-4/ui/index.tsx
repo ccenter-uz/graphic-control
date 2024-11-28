@@ -1,20 +1,24 @@
-import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Step4ReasonForm } from "@widgets/step-4-reason-form";
 
 import { API_MAP } from "@shared/constants/apiMap";
+import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi } from "@shared/lib/baseApi";
 import { getOffDays, getRequestDate } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
+import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep4 = () => {
+  const { setErrorInfo } = useContext(NewPreferenceContext) || {};
+
   const [timeParams] = useSearchParams();
   const [textareaValue, setTextareaValue] = useState("");
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleConfirmClick = () => {
     const date = new Date();
     const month = date.getMonth();
@@ -30,16 +34,14 @@ export const NewPreferenceStep4 = () => {
     );
     const parsedOffDays = JSON.parse(storedOffDays as string);
 
-    const data = [
-      {
-        workingHours: storedWorkingHours,
-        offDays: getOffDays(parsedOffDays),
-        daysOfMonth: filteredDaysOfMonth,
-        description: textareaValue.trim(),
-        requested_date: getRequestDate(month, year),
-      },
-    ];
-    console.log(data);
+    const data = {
+      workingHours: storedWorkingHours,
+      offDays: getOffDays(parsedOffDays),
+      daysOfMonth: filteredDaysOfMonth,
+      description: textareaValue.trim(),
+      requested_date: getRequestDate(month, year),
+    };
+
     baseApi
       .post(API_MAP.CREATE_PREFERENCE, data, {
         headers: {
@@ -48,8 +50,20 @@ export const NewPreferenceStep4 = () => {
           "Content-Type": "application/json",
         },
       })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        if (response.status === HttpStatusCode.CREATED) {
+          navigate("/done");
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorInfo?.({
+            errorMessage: error?.message,
+            errorStatus: error?.status,
+          });
+          navigate("/error");
+        }
+      });
   };
   return (
     <div>
