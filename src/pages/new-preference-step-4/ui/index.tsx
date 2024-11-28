@@ -3,32 +3,53 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import { Step4ReasonForm } from "@widgets/step-4-reason-form";
 
+import { API_MAP } from "@shared/constants/apiMap";
+import { baseApi } from "@shared/lib/baseApi";
+import { getOffDays, getRequestDate } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep4 = () => {
-  const [textareaValue, setTextareaValue] = useState("");
   const [timeParams] = useSearchParams();
+  const [textareaValue, setTextareaValue] = useState("");
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
 
   const handleConfirmClick = () => {
-    const time = localStorage.getItem("workingHours");
-    const offDays = localStorage.getItem("offDays");
-    const daysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
+    const date = new Date();
+    const month = date.getMonth();
+    const year = date.getFullYear();
 
-    const filteredDaysOfMonth = JSON.parse(daysOfMonth as string).filter(
+    const token = localStorage.getItem("GCToken") as string;
+    const storedWorkingHours = localStorage.getItem("workingHours");
+    const storedOffDays = localStorage.getItem("offDays");
+    const storedDaysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
+
+    const filteredDaysOfMonth = JSON.parse(storedDaysOfMonth as string).filter(
       (item: ICheckbox) => item?.id <= 31,
     );
+    const parsedOffDays = JSON.parse(storedOffDays as string);
 
     const data = [
       {
-        time,
-        offDays: JSON.parse(offDays as string),
+        workingHours: storedWorkingHours,
+        offDays: getOffDays(parsedOffDays),
         daysOfMonth: filteredDaysOfMonth,
-        description: textareaValue,
+        description: textareaValue.trim(),
+        requested_date: getRequestDate(month, year),
       },
     ];
+    console.log(data);
+    baseApi
+      .post(API_MAP.CREATE_PREFERENCE, data, {
+        headers: {
+          accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   };
   return (
     <div>

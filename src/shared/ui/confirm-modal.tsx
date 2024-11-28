@@ -6,8 +6,9 @@ import SecondaryButton from "./secondary-button";
 type Props = {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  confirmClick: () => void;
 };
-const ConfirmModal: FC<Props> = ({ state, setState }) => {
+const ConfirmModal: FC<Props> = ({ state, setState, confirmClick }) => {
   const handleCancelClick = () => {
     setState(!state);
   };
@@ -28,7 +29,9 @@ const ConfirmModal: FC<Props> = ({ state, setState }) => {
           <SecondaryButton className="w-1/3" onClick={handleCancelClick}>
             Отмена
           </SecondaryButton>
-          <BaseButton className="w-1/3">Выйти</BaseButton>
+          <BaseButton className="w-1/3" onClick={confirmClick}>
+            Выйти
+          </BaseButton>
         </div>
       </div>
     </div>
