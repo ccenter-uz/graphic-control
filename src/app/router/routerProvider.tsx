@@ -15,6 +15,7 @@ import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
 import { NewPreferenceStep4 } from "@pages/new-preference-step-4";
 import { SelectMonth } from "@pages/select-month";
 import { SelectSupervisor } from "@pages/select-supervisor";
+import { SinglePreference } from "@pages/single-preference";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
 
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
           {
             path: "/my-preferences",
             element: <MyPreferences />,
+          },
+          {
+            path: "/my-preferences/single-preference/:id",
+            element: <SinglePreference />,
           },
           {
             path: "/new-preference",

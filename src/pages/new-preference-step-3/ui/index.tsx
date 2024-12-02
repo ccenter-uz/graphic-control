@@ -56,8 +56,6 @@ export const NewPreferenceStep3 = () => {
     setAmountHolidays(2);
     const storedCloneData = localStorage.getItem("cloneDaysArrayAtStep3");
     if (storedCloneData !== null) {
-      console.log(storedCloneData);
-
       setDaysOfMonthState?.(JSON.parse(storedCloneData as string));
     }
     setTargetId(undefined);

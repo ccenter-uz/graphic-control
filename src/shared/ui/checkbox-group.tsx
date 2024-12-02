@@ -1,18 +1,27 @@
 import { FC } from "react";
 
-import { checkboxGroupData } from "@shared/constants/local-data";
+import { months } from "@shared/constants/months";
 import { monthToWeeks } from "@shared/lib/helpers";
+import { ICheckbox } from "@shared/lib/types";
 import BaseDay from "@shared/ui/checkbox";
 
 import BlueLink from "./blue-link";
 
-const CheckboxGroup: FC = () => {
-  const chunkedData = monthToWeeks(checkboxGroupData);
+interface ICheckboxGroup {
+  data?: ICheckbox[];
+  month?: string;
+  year?: string;
+}
+
+const CheckboxGroup: FC<ICheckboxGroup> = ({ data, month, year }) => {
+  const chunkedData = monthToWeeks(data || []);
 
   return (
     <div>
       <div className="flex items-center justify-between mt-14">
-        <h6 className="text-lg font-semibold">Октябрь 2024</h6>
+        <h6 className="text-lg font-semibold">
+          {month && months[+month - 1].title} {year}
+        </h6>
         <BlueLink to="/" title="Изменить" />
       </div>
       <table className="my-5">
@@ -31,7 +40,7 @@ const CheckboxGroup: FC = () => {
           {chunkedData.map((rowData, index: number) => {
             return (
               <tr key={index}>
-                {rowData?.map((item) => {
+                {rowData.map((item) => {
                   return (
                     <td key={item?.id} className="p-1">
                       <BaseDay

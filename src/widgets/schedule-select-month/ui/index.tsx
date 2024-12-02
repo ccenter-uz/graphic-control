@@ -20,7 +20,7 @@ export const ScheduleSelectMonth = () => {
                     : ""
                 } flex items-center justify-center py-2.5 rounded-md bg-[#F0F7FE] text-[#007AFF] active:bg-[#e8ecfa]`}
               >
-                {month.slice(0, 3)}
+                {month.title.slice(0, 3)}
               </Link>
             </li>
           );
