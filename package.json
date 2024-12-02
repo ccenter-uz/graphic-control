@@ -1,7 +1,7 @@
 {
   "name": "1009-moderator",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
@@ -10,7 +10,8 @@
     "lint:style": "prettier src --check",
     "test": "",
     "postinstall": "husky install",
-    "changelog": "conventional-changelog -c changelog.config.js -i CHANGELOG.md -s"
+    "release": "standard-version",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -36,8 +37,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/cli": "^17.8.1",
+    "@commitlint/config-conventional": "^17.8.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/uuid": "^9.0.2",
@@ -45,8 +46,10 @@
     "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.20",
+    "commitizen": "^4.3.1",
     "conventional-changelog-cli": "^5.0.0",
     "conventional-changelog-config-spec": "^2.1.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-import-resolver-typescript": "^3.6.0",
@@ -58,9 +61,15 @@
     "lint-staged": "^13.2.3",
     "postcss": "^8.4.47",
     "prettier": "^2.8.8",
+    "standard-version": "^9.5.0",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
     "vitest": "^0.31.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
