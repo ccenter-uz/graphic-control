@@ -1,4 +1,4 @@
-interface IMonth {
+export interface IMonth {
   id: number;
   orderedNumber: number;
   title: string;

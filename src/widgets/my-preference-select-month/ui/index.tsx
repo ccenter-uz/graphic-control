@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
-import { months } from "@shared/constants/months";
+import { IMonth, months } from "@shared/constants/months";
 import { arrowLeftPath, arrowRightPath } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -14,29 +14,28 @@ interface IPreference {
   requested_date: string;
 }
 
-interface IUpdatedPreference {
-  year: number;
-  data: IPreference[];
-}
-
 export const MyPreferenceSelectMonth = () => {
   const token = localStorage.getItem("GCToken");
-  const [cloneMonths, setCloneMonths] = useState(months);
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [preferences, setPreferences] = useState<IUpdatedPreference[]>([]);
+  const [currentYear, setCurrentYear] = useState(2024);
+  const [preferences, setPreferences] = useState<IPreference[]>([]);
   const [isBtnsActive, setIsBtnsActive] = useState({
     increment: true,
     decrement: true,
   });
-  const resetMonths = cloneMonths.map((item) => ({
-    ...item,
-    isAvailable: false,
-    link: "",
-  }));
+  const [cloneMonths, setCloneMonths] = useState(months);
+  const [yearsHaveData, setYearsHaveData] = useState<number[]>([]);
+
+  useEffect(() => {
+    const yearsHaveDataClone = [];
+    for (let i = currentYear - 1; i <= currentYear + 1; i++) {
+      yearsHaveDataClone.push(i);
+    }
+    setYearsHaveData(yearsHaveDataClone);
+  }, [currentYear]);
 
   useEffect(() => {
     baseApi
-      .get(API_MAP.GET_ALL_PREFERENCES_BY_MONTH, {
+      .get(API_MAP.GET_PREFERENCES_BY_YEAR + `${currentYear}`, {
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
@@ -44,71 +43,41 @@ export const MyPreferenceSelectMonth = () => {
       })
       .then((res) => {
         if (res.status === HttpStatusCode.OK) {
-          const data = res.data.result;
-          const sortedData = data.sort(
-            (a: IPreference, b: IPreference) =>
-              +a.requested_date.slice(5) - +b.requested_date.slice(5),
-          );
-
-          const yearsHasData = [] as number[];
-          const updatedData = [] as IUpdatedPreference[];
-
-          sortedData.forEach((item: IPreference) => {
-            if (!yearsHasData.includes(+item.requested_date.slice(0, 4)))
-              yearsHasData.push(+item.requested_date.slice(0, 4));
-          });
-          const sortedYears = yearsHasData.sort((a, b) => a - b);
-          sortedYears.forEach((year) => {
-            updatedData.push({
-              year,
-              data: data.filter(
-                (item: IPreference) =>
-                  +item.requested_date.slice(0, 4) === year,
-              ),
-            });
-          });
-          setPreferences(updatedData);
+          setPreferences(res.data.result);
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  }, [currentYear, token]);
 
   useEffect(() => {
-    const currentIndex = preferences?.findIndex(
-      (item: IUpdatedPreference) => item.year === currentYear,
-    );
-    cloneMonths.forEach((month) => {
-      preferences[currentIndex]?.data?.forEach((item: IPreference) => {
-        if (month.orderedNumber === +item?.requested_date.slice(5)) {
+    const monthC = JSON.parse(JSON.stringify(months));
+
+    const filteredMoths = monthC.map((month: IMonth) => {
+      preferences?.forEach((item: IPreference) => {
+        if (month.orderedNumber === +item?.requested_date.split("/")[1]) {
           month.isAvailable = true;
           month.link = item.id;
         }
       });
+      return month;
     });
-  }, [preferences, currentYear, cloneMonths]);
 
-  const handleDecrementYearClick = () => {
-    setCloneMonths(resetMonths);
-    preferences.find((item: IUpdatedPreference) => {
-      if (item.year === currentYear - 1) {
-        setCurrentYear(item.year);
-      }
-    });
+    setCloneMonths(filteredMoths);
+  }, [preferences]);
+
+  const handlePrevYearClick = () => {
+    setCurrentYear((prev) => prev - 1);
   };
-  const handleIncrementYearClick = () => {
-    setCloneMonths(resetMonths);
-    preferences.find((item: IUpdatedPreference) => {
-      if (item.year === currentYear + 1) {
-        setCurrentYear(item.year);
-      }
-    });
+
+  const handleNextYearClick = () => {
+    setCurrentYear((prev) => prev + 1);
   };
 
   useEffect(() => {
-    const minYear = preferences[0]?.year;
-    const maxYear = preferences[preferences.length - 1]?.year;
+    const minYear = yearsHaveData[0];
+    const maxYear = yearsHaveData[yearsHaveData.length - 1];
     if (currentYear > minYear) {
       setIsBtnsActive((prev) => ({ ...prev, decrement: true }));
     } else {
@@ -119,24 +88,23 @@ export const MyPreferenceSelectMonth = () => {
     } else {
       setIsBtnsActive((prev) => ({ ...prev, increment: false }));
     }
-  }, [currentYear, preferences]);
+  }, [currentYear, preferences, yearsHaveData]);
 
   return (
     <div className="mt-10 border rounded-md">
       <div className="flex items-center justify-between mx-2">
         <button
-          onClick={handleDecrementYearClick}
+          onClick={handlePrevYearClick}
           className={`${isBtnsActive.decrement ? "" : "invisible"}`}
         >
           <SvgIcon path={arrowLeftPath} width={18} height={18} />
         </button>
-
         <h6 className="text-sm text-center font-semibold text-[#007AFF] my-3">
           {currentYear}
         </h6>
 
         <button
-          onClick={handleIncrementYearClick}
+          onClick={handleNextYearClick}
           className={`${isBtnsActive.increment ? "" : "invisible"}`}
         >
           <SvgIcon path={arrowRightPath} width={18} height={18} />
@@ -148,7 +116,7 @@ export const MyPreferenceSelectMonth = () => {
           return (
             <li key={month.id}>
               <Link
-                to={`single-preference/${month.link}`}
+                to={`single-preference/${month?.link}`}
                 className={`${
                   !month.isAvailable
                     ? "bg-[#fff] text-[#64748B] cursor-not-allowed pointer-events-none"
