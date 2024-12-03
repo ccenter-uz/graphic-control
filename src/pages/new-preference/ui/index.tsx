@@ -13,6 +13,7 @@ import UserProfileLink from "@shared/ui/user-profile-link";
 export const NewPreference = () => {
   const { t } = useTranslation();
   const [timeParams] = useSearchParams();
+  const storedWorkingHours = localStorage.getItem("workingHours") as string;
 
   return (
     <BaseContainer className="bg-[#F9FDFF]">
@@ -36,6 +37,9 @@ export const NewPreference = () => {
                 to={`/new-preference/steps/1?${timeParams}`}
                 title={item?.time}
                 imgSrc={clockPath}
+                className={`${
+                  storedWorkingHours === item.time ? "bg-[#dde4fd]" : ""
+                }`}
               />
             );
           })}

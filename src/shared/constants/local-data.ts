@@ -1,13 +1,13 @@
 import { ICheckbox } from "@shared/lib/types";
 
 export const scheduleLinks = [
-  { id: 1, time: "07-16" },
-  { id: 2, time: "08-17" },
-  { id: 3, time: "09-18" },
-  { id: 4, time: "11-20" },
-  { id: 5, time: "13-22" },
-  { id: 6, time: "15-24" },
-  { id: 7, time: "17-02" },
+  { id: 1, time: "07-16", isSelected: true },
+  { id: 2, time: "08-17", isSelected: false },
+  { id: 3, time: "09-18", isSelected: false },
+  { id: 4, time: "11-20", isSelected: false },
+  { id: 5, time: "13-22", isSelected: false },
+  { id: 6, time: "15-24", isSelected: false },
+  { id: 7, time: "17-02", isSelected: false },
 ];
 
 export const supervisors = [

@@ -8,6 +8,7 @@ import { Error } from "@pages/error";
 import { Home } from "@pages/home";
 import { LoginPage } from "@pages/login";
 import { MyCurrentSchedule } from "@pages/my-current-schedule";
+import { MyPreferences } from "@pages/my-preferences";
 import { NewPreference } from "@pages/new-preference";
 import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
 import { NewPreferenceStep2 } from "@pages/new-preference-step-2";
@@ -15,6 +16,7 @@ import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
 import { NewPreferenceStep4 } from "@pages/new-preference-step-4";
 import { SelectMonth } from "@pages/select-month";
 import { SelectSupervisor } from "@pages/select-supervisor";
+import { SinglePreference } from "@pages/single-preference";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
 
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
           {
             path: "/select-month",
             element: <SelectMonth />,
+          },
+          {
+            path: "/my-preferences",
+            element: <MyPreferences />,
+          },
+          {
+            path: "/my-preferences/single-preference/:id",
+            element: <SinglePreference />,
           },
           {
             path: "/new-preference",

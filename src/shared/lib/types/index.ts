@@ -10,4 +10,5 @@ export interface ICheckbox {
   shouldBeOffday: boolean;
   customOffday?: boolean;
   systemSuggestsLikeWorkday?: boolean;
+  isSelectLikeHoliday?: boolean;
 }

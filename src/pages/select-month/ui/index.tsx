@@ -1,4 +1,4 @@
-import { SelectMonthContent } from "@widgets/select-month-content";
+import { ScheduleSelectMonth } from "@widgets/schedule-select-month";
 
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -14,7 +14,7 @@ export const SelectMonth = () => {
         <HeaderTitle>Выберите месяц</HeaderTitle>
         <UserProfileLink />
       </HeaderContainer>
-      <SelectMonthContent />
+      <ScheduleSelectMonth />
     </BaseContainer>
   );
 };
