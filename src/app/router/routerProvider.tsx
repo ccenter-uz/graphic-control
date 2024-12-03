@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 // eslint-disable-next-line no-restricted-imports
 import LoginLayout from "@app/layouts/login/ui/login";
 
+import { Done } from "@pages/done";
 import { Error } from "@pages/error";
 import { Home } from "@pages/home";
 import { LoginPage } from "@pages/login";
@@ -58,6 +59,14 @@ export const router = createBrowserRouter([
           {
             path: "/new-preference/select-supervisor/:id/:supervisor",
             element: <SupervisorsSchedule />,
+          },
+          {
+            path: "/done",
+            element: <Done />,
+          },
+          {
+            path: "/error",
+            element: <Error />,
           },
           {
             path: "*",
