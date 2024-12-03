@@ -18,6 +18,7 @@ interface IData {
 
 export const SinglePreference = () => {
   const { id } = useParams();
+  localStorage.setItem("preferenceId", id || "");
   const token = localStorage.getItem("GCToken");
   const [data, setData] = useState({} as IData);
   useEffect(() => {

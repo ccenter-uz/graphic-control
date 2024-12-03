@@ -8,11 +8,14 @@ import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep4 = () => {
-  const [textareaValue, setTextareaValue] = useState("");
+  const [textareaValue, setTextareaValue] = useState(
+    (localStorage.getItem("description") as string) || "",
+  );
   const [timeParams] = useSearchParams();
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
 
   const handleConfirmClick = () => {
+    localStorage.setItem("description", textareaValue);
     const time = localStorage.getItem("workingHours");
     const offDays = localStorage.getItem("offDays");
     const daysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
