@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
 export const baseApi = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  baseURL: "https://api.graphic.ccenter.uz/api/v1/",
 });
 
 export function handleGenericError(error: AxiosError) {

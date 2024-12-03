@@ -9,6 +9,11 @@ import {
 
 import { ICheckbox } from "@shared/lib/types";
 
+interface IErrorInfo {
+  errorMessage?: string;
+  errorStatus?: number;
+}
+
 interface NewPreferenceContextType {
   hours: string;
   setHours: Dispatch<SetStateAction<string>>;
@@ -16,6 +21,8 @@ interface NewPreferenceContextType {
   setOffDays: Dispatch<SetStateAction<string[]>>;
   daysOfMonth: ICheckbox[];
   setDaysOfMonth: Dispatch<SetStateAction<ICheckbox[]>>;
+  errorInfo: IErrorInfo;
+  setErrorInfo: Dispatch<SetStateAction<IErrorInfo>>;
 }
 
 interface NewPreferenceContextProviderProps {
@@ -29,6 +36,8 @@ const defaultValue: NewPreferenceContextType = {
   setOffDays: (() => "") as Dispatch<SetStateAction<string[]>>,
   daysOfMonth: [],
   setDaysOfMonth: (() => "") as Dispatch<SetStateAction<ICheckbox[]>>,
+  errorInfo: {},
+  setErrorInfo: (() => "") as Dispatch<SetStateAction<IErrorInfo>>,
 };
 
 export const NewPreferenceContext =
@@ -40,6 +49,8 @@ const NewPreferenceContextProvider: FC<NewPreferenceContextProviderProps> = ({
   const [hours, setHours] = useState<string>("");
   const [offDays, setOffDays] = useState<string[]>([]);
   const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>([]);
+  const [errorInfo, setErrorInfo] = useState<IErrorInfo>({});
+
   return (
     <NewPreferenceContext.Provider
       value={{
@@ -49,6 +60,8 @@ const NewPreferenceContextProvider: FC<NewPreferenceContextProviderProps> = ({
         setOffDays,
         daysOfMonth,
         setDaysOfMonth,
+        errorInfo,
+        setErrorInfo,
       }}
     >
       {children}
