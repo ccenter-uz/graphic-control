@@ -12,17 +12,15 @@ import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
 
-export const NewPreferenceStep4 = () => {14
+export const NewPreferenceStep4 = () => {
   const [textareaValue, setTextareaValue] = useState(
     (localStorage.getItem("description") as string) || "",
   );
   const { setErrorInfo } = useContext(NewPreferenceContext) || {};
 
   const [timeParams] = useSearchParams();
-  const [textareaValue, setTextareaValue] = useState("");
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
   const navigate = useNavigate();
-                                         
   const handleConfirmClick = () => {
     localStorage.setItem("description", textareaValue);
     const time = localStorage.getItem("workingHours");
