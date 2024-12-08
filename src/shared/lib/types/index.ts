@@ -12,3 +12,14 @@ export interface ICheckbox {
   systemSuggestsLikeWorkday?: boolean;
   isSelectLikeHoliday?: boolean;
 }
+
+export interface IWeekDays {
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  saturday: boolean;
+  sunday: boolean;
+  [key: string]: boolean;
+}

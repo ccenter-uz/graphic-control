@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -10,6 +11,7 @@ import {
   generateCalendarDays,
   generateOffDays,
 } from "@shared/lib/helpers";
+import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
 import WorkingHours from "@shared/ui/working-hours";
@@ -41,9 +43,34 @@ export const NewPreferenceStep2 = () => {
   const { offDays } = useContext(NewPreferenceContext) || {};
   const { daysOfMonth, setDaysOfMonth } =
     useContext(NewPreferenceContext) ?? {};
-  const daysOfLastMonth = 2;
-  const amountDaysOfCurrentMonth = 31;
-  const shouldBeOffday = 3;
+  const token = localStorage.getItem("GCToken") as string;
+  const url =
+    "https://api.graphic.ccenter.uz/api/v1/agents/data-months?year_and_month=";
+  const [amountDaysOfLastMonth, setAmountDaysOfLastMonth] = useState<number>(2);
+  const [amountDaysOfCurrentMonth, setAmountDaysOfCurrentMonth] =
+    useState<number>(31);
+  const [shouldBeOffday, setShouldBeOffday] = useState<number>(3);
+
+  useEffect(() => {
+    axios
+      .get(url + "2024%2F11", {
+        headers: {
+          accept: "*/*",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status !== HttpStatusCode.OK) {
+          const data = res.data.months;
+          setAmountDaysOfLastMonth(+data.straight);
+          setAmountDaysOfCurrentMonth(+data.days_count);
+          setShouldBeOffday(6 - Number(data.straight));
+        }
+      })
+      .catch((error) => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
@@ -55,15 +82,18 @@ export const NewPreferenceStep2 = () => {
   useEffect(() => {
     const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
     const daysArray: ICheckbox[] = storedDaysArray
-      ? JSON.parse(storedDaysArray)
-      : generateCalendarDays(amountDaysOfCurrentMonth, daysOfLastMonth);
+      ? generateCalendarDays(
+          JSON.parse(storedDaysArray).length,
+          amountDaysOfLastMonth,
+        )
+      : generateCalendarDays(amountDaysOfCurrentMonth, amountDaysOfLastMonth);
 
     const weeks = monthToWeeks(daysArray);
     const [firstOffDay, secondOffDay] = offDays ? switchOffDays(offDays) : [];
 
     !storedDaysArray
       ? generateOffDays(weeks as ICheckbox[][], firstOffDay, secondOffDay)
-      : null;
+      : generateOffDays(weeks as ICheckbox[][], firstOffDay, secondOffDay);
 
     shouldBeOffday
       ? daysArray.find((item) => {
@@ -80,6 +110,7 @@ export const NewPreferenceStep2 = () => {
       : setCloneData(daysArray);
 
     setDaysOfMonth?.(daysArray);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offDays, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {

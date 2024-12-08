@@ -12,22 +12,18 @@ import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
 
-export const NewPreferenceStep4 = () => {14
+export const NewPreferenceStep4 = () => {
   const [textareaValue, setTextareaValue] = useState(
     (localStorage.getItem("description") as string) || "",
   );
   const { setErrorInfo } = useContext(NewPreferenceContext) || {};
 
   const [timeParams] = useSearchParams();
-  const [textareaValue, setTextareaValue] = useState("");
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
   const navigate = useNavigate();
-                                         
+
   const handleConfirmClick = () => {
     localStorage.setItem("description", textareaValue);
-    const time = localStorage.getItem("workingHours");
-    const offDays = localStorage.getItem("offDays");
-    const daysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
     const date = new Date();
     const month = date.getMonth();
     const year = date.getFullYear();
@@ -36,6 +32,7 @@ export const NewPreferenceStep4 = () => {14
     const storedWorkingHours = localStorage.getItem("workingHours");
     const storedOffDays = localStorage.getItem("offDays");
     const storedDaysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
+    const storedPreferenceId = localStorage.getItem("preferenceId") as string;
 
     const filteredDaysOfMonth = JSON.parse(storedDaysOfMonth as string).filter(
       (item: ICheckbox) => item?.id <= 31,
@@ -50,28 +47,54 @@ export const NewPreferenceStep4 = () => {14
       requested_date: getRequestDate(month, year),
     };
 
-    baseApi
-      .post(API_MAP.CREATE_PREFERENCE, data, {
-        headers: {
-          accept: "*/*",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        if (response.status === HttpStatusCode.CREATED) {
-          navigate("/done");
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          setErrorInfo?.({
-            errorMessage: error?.message,
-            errorStatus: error?.status,
+    !storedPreferenceId
+      ? baseApi
+          .post(API_MAP.CREATE_PREFERENCE, data, {
+            headers: {
+              accept: "*/*",
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            if (response.status === HttpStatusCode.CREATED) {
+              navigate("/done");
+            }
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorInfo?.({
+                errorMessage: error?.message,
+                errorStatus: error?.status,
+              });
+              navigate("/error");
+            }
+          })
+      : baseApi
+          .patch(API_MAP.UPDATE_PREFERENCE + storedPreferenceId, data, {
+            headers: {
+              accept: "*/*",
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+
+            if (response.status === HttpStatusCode.NO_CONTENT) {
+              navigate("/done");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error) {
+              setErrorInfo?.({
+                errorMessage: error?.message,
+                errorStatus: error?.status,
+              });
+              navigate("/error");
+            }
           });
-          navigate("/error");
-        }
-      });
   };
   return (
     <div>

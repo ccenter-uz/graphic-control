@@ -5,4 +5,5 @@ export enum API_MAP {
   GET_SINGLE_PREFERENCE_BY_ID = "Application/one/",
   GET_USER_INFO = "Auth/one",
   CREATE_PREFERENCE = "Application/create",
+  UPDATE_PREFERENCE = "Application/update/",
 }

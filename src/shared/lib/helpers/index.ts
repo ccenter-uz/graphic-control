@@ -11,3 +11,4 @@ export * from "./getDaysAvailability";
 export * from "./formatPhoneNumber";
 export * from "./getRequestDate";
 export * from "./getOffDays";
+export * from "./areObjectsEqual";
