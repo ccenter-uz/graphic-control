@@ -36,6 +36,36 @@ body {
   background: linear-gradient(to right, #174880, #3981ec);
 }
 
+/* ------ Loader component ------ */
+
+.loader {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  border-top: 2px solid #3498db;
+  width: 25px;
+  height: 25px;
+  -webkit-animation: spin 0.8s linear infinite; /* Safari */
+  animation: spin 0.8s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* ------ Tick of custom checkbox ------ */
 
 .weekend-checkbox input[type="checkbox"]:checked + span {

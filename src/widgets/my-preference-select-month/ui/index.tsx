@@ -38,15 +38,20 @@ export const MyPreferenceSelectMonth = () => {
       });
       if (res.status === HttpStatusCode.OK) {
         const data = res.data.result;
-        const yearsHaveData: number[] = [];
+        const yearsHaveDataArr: number[] = [];
+
         data.forEach((item: IPreference) => {
           if (
-            !yearsHaveData.includes(Number(item.requested_date.split("/")[0]))
+            !yearsHaveDataArr.includes(
+              Number(item.requested_date.split("/")[0]),
+            )
           ) {
-            yearsHaveData.push(Number(item.requested_date.split("/")[0]));
+            yearsHaveDataArr.push(Number(item.requested_date.split("/")[0]));
           }
         });
-        setYearsHaveData(yearsHaveData);
+
+        const sortedYearsHaveDataArr = yearsHaveDataArr.sort((a, b) => a - b);
+        setYearsHaveData(sortedYearsHaveDataArr);
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
@@ -118,6 +123,9 @@ export const MyPreferenceSelectMonth = () => {
 
   const handlePrevYearClick = () => setCurrentYear((prev) => prev - 1);
   const handleNextYearClick = () => setCurrentYear((prev) => prev + 1);
+
+  console.log(yearsHaveData);
+
   return (
     <div className="mt-10 border rounded-md">
       <div className="flex items-center justify-between mx-2">

@@ -9,7 +9,7 @@ import {
 
 import { ICheckbox } from "@shared/lib/types";
 
-interface IErrorInfo {
+export interface IErrorInfo {
   errorMessage?: string;
   errorStatus?: number;
 }

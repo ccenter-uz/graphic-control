@@ -12,3 +12,4 @@ export * from "./formatPhoneNumber";
 export * from "./getRequestDate";
 export * from "./getOffDays";
 export * from "./areObjectsEqual";
+export * from "./clearLocalStorageExceptToken";
