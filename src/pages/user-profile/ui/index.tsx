@@ -59,7 +59,7 @@ export const UserProfile = () => {
   };
 
   const handleConfirmClick = () => {
-    localStorage.removeItem("GCToken");
+    localStorage.clear();
     navigate("/login");
   };
   return (

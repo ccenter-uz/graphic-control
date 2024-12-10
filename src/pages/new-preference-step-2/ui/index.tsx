@@ -110,7 +110,6 @@ export const NewPreferenceStep2 = () => {
       : setCloneData(daysArray);
 
     setDaysOfMonth?.(daysArray);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offDays, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {

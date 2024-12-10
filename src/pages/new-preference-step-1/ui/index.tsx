@@ -37,8 +37,6 @@ export const NewPreferenceStep1 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(cloneFormData, formState);
-
   const handleConfirmClick = () => {
     localStorage.setItem("offDays", JSON.stringify(formState));
     if (!areObjectsEqual(cloneFormData[0], formState)) {

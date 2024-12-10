@@ -25,11 +25,11 @@ const ConfirmModal: FC<Props> = ({ state, setState, confirmClick }) => {
         className="my-auto px-5 py-6 border rounded-lg bg-white z-[9999]"
       >
         <p className="text-center mb-8">Вы действительно хотите выйти?</p>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <SecondaryButton className="w-1/3" onClick={handleCancelClick}>
             Отмена
           </SecondaryButton>
-          <BaseButton className="w-1/3" onClick={confirmClick}>
+          <BaseButton widthNotFull={true} onClick={confirmClick}>
             Выйти
           </BaseButton>
         </div>

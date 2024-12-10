@@ -9,33 +9,38 @@ import { setErrorText } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import { BaseInput } from "@shared/ui/base-input";
+import { Loader } from "@shared/ui/loader";
 
 export const LoginForm = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [usernameValue, setUsernameValue] = useState("");
-  const [password, setPasswordValue] = useState("");
-  const [error, setError] = useState("");
+  const [usernameValue, setUsernameValue] = useState<string>("");
+  const [password, setPasswordValue] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    baseApi
-      .post(API_MAP.SIGN_IN, {
+
+    try {
+      setIsLoading(true);
+      const response = await baseApi.post(API_MAP.SIGN_IN, {
         login: usernameValue,
         password: password,
-      })
-      .then(function (response) {
-        if (response.status === HttpStatusCode.OK) {
-          localStorage.setItem("GCToken", response.data.token);
-          navigate("/");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-
-        return setErrorText(error.status, error.message, setError);
       });
+
+      if (response.status === HttpStatusCode.OK) {
+        localStorage.setItem("GCToken", response.data.token);
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorText(error.status, error.message, setError);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   return (
     <form className="grid gap-6" onSubmit={handleFormSubmit}>
       <BaseInput
@@ -55,7 +60,7 @@ export const LoginForm = () => {
         iconSrc={passwordPath}
       />
       <p className="text-red-600 text-sm">{error}</p>
-      <BaseButton>Войти</BaseButton>
+      <BaseButton>{isLoading ? <Loader /> : "Войти"}</BaseButton>
     </form>
   );
 };
