@@ -3,7 +3,8 @@ export * from "./switchOffDays";
 export * from "./monthToWeeks";
 export * from "./getTargetWeek";
 export * from "./getExchangeableItem";
-export * from "./generateCalendarDays";
+export * from "./generateNotEditableCalendarDays";
+export * from "./generateEditableCalendarDays";
 export * from "./generateOffDays";
 export * from "./setErrorText";
 
@@ -13,3 +14,5 @@ export * from "./getRequestDate";
 export * from "./getOffDays";
 export * from "./areObjectsEqual";
 export * from "./clearLocalStorageExceptToken";
+export * from "./mergeArrays";
+export * from "./generateCalendar";

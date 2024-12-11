@@ -48,6 +48,7 @@ export const SinglePreference = () => {
         data={data?.daysOfMonth}
         year={data?.requested_date?.slice(0, 4)}
         month={data?.requested_date?.slice(5)}
+        isEditAvailable={true}
       />
     </BaseContainer>
   );

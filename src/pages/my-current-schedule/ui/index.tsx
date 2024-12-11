@@ -28,7 +28,7 @@ export const MyCurrentSchedule = () => {
         </div>
       </HeaderContainer>
       <SubheaderInfo data={currentScheduleData} />
-      <CheckboxGroup />
+      <CheckboxGroup isEditAvailable={false} />
       <WorkingHours hours={time} />
     </BaseContainer>
   );

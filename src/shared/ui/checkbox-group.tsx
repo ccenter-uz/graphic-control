@@ -14,9 +14,17 @@ interface ICheckboxGroup {
   data?: ICheckbox[];
   month?: string;
   year?: string;
+  isEditAvailable: boolean;
 }
 
-const CheckboxGroup: FC<ICheckboxGroup> = ({ data, month, year }) => {
+const CheckboxGroup: FC<ICheckboxGroup> = ({
+  data,
+  month,
+  year,
+  isEditAvailable,
+}) => {
+  console.log(data, "data from group");
+
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,11 +70,13 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({ data, month, year }) => {
     <div>
       <div className="flex items-center justify-between mt-14">
         <h6 className="text-lg font-semibold">
-          {month && months[+month - 1].title} {year}
+          {month && months[+month - 1].title}, {year}
         </h6>
-        <button onClick={handleEditBtnClick} className="text-[#007AFF]">
-          {isLoading ? <Loader /> : "Изменить"}
-        </button>
+        {isEditAvailable && (
+          <button onClick={handleEditBtnClick} className="text-[#007AFF]">
+            {isLoading ? <Loader /> : "Изменить"}
+          </button>
+        )}
       </div>
       <table className="my-5">
         <thead>

@@ -1,4 +1,4 @@
-export function generateCalendarDays(
+export function generateEditableCalendarDays(
   amountDaysOfCurrentMonth: number,
   daysOfLastMonth: number,
 ) {

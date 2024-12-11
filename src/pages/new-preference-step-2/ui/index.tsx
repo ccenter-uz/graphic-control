@@ -8,7 +8,7 @@ import {
   monthToWeeks,
   switchOffDays,
   getExchangeableItem,
-  generateCalendarDays,
+  generateEditableCalendarDays,
   generateOffDays,
 } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -82,11 +82,14 @@ export const NewPreferenceStep2 = () => {
   useEffect(() => {
     const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
     const daysArray: ICheckbox[] = storedDaysArray
-      ? generateCalendarDays(
+      ? generateEditableCalendarDays(
           JSON.parse(storedDaysArray).length,
           amountDaysOfLastMonth,
         )
-      : generateCalendarDays(amountDaysOfCurrentMonth, amountDaysOfLastMonth);
+      : generateEditableCalendarDays(
+          amountDaysOfCurrentMonth,
+          amountDaysOfLastMonth,
+        );
 
     const weeks = monthToWeeks(daysArray);
     const [firstOffDay, secondOffDay] = offDays ? switchOffDays(offDays) : [];

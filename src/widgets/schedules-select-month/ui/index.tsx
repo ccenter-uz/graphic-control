@@ -38,7 +38,7 @@ export const SchedulesSelectMonth = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        const data = res.data.month;
+        const data = res.data.months;
         setSchedules(data);
         const yearsHaveDataArr: number[] = [];
 
@@ -60,7 +60,7 @@ export const SchedulesSelectMonth = () => {
     const updatedMonths = months.map((month) => {
       const matchingPreference = schedules?.find(
         (pref: ISchedule) => month.orderedNumber === pref.number,
-      );
+      ) as ISchedule | undefined;
       return {
         ...month,
         isAvailable: !!matchingPreference,
