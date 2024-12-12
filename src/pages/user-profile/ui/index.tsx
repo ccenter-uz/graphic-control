@@ -95,7 +95,7 @@ export const UserProfile = () => {
         <ConfirmModal
           state={isModalOpen}
           setState={setIsModalOpen}
-          confirmClick={handleConfirmClick}
+          confirmBtnClick={handleConfirmClick}
         />
       )}
       <BlueLink

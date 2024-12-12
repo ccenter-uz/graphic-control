@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { baseApi } from "@shared/lib/baseApi";
-import { getDaysAvailability, monthToWeeks } from "@shared/lib/helpers";
+import {
+  getDaysAvailability,
+  getIsPreferenceEditable,
+  monthToWeeks,
+} from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import BaseDay from "@shared/ui/checkbox";
 
@@ -24,6 +28,11 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   year,
   isEditAvailable,
 }) => {
+  if (month && year) {
+    !isEditAvailable
+      ? isEditAvailable
+      : (isEditAvailable = getIsPreferenceEditable(+month, +year));
+  }
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);

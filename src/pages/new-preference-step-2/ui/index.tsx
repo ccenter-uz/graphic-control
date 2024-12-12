@@ -41,12 +41,10 @@ export const NewPreferenceStep2 = () => {
   const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
   const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
   const [isResetState, setIsResetState] = useState<boolean>(false);
-  const offDaysFromLocalStorage = JSON.parse(
-    localStorage.getItem("offDays") || "{}",
-  );
-  const offDays: string[] = Object.keys(offDaysFromLocalStorage).filter(
-    (key) => offDaysFromLocalStorage[key],
-  );
+  const offDaysFromStorage = localStorage.getItem("offDays");
+  const offDays: string[] = Object.keys(
+    JSON.parse(offDaysFromStorage || "{}"),
+  ).filter((key) => JSON.parse(offDaysFromStorage || "{}")[key]);
   const { daysOfMonth, setDaysOfMonth } =
     useContext(NewPreferenceContext) ?? {};
   const token = localStorage.getItem("GCToken") as string;
@@ -124,7 +122,7 @@ export const NewPreferenceStep2 = () => {
 
     setDaysOfMonth?.(daysArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offDaysFromLocalStorage, setDaysOfMonth]);
+  }, [offDaysFromStorage, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
     setIsBtnsActive(true);
@@ -211,7 +209,7 @@ export const NewPreferenceStep2 = () => {
   return (
     <div>
       <div className="flex items-center justify-between mt-14">
-        <h6 className="text-lg font-semibold">Октябрь 2024</h6>
+        <h6 className="text-lg font-semibold">sanani olib kelish kerak</h6>
         <button
           onClick={handleResetClick}
           className={`${isBtnsActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
