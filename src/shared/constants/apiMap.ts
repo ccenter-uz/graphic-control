@@ -8,4 +8,5 @@ export enum API_MAP {
   UPDATE_PREFERENCE = "Application/update/",
   GET_ALL_SCHEDULES = "get-all-month",
   GET_SINGLE_SCHEDULE_BY_MONTH = "one-with-graphic?year_and_month=",
+  GET_SINGLE_SCHEDULE_HELPERS = "data-months?year_and_month=",
 }

@@ -9,6 +9,7 @@ import { ICheckbox } from "@shared/lib/types";
 import BaseDay from "@shared/ui/checkbox";
 
 import { Loader } from "./loader";
+import { TableHead } from "./table-head";
 
 interface ICheckboxGroup {
   data?: ICheckbox[];
@@ -23,8 +24,6 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   year,
   isEditAvailable,
 }) => {
-  console.log(data, "data from group");
-
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -70,7 +69,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
     <div>
       <div className="flex items-center justify-between mt-14">
         <h6 className="text-lg font-semibold">
-          {month && months[+month - 1].title}, {year}
+          {month && months[+month - 1].title} {year}
         </h6>
         {isEditAvailable && (
           <button onClick={handleEditBtnClick} className="text-[#007AFF]">
@@ -79,17 +78,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
         )}
       </div>
       <table className="my-5">
-        <thead>
-          <tr>
-            <th className="text-[#3C3C434D]">ПН</th>
-            <th className="text-[#3C3C434D]">BT</th>
-            <th className="text-[#3C3C434D]">СР</th>
-            <th className="text-[#3C3C434D]">ЧТ</th>
-            <th className="text-[#3C3C434D]">ПТ</th>
-            <th className="text-[#3C3C434D]">СБ</th>
-            <th className="text-[#3C3C434D]">ВС</th>
-          </tr>
-        </thead>
+        <TableHead />
         <tbody>
           {chunkedData.map((rowData, index: number) => {
             return (
@@ -104,7 +93,9 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                         isNight={item?.isNight}
                         isHoliday={item?.isHoliday}
                         isToday={item?.isToday}
-                        isCheckable={item?.isCheckable}
+                        isCheckable={
+                          !isEditAvailable ? false : item.isCheckable
+                        }
                         label={item?.label}
                         shouldBeOffday={item?.shouldBeOffday}
                         isReset={false}

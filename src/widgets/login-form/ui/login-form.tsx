@@ -11,6 +11,11 @@ import BaseButton from "@shared/ui/base-button";
 import { BaseInput } from "@shared/ui/base-input";
 import { Loader } from "@shared/ui/loader";
 
+interface IError {
+  message: string;
+  status: number;
+}
+
 export const LoginForm = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -33,9 +38,13 @@ export const LoginForm = () => {
         localStorage.setItem("GCToken", response.data.token);
         navigate("/");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setErrorText(error.status, error.message, setError);
+      setErrorText(
+        (error as IError).status,
+        (error as IError).message,
+        setError,
+      );
     } finally {
       setIsLoading(false);
     }

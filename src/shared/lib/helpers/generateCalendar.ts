@@ -18,7 +18,7 @@ export function generateCalendar(
 ) {
   const firstDay = new Date(`${year}/${month}/${label}`).getDay();
 
-  const lastMonthLength = new Date(year, month + 1, 0).getDate();
+  const lastMonthLength = new Date(year, month - 1, 0).getDate();
 
   const remainDay = WEEK_DAYS[firstDay as keyof typeof WEEK_DAYS] - 1;
 

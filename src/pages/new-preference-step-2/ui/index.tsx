@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
+import { API_MAP } from "@shared/constants/apiMap";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import {
   getTargetWeek,
@@ -14,6 +15,7 @@ import {
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
+import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
 interface ICheckbox {
@@ -28,7 +30,6 @@ interface ICheckbox {
   label: number;
 }
 
-const weekdayNameInRussian = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const MIDDLE_OF_MONTH_INDEX = 15;
 const FIRST_DAY_OF_WEEK_INDEX = 0;
 const LAST_DAY_OF_WEEK_INDEX = 7;
@@ -40,12 +41,15 @@ export const NewPreferenceStep2 = () => {
   const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
   const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
   const [isResetState, setIsResetState] = useState<boolean>(false);
-  const { offDays } = useContext(NewPreferenceContext) || {};
+  const offDaysFromLocalStorage = JSON.parse(
+    localStorage.getItem("offDays") || "{}",
+  );
+  const offDays: string[] = Object.keys(offDaysFromLocalStorage).filter(
+    (key) => offDaysFromLocalStorage[key],
+  );
   const { daysOfMonth, setDaysOfMonth } =
     useContext(NewPreferenceContext) ?? {};
   const token = localStorage.getItem("GCToken") as string;
-  const url =
-    "https://api.graphic.ccenter.uz/api/v1/agents/data-months?year_and_month=";
   const [amountDaysOfLastMonth, setAmountDaysOfLastMonth] = useState<number>(2);
   const [amountDaysOfCurrentMonth, setAmountDaysOfCurrentMonth] =
     useState<number>(31);
@@ -53,7 +57,7 @@ export const NewPreferenceStep2 = () => {
 
   useEffect(() => {
     axios
-      .get(url + "2024%2F11", {
+      .get(API_MAP.GET_SINGLE_SCHEDULE_HELPERS + "2024%2F11", {
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
@@ -69,8 +73,7 @@ export const NewPreferenceStep2 = () => {
         }
       })
       .catch((error) => console.log(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [amountDaysOfLastMonth, amountDaysOfCurrentMonth, shouldBeOffday, token]);
 
   useEffect(() => {
     const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
@@ -81,7 +84,8 @@ export const NewPreferenceStep2 = () => {
 
   useEffect(() => {
     const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
-    const daysArray: ICheckbox[] = storedDaysArray
+
+    let daysArray: ICheckbox[] = storedDaysArray
       ? generateEditableCalendarDays(
           JSON.parse(storedDaysArray).length,
           amountDaysOfLastMonth,
@@ -91,12 +95,18 @@ export const NewPreferenceStep2 = () => {
           amountDaysOfLastMonth,
         );
 
-    const weeks = monthToWeeks(daysArray);
+    const weeks = JSON.parse(JSON.stringify(monthToWeeks(daysArray)));
     const [firstOffDay, secondOffDay] = offDays ? switchOffDays(offDays) : [];
 
-    !storedDaysArray
-      ? generateOffDays(weeks as ICheckbox[][], firstOffDay, secondOffDay)
-      : generateOffDays(weeks as ICheckbox[][], firstOffDay, secondOffDay);
+    if (!storedDaysArray) {
+      const daysArrayWithOffDays = generateOffDays(
+        JSON.parse(JSON.stringify(weeks)) as ICheckbox[][],
+        firstOffDay,
+        secondOffDay,
+      );
+
+      daysArray = daysArrayWithOffDays.flat();
+    }
 
     shouldBeOffday
       ? daysArray.find((item) => {
@@ -113,7 +123,8 @@ export const NewPreferenceStep2 = () => {
       : setCloneData(daysArray);
 
     setDaysOfMonth?.(daysArray);
-  }, [offDays, setDaysOfMonth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offDaysFromLocalStorage, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
     setIsBtnsActive(true);
@@ -180,6 +191,7 @@ export const NewPreferenceStep2 = () => {
       setDaysOfMonth?.(updatedData as ICheckbox[]);
     }
   };
+
   const handleResetClick = () => {
     const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
     if (storedCloneDaysArray !== null) {
@@ -209,15 +221,7 @@ export const NewPreferenceStep2 = () => {
         </button>
       </div>
       <table className="my-5">
-        <thead>
-          <tr>
-            {weekdayNameInRussian?.map((item) => (
-              <th key={item} className="text-[#3C3C434D]">
-                {item}
-              </th>
-            ))}
-          </tr>
-        </thead>
+        <TableHead />
         <tbody>
           {monthToWeeks(daysOfMonth ? daysOfMonth : []).map((items, index) => {
             return (

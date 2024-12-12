@@ -27,8 +27,6 @@ export const SelectWeekendDays: React.FC<Props> = ({
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     const { name, checked } = event.target;
-    console.log(formState, "formState");
-
     setFormState((prevState) => ({
       ...prevState,
       [name]: checked,
