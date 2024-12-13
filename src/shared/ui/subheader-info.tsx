@@ -16,9 +16,9 @@ export const SubheaderInfo: FC<Props> = ({ data, className = "" }) => {
         <tbody>
           {data?.map((item) => {
             return (
-              <tr key={item?.id}>
+              <tr key={item?.id} className="border-b">
                 <td>{item?.title}</td>
-                <td className="text-[#007AFF]">{item?.value}</td>
+                <td className="text-[#007AFF] pl-2">{item?.value}</td>
               </tr>
             );
           })}

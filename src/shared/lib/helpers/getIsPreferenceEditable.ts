@@ -3,7 +3,7 @@ export function getIsPreferenceEditable(
   yearFromParams: number,
 ) {
   const today = new Date();
-  const currentDay = today.getDate();
+  const currentDay = 20;
   const currentMonth = today.getMonth() + 1 === 12 ? 1 : today.getMonth() + 1;
   const currentYear =
     today.getMonth() + 1 === 12 ? today.getFullYear() + 1 : today.getFullYear();

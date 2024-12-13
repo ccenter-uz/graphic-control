@@ -6,7 +6,7 @@ import { API_MAP } from "@shared/constants/apiMap";
 import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import { ICheckbox } from "@shared/lib/types";
+import { IPreference } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -16,15 +16,6 @@ import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { Loader } from "@shared/ui/loader";
 import UserProfileLink from "@shared/ui/user-profile-link";
-
-interface IPreference {
-  id: string;
-  offDays: string[];
-  workingHours: string;
-  daysOfMonth: ICheckbox[];
-  description: string;
-  requested_date: string;
-}
 
 export const NewPreference = () => {
   const { t } = useTranslation();

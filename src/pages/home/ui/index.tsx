@@ -11,10 +11,7 @@ import {
   calendarTickPath,
 } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import {
-  canUserCreatePreference,
-  getIsPreferenceEditable,
-} from "@shared/lib/helpers";
+import { getIsPreferenceEditable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
@@ -23,7 +20,7 @@ import BlueLink from "@shared/ui/blue-link";
 export const Home = () => {
   const { t } = useTranslation();
   const token = localStorage.getItem("GCToken") as string;
-  const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
+  const [isBtnEditable, setIsBtnEditable] = useState<boolean>(true);
   const getAllPreferences = async () => {
     try {
       const res = await baseApi.get(`${API_MAP.GET_ALL_PREFERENCES}`, {
@@ -33,6 +30,9 @@ export const Home = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
+        const preferences = res.data.result;
+        console.log(preferences);
+
         const data = res.data.result[0];
         const year = data.requested_date.split("/")[0];
         const month = data.requested_date.split("/")[1];
@@ -60,11 +60,6 @@ export const Home = () => {
             imgSrc={calendarTickPath}
           />
         )}
-        {/* <BaseLink
-          to="new-preference"
-          title={t("home.new-preference")}
-          imgSrc={calendarTickPath}
-        /> */}
         <BaseLink
           to="schedules"
           title={t("home.my-current-schedule")}

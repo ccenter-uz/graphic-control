@@ -1,36 +1,13 @@
 import { ICheckbox } from "@shared/lib/types";
 
 export const scheduleLinks = [
-  { id: 1, time: "07-16", isSelected: true },
+  { id: 1, time: "07-16", isSelected: false },
   { id: 2, time: "08-17", isSelected: false },
   { id: 3, time: "09-18", isSelected: false },
   { id: 4, time: "11-20", isSelected: false },
   { id: 5, time: "13-22", isSelected: false },
   { id: 6, time: "15-24", isSelected: false },
   { id: 7, time: "17-02", isSelected: false },
-];
-
-export const supervisors = [
-  {
-    id: 1,
-    title: "Shahriyor",
-    link: "supervisor-1",
-  },
-  {
-    id: 2,
-    title: "Turg'unov Abduqodir Jo'rayevich",
-    link: "supervisor-2",
-  },
-  {
-    id: 3,
-    title: "Izzat",
-    link: "supervisor-3",
-  },
-  {
-    id: 4,
-    title: "Yusupova Nargiza Abrorovna",
-    link: "supervisor-4",
-  },
 ];
 
 export const checkboxGroupData: ICheckbox[] = [

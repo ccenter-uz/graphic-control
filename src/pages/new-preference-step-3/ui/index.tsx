@@ -157,7 +157,7 @@ export const NewPreferenceStep3 = () => {
           isDisabled={!isSubmitBtnActive}
           onClick={handleConfirmClick}
         >
-          Подтвердить
+          Далее
         </BaseButton>
       </Link>
     </div>

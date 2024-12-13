@@ -61,7 +61,7 @@ export const SelectWeekendDays: React.FC<Props> = ({
   return (
     <div>
       <HeaderTitle className="mt-5">
-        Выберите 2 предпочитаемые выходные дни
+        Выберите желаемые 2 выходные дни недели
       </HeaderTitle>
       <form
         onChange={handleFormChange}

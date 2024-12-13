@@ -12,6 +12,13 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import CheckboxGroup from "@shared/ui/checkbox-group";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
+import { SubheaderInfo } from "@shared/ui/subheader-info";
+
+interface iSubheaderInfo {
+  id: number;
+  title: string;
+  value: string;
+}
 
 export const SinglePreference = () => {
   const { id } = useParams();
@@ -20,6 +27,7 @@ export const SinglePreference = () => {
   const [data, setData] = useState<ICheckbox[]>([]);
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
+  const [subheaderInfo, setSubheaderInfo] = useState<iSubheaderInfo[]>([]);
   useEffect(() => {
     baseApi
       .get(`${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`, {
@@ -30,11 +38,24 @@ export const SinglePreference = () => {
       })
       .then((res) => {
         if (res.status === HttpStatusCode.OK) {
-          console.log(res.data);
+          const data = res.data;
+          const subheaderInfo = [
+            {
+              id: 1,
+              title: "Рабочее время",
+              value: data.workingHours,
+            },
+            {
+              id: 2,
+              title: "Причина",
+              value: data.description,
+            },
+          ];
+          setSubheaderInfo(subheaderInfo);
+
           const splittedRequestDate = res.data.requested_date.split("/");
           setYear(splittedRequestDate[0]);
           setMonth(splittedRequestDate[1]);
-          const data = res.data;
 
           const generatedData = generateCalendar(
             +year,
@@ -57,6 +78,7 @@ export const SinglePreference = () => {
           Ваше предпочтение за {months[+month - 1]?.title}
         </HeaderTitle>
       </HeaderContainer>
+      <SubheaderInfo data={subheaderInfo} />
       <CheckboxGroup
         data={data}
         year={year}

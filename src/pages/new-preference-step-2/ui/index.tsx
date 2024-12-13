@@ -255,7 +255,7 @@ export const NewPreferenceStep2 = () => {
         }`}
       >
         <BaseButton isDisabled={!isBtnsActive} onClick={handleConfirmClick}>
-          Подтвердить
+          Далее
         </BaseButton>
       </Link>
     </div>
