@@ -27,7 +27,7 @@ export const NewPreferenceStep4 = () => {
   const [timeParams] = useSearchParams();
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
   const navigate = useNavigate();
-  
+
   const handleConfirmClick = async () => {
     try {
       setIsLoading(true);
