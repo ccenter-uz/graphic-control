@@ -59,7 +59,7 @@ export const UserProfile = () => {
   };
 
   const handleConfirmClick = () => {
-    localStorage.removeItem("GCToken");
+    localStorage.clear();
     navigate("/login");
   };
   return (
@@ -95,7 +95,7 @@ export const UserProfile = () => {
         <ConfirmModal
           state={isModalOpen}
           setState={setIsModalOpen}
-          confirmClick={handleConfirmClick}
+          confirmBtnClick={handleConfirmClick}
         />
       )}
       <BlueLink

@@ -5,7 +5,7 @@ export const generateOffDays = (
   firstOffDay: number,
   secondOffDay: number,
 ) => {
-  weeks.forEach((week) => {
+  return weeks.map((week) => {
     if (week[firstOffDay]) {
       week[firstOffDay].isWorkDay = false;
       week[firstOffDay].isCheckable = false;
@@ -15,5 +15,7 @@ export const generateOffDays = (
       week[secondOffDay].isWorkDay = false;
       week[secondOffDay].isCheckable = false;
     }
+
+    return week;
   });
 };

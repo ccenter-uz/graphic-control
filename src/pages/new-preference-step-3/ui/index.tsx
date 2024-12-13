@@ -6,6 +6,7 @@ import { monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
+import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep3 = () => {
@@ -116,17 +117,7 @@ export const NewPreferenceStep3 = () => {
         </button>
       </div>
       <table className="my-5">
-        <thead>
-          <tr>
-            <th className="text-[#3C3C434D]">ПН</th>
-            <th className="text-[#3C3C434D]">BT</th>
-            <th className="text-[#3C3C434D]">СР</th>
-            <th className="text-[#3C3C434D]">ЧТ</th>
-            <th className="text-[#3C3C434D]">ПТ</th>
-            <th className="text-[#3C3C434D]">СБ</th>
-            <th className="text-[#3C3C434D]">ВС</th>
-          </tr>
-        </thead>
+        <TableHead />
         <tbody>
           {daysOfMonthState &&
             monthToWeeks(daysOfMonthState).map((items, index) => {

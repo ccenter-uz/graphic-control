@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { weekDays } from "@shared/constants/weekDays";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
+import { IWeekDays } from "@shared/lib/types";
 import HeaderTitle from "@shared/ui/header-title";
 import WeekendCheckbox from "@shared/ui/weekend-checkbox";
 
@@ -10,23 +10,18 @@ interface IFormState {
 }
 
 interface Props {
+  defaultFormState: IFormState;
+  formState: IWeekDays;
+  setFormState: React.Dispatch<React.SetStateAction<IWeekDays>>;
   setIsSubmitBtnAble: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SelectWeekendDays: React.FC<Props> = ({ setIsSubmitBtnAble }) => {
-  const defaultFormState: IFormState = Object.keys(weekDays).reduce(
-    (acc, current) => {
-      return {
-        ...acc,
-        [current]: false,
-      };
-    },
-    {},
-  );
-  const storedFormData = localStorage.getItem("offDays");
-  const [formState, setFormState] = useState<IFormState>(
-    storedFormData ? JSON.parse(storedFormData) : defaultFormState,
-  );
+export const SelectWeekendDays: React.FC<Props> = ({
+  defaultFormState,
+  formState,
+  setFormState,
+  setIsSubmitBtnAble,
+}) => {
   const [isDisabled, setIsDisabled] = useState<IFormState>(defaultFormState);
   const { setOffDays } = useContext(NewPreferenceContext) || {};
 
@@ -61,7 +56,6 @@ export const SelectWeekendDays: React.FC<Props> = ({ setIsSubmitBtnAble }) => {
     selectedOffdaysValues.length >= 2
       ? setIsSubmitBtnAble(true)
       : setIsSubmitBtnAble(false);
-    localStorage.setItem("offDays", JSON.stringify(formState));
   }, [formState, setIsSubmitBtnAble, setOffDays]);
 
   return (

@@ -5,22 +5,23 @@ import { Link } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { IMonth, months } from "@shared/constants/months";
 import { arrowLeftPath, arrowRightPath } from "@shared/constants/svg-paths";
-import { baseApi } from "@shared/lib/baseApi";
+import { schedulesApi } from "@shared/lib/baseApi";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import SvgIcon from "@shared/ui/svg-icon";
 
-interface IPreference {
-  id: string;
-  create_data: string;
-  requested_date: string;
+interface ISchedule {
+  days_count: string;
+  name: string;
+  number: number;
+  year: string;
 }
 
-export const MyPreferenceSelectMonth = () => {
-  const token = localStorage.getItem("GCToken") || "";
+export const SchedulesSelectMonth = () => {
+  const token = localStorage.getItem("GCToken") as string;
   const today = new Date();
 
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [preferences, setPreferences] = useState<IPreference[]>([]);
+  const [schedules, setSchedules] = useState([]);
   const [cloneMonths, setCloneMonths] = useState<IMonth[]>(months);
   const [isBtnsActive, setIsBtnsActive] = useState({
     increment: true,
@@ -30,23 +31,20 @@ export const MyPreferenceSelectMonth = () => {
 
   const getYearsHaveData = useCallback(async () => {
     try {
-      const res = await baseApi.get(`${API_MAP.GET_ALL_PREFERENCES}`, {
+      const res = await schedulesApi.get(`${API_MAP.GET_ALL_SCHEDULES}`, {
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        const data = res.data.result;
+        const data = res.data.months;
+        setSchedules(data);
         const yearsHaveDataArr: number[] = [];
 
-        data.forEach((item: IPreference) => {
-          if (
-            !yearsHaveDataArr.includes(
-              Number(item.requested_date.split("/")[0]),
-            )
-          ) {
-            yearsHaveDataArr.push(Number(item.requested_date.split("/")[0]));
+        data.forEach((item: ISchedule) => {
+          if (!yearsHaveDataArr.includes(Number(item.year))) {
+            yearsHaveDataArr.push(Number(item.year));
           }
         });
 
@@ -54,46 +52,24 @@ export const MyPreferenceSelectMonth = () => {
         setYearsHaveData(sortedYearsHaveDataArr);
       }
     } catch (error) {
-      console.error("Failed to fetch preferences:", error);
+      console.error("Failed to fetch schedules:", error);
     }
   }, []);
 
-  const fetchPreferences = useCallback(async () => {
-    try {
-      const res = await baseApi.get(
-        `${API_MAP.GET_PREFERENCES_BY_YEAR}${currentYear}`,
-        {
-          headers: {
-            accept: "*/*",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (res.status === HttpStatusCode.OK) {
-        setPreferences(res.data.result);
-      }
-    } catch (error) {
-      console.error("Failed to fetch preferences:", error);
-    }
-  }, [currentYear, token]);
-
   const updateMonthAvailability = useCallback(() => {
     const updatedMonths = months.map((month) => {
-      const matchingPreference = preferences.find(
-        (pref) =>
-          month.orderedNumber === Number(pref.requested_date.split("/")[1]),
-      );
-
+      const matchingPreference = schedules?.find(
+        (pref: ISchedule) => month.orderedNumber === pref.number,
+      ) as ISchedule | undefined;
       return {
         ...month,
         isAvailable: !!matchingPreference,
-        link: matchingPreference?.id || "",
+        date: matchingPreference?.year + "-" + matchingPreference?.number,
       };
     });
 
     setCloneMonths(updatedMonths);
-  }, [preferences]);
+  }, [schedules]);
 
   const updateButtonStates = useCallback(() => {
     const minYear = yearsHaveData[0];
@@ -110,12 +86,8 @@ export const MyPreferenceSelectMonth = () => {
   }, []);
 
   useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
-
-  useEffect(() => {
     updateMonthAvailability();
-  }, [preferences, updateMonthAvailability]);
+  }, [schedules, updateMonthAvailability]);
 
   useEffect(() => {
     updateButtonStates();
@@ -148,14 +120,14 @@ export const MyPreferenceSelectMonth = () => {
         {cloneMonths.map((month) => (
           <li key={month.id}>
             <Link
-              to={`single-preference/${month.link}`}
+              to={`single-schedule/${month.date}`}
               className={`${
                 !month.isAvailable
                   ? "bg-[#fff] text-[#64748B] cursor-not-allowed pointer-events-none"
                   : ""
               } flex items-center justify-center py-2.5 rounded-md bg-[#F0F7FE] text-[#007AFF] active:bg-[#e8ecfa]`}
             >
-              За {month.title.slice(0, 3).toLocaleLowerCase()}
+              {month.title.slice(0, 3)}
             </Link>
           </li>
         ))}

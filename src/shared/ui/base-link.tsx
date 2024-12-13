@@ -5,19 +5,19 @@ import { arrowRightPath } from "@shared/constants/svg-paths";
 
 import SvgIcon from "./svg-icon";
 
-type Props = {
+interface Props {
   title: string;
   to: string;
   imgSrc?: string;
   isBlue?: boolean;
   className?: string;
-};
+}
 
 const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue, className = "" }) => {
   return (
     <Link to={to}>
       <div
-        className={`${className} flex items-center justify-between bg-white border rounded px-4 py-3`}
+        className={`${className} flex items-center justify-between border rounded px-4 py-3`}
       >
         {imgSrc ? (
           <div className="p-1.5 rounded-full bg-[#F0F7FE]">

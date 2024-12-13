@@ -15,7 +15,11 @@ export const Done = () => {
       <HeaderContainer>
         <HeaderTitle className="text-center">{t("done.title")}</HeaderTitle>
       </HeaderContainer>
-      <img src={doneImg} alt="done image" className="mx-auto my-20" />
+      <img
+        src={doneImg}
+        alt="done image"
+        className="mx-auto my-20 w-[129px] h-[133px]"
+      />
       <Link to="/">
         <BaseButton>{t("done.button_title")}</BaseButton>
       </Link>

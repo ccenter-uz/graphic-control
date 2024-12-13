@@ -5,4 +5,8 @@ export enum API_MAP {
   GET_SINGLE_PREFERENCE_BY_ID = "Application/one/",
   GET_USER_INFO = "Auth/one",
   CREATE_PREFERENCE = "Application/create",
+  UPDATE_PREFERENCE = "Application/update/",
+  GET_ALL_SCHEDULES = "get-all-month",
+  GET_SINGLE_SCHEDULE_BY_MONTH = "one-with-graphic?year_and_month=",
+  GET_SINGLE_SCHEDULE_HELPERS = "data-months?year_and_month=",
 }

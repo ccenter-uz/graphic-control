@@ -5,6 +5,10 @@ export const baseApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/",
 });
 
+export const schedulesApi = axios.create({
+  baseURL: "https://api.graphic.ccenter.uz/api/v1/agents/",
+});
+
 export function handleGenericError(error: AxiosError) {
   /**
    * spec told that only 422 status code should return GenericError errors

@@ -14,9 +14,10 @@ import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
 import { NewPreferenceStep2 } from "@pages/new-preference-step-2";
 import { NewPreferenceStep3 } from "@pages/new-preference-step-3";
 import { NewPreferenceStep4 } from "@pages/new-preference-step-4";
-import { SelectMonth } from "@pages/select-month";
+import { Schedules } from "@pages/schedules";
 import { SelectSupervisor } from "@pages/select-supervisor";
 import { SinglePreference } from "@pages/single-preference";
+import { SingleSchedule } from "@pages/single-schedule";
 import { SupervisorsSchedule } from "@pages/supervisors-schedule";
 import { UserProfile } from "@pages/user-profile";
 
@@ -47,8 +48,12 @@ export const router = createBrowserRouter([
             element: <MyCurrentSchedule />,
           },
           {
-            path: "/select-month",
-            element: <SelectMonth />,
+            path: "/schedules",
+            element: <Schedules />,
+          },
+          {
+            path: "/schedules/single-schedule/:id",
+            element: <SingleSchedule />,
           },
           {
             path: "/my-preferences",
