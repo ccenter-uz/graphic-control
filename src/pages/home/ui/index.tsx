@@ -31,8 +31,8 @@ export const Home = () => {
       });
       if (res.status === HttpStatusCode.OK) {
         const preferences = res.data.result;
-        // const today = new Date().getDate();
-        const today = 16;
+        const today = new Date().getDate();
+        // const today = 16;
         if (!preferences.length && 15 <= today && today <= 25) {
           setIsBtnEditable(true);
         }
