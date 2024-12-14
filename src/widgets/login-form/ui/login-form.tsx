@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { LoginPath, passwordPath } from "@shared/constants/svg-paths";
-import { baseApi } from "@shared/lib/baseApi";
+import { authApi } from "@shared/lib/baseApi";
 import { setErrorText } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
@@ -29,7 +29,7 @@ export const LoginForm = () => {
 
     try {
       setIsLoading(true);
-      const response = await baseApi.post(API_MAP.SIGN_IN, {
+      const response = await authApi.post(API_MAP.SIGN_IN, {
         login: usernameValue,
         password: password,
       });

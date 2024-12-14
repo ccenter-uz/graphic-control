@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
+import { schedulesApi } from "@shared/lib/baseApi";
 import {
   getTargetWeek,
   monthToWeeks,
@@ -11,6 +11,8 @@ import {
   getExchangeableItem,
   generateEditableCalendarDays,
   generateOffDays,
+  getLastDayOfCurrentMonth,
+  generateCalendar,
 } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
@@ -34,28 +36,38 @@ const MIDDLE_OF_MONTH_INDEX = 15;
 const FIRST_DAY_OF_WEEK_INDEX = 0;
 const LAST_DAY_OF_WEEK_INDEX = 7;
 const OFFSET_OF_MONTH_INDEX = 32;
-const THIRD_PAGE_PATH = "/new-preference/steps/3";
 
 export const NewPreferenceStep2 = () => {
-  const [timeParams] = useSearchParams();
-  const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
-  const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
-  const [isResetState, setIsResetState] = useState<boolean>(false);
   const offDaysFromStorage = localStorage.getItem("offDays");
   const offDays: string[] = Object.keys(
     JSON.parse(offDaysFromStorage || "{}"),
   ).filter((key) => JSON.parse(offDaysFromStorage || "{}")[key]);
-  const { daysOfMonth, setDaysOfMonth } =
-    useContext(NewPreferenceContext) ?? {};
+  const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>();
   const token = localStorage.getItem("GCToken") as string;
-  const [amountDaysOfLastMonth, setAmountDaysOfLastMonth] = useState<number>(2);
-  const [amountDaysOfCurrentMonth, setAmountDaysOfCurrentMonth] =
-    useState<number>(31);
-  const [shouldBeOffday, setShouldBeOffday] = useState<number>(3);
+  const storedAmountOfSteps = localStorage.getItem("amountOfHolidays");
+  const THIRD_PAGE_PATH = !JSON.parse(storedAmountOfSteps as string)
+    ? "/new-preference/steps/4"
+    : "/new-preference/steps/3";
+
+  const [timeParams] = useSearchParams();
+  const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
+  const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
+  const [isResetState, setIsResetState] = useState<boolean>(false);
+  const [shouldBeOffday, setShouldBeOffday] = useState<number>(1);
+
+  const month =
+    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
+  const year =
+    month === 1 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+  const firstDayOfCurrentMonth = +new Date(year, month, 1).getDate().toString();
+  const lastDayOfCurrentMonth = +new Date(year, month, 0).getDate().toString();
+
+  const { setBackLinkPath, setPageHeaderTitle, setSubHeaderInfoData } =
+    useContext(NewPreferenceContext) || {};
 
   useEffect(() => {
-    axios
-      .get(API_MAP.GET_SINGLE_SCHEDULE_HELPERS + "2024%2F11", {
+    schedulesApi
+      .get(API_MAP.GET_SINGLE_SCHEDULE_HELPERS + `${year}/${month}`, {
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
@@ -63,15 +75,14 @@ export const NewPreferenceStep2 = () => {
         },
       })
       .then((res) => {
-        if (res.status !== HttpStatusCode.OK) {
+        if (res.status === HttpStatusCode.OK) {
           const data = res.data.months;
-          setAmountDaysOfLastMonth(+data.straight);
-          setAmountDaysOfCurrentMonth(+data.days_count);
           setShouldBeOffday(6 - Number(data.straight));
         }
       })
       .catch((error) => console.log(error));
-  }, [amountDaysOfLastMonth, amountDaysOfCurrentMonth, shouldBeOffday, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
@@ -81,16 +92,38 @@ export const NewPreferenceStep2 = () => {
   }, []);
 
   useEffect(() => {
+    setBackLinkPath?.("/new-preference/steps/1?" + timeParams);
+    setPageHeaderTitle?.(
+      "Выберите один рабочий день на замену одного выходного дня",
+    );
+    setSubHeaderInfoData?.([
+      {
+        id: 1,
+        title: "Календарные дни",
+        value: getLastDayOfCurrentMonth(),
+      },
+      {
+        id: 2,
+        title: "Кол-во произволных дней",
+        value: "1",
+      },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const storedDaysArray = localStorage.getItem("daysOfMonthAtStep2");
 
     let daysArray: ICheckbox[] = storedDaysArray
       ? generateEditableCalendarDays(
           JSON.parse(storedDaysArray).length,
-          amountDaysOfLastMonth,
+          lastDayOfCurrentMonth,
         )
-      : generateEditableCalendarDays(
-          amountDaysOfCurrentMonth,
-          amountDaysOfLastMonth,
+      : generateCalendar(
+          year,
+          month,
+          firstDayOfCurrentMonth,
+          lastDayOfCurrentMonth,
         );
 
     const weeks = JSON.parse(JSON.stringify(monthToWeeks(daysArray)));
@@ -104,6 +137,8 @@ export const NewPreferenceStep2 = () => {
       );
 
       daysArray = daysArrayWithOffDays.flat();
+    } else {
+      daysArray = JSON.parse(storedDaysArray);
     }
 
     shouldBeOffday
@@ -122,24 +157,28 @@ export const NewPreferenceStep2 = () => {
 
     setDaysOfMonth?.(daysArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offDaysFromStorage, setDaysOfMonth]);
+  }, [shouldBeOffday, offDaysFromStorage, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
     setIsBtnsActive(true);
     const targetId = +e?.target?.id;
+
     getTargetWeek(targetId, daysOfMonth as ICheckbox[]);
     const targetWeek = getTargetWeek(
       targetId,
       daysOfMonth as ICheckbox[],
     )?.filter((item) => item?.id < OFFSET_OF_MONTH_INDEX) as ICheckbox[];
+
     const nextWeek = getTargetWeek(
       targetId + LAST_DAY_OF_WEEK_INDEX,
       daysOfMonth as ICheckbox[],
     ) as ICheckbox[];
+
     const prevWeek = getTargetWeek(
       targetId - LAST_DAY_OF_WEEK_INDEX,
       daysOfMonth as ICheckbox[],
     ) as ICheckbox[];
+
     const indexOfTargetDay = targetWeek?.findIndex(
       (item) => item?.id == targetId,
     );
@@ -247,6 +286,27 @@ export const NewPreferenceStep2 = () => {
           })}
         </tbody>
       </table>
+      <p className="mb-1 text-sm text-[#64748B]">Объяснение:</p>
+      <div className="flex items-center mb-5">
+        <Checkbox
+          id={1}
+          isWorkDay={true}
+          isOrder={false}
+          isNight={false}
+          isHoliday={false}
+          isToday={false}
+          isCheckable={false}
+          shouldBeOffday={true}
+          label={1}
+          isReset
+        />
+        <p className="text-sm text-[#64748B] ml-4 max-w-[250px]">
+          {" "}
+          Из-за продолжительного периода рабочих дней подряд эта дата
+          обязательно будет выходным
+        </p>
+      </div>
+
       <WorkingHours hours={timeParams.get("time")?.toString()} />
       <Link
         to={`${THIRD_PAGE_PATH}?${timeParams}`}
@@ -255,7 +315,7 @@ export const NewPreferenceStep2 = () => {
         }`}
       >
         <BaseButton isDisabled={!isBtnsActive} onClick={handleConfirmClick}>
-          Подтвердить
+          Далее
         </BaseButton>
       </Link>
     </div>

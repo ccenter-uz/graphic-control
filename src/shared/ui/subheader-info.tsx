@@ -1,12 +1,10 @@
 import { FC } from "react";
 
+import { ISubheaderInfo } from "@shared/contexts/new-preference-context";
+
 type Props = {
   className?: string;
-  data: {
-    id: number;
-    title: string;
-    value: string;
-  }[];
+  data: ISubheaderInfo[];
 };
 
 export const SubheaderInfo: FC<Props> = ({ data, className = "" }) => {
@@ -17,8 +15,10 @@ export const SubheaderInfo: FC<Props> = ({ data, className = "" }) => {
           {data?.map((item) => {
             return (
               <tr key={item?.id}>
-                <td>{item?.title}</td>
-                <td className="text-[#007AFF]">{item?.value}</td>
+                <td className="py-1.5">{item?.title}</td>
+                <td className="text-[#007AFF] pl-2 min-w-[100px]">
+                  {item?.value}
+                </td>
               </tr>
             );
           })}

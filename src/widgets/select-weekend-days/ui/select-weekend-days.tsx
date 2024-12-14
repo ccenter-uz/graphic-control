@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { IWeekDays } from "@shared/lib/types";
-import HeaderTitle from "@shared/ui/header-title";
 import WeekendCheckbox from "@shared/ui/weekend-checkbox";
 
 interface IFormState {
@@ -15,6 +14,16 @@ interface Props {
   setFormState: React.Dispatch<React.SetStateAction<IWeekDays>>;
   setIsSubmitBtnAble: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const weekdaysInRussian: { [key: string]: string } = {
+  monday: "Понедельник",
+  tuesday: "Вторник",
+  wednesday: "Среда",
+  thursday: "Четверг",
+  friday: "Пятница",
+  saturday: "Суббота",
+  sunday: "Воскресенье",
+};
 
 export const SelectWeekendDays: React.FC<Props> = ({
   defaultFormState,
@@ -60,9 +69,9 @@ export const SelectWeekendDays: React.FC<Props> = ({
 
   return (
     <div>
-      <HeaderTitle className="mt-5">
-        Выберите 2 предпочитаемые выходные дни
-      </HeaderTitle>
+      <p className="mt-5 text-sm text-[#64748B]">
+        Выберите желаемые 2 выходные дни недели
+      </p>
       <form
         onChange={handleFormChange}
         className="my-6 grid grid-rows-4 grid-flow-col gap-2"
@@ -70,7 +79,7 @@ export const SelectWeekendDays: React.FC<Props> = ({
         {Object.keys(formState).map((day) => (
           <WeekendCheckbox
             key={day}
-            title={day[0].toUpperCase() + day.slice(1)}
+            title={weekdaysInRussian[`${day[0] + day.slice(1).toLowerCase()}`]}
             name={day}
             isChecked={formState[day]}
             isDisabled={isDisabled[day]}

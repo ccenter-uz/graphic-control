@@ -9,7 +9,7 @@ import { baseApi } from "@shared/lib/baseApi";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import SvgIcon from "@shared/ui/svg-icon";
 
-interface IPreference {
+interface ISinglePreference {
   id: string;
   create_data: string;
   requested_date: string;
@@ -20,7 +20,7 @@ export const MyPreferenceSelectMonth = () => {
   const today = new Date();
 
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [preferences, setPreferences] = useState<IPreference[]>([]);
+  const [preferences, setPreferences] = useState<ISinglePreference[]>([]);
   const [cloneMonths, setCloneMonths] = useState<IMonth[]>(months);
   const [isBtnsActive, setIsBtnsActive] = useState({
     increment: true,
@@ -40,7 +40,7 @@ export const MyPreferenceSelectMonth = () => {
         const data = res.data.result;
         const yearsHaveDataArr: number[] = [];
 
-        data.forEach((item: IPreference) => {
+        data.forEach((item: ISinglePreference) => {
           if (
             !yearsHaveDataArr.includes(
               Number(item.requested_date.split("/")[0]),
@@ -125,7 +125,7 @@ export const MyPreferenceSelectMonth = () => {
   const handleNextYearClick = () => setCurrentYear((prev) => prev + 1);
 
   return (
-    <div className="mt-10 border rounded-md">
+    <div className="mt-4 border rounded-md">
       <div className="flex items-center justify-between mx-2">
         <button
           onClick={handlePrevYearClick}

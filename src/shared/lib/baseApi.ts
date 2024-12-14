@@ -2,11 +2,15 @@ import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
 export const baseApi = axios.create({
-  baseURL: "https://api.graphic.ccenter.uz/api/v1/",
+  baseURL: "https://api.graphic.ccenter.uz/api/v1/Application/",
 });
 
 export const schedulesApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/agents/",
+});
+
+export const authApi = axios.create({
+  baseURL: "https://api.graphic.ccenter.uz/api/v1/Auth/",
 });
 
 export function handleGenericError(error: AxiosError) {

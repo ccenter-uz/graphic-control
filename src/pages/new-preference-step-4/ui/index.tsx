@@ -1,15 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Step4ReasonForm } from "@widgets/step-4-reason-form";
 
 import { API_MAP } from "@shared/constants/apiMap";
+import { months } from "@shared/constants/months";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi } from "@shared/lib/baseApi";
 import {
   getOffDays,
   getRequestDate,
   clearLocalStorageExceptToken,
+  getTranslatedKeysWithTrueValues,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -18,15 +20,85 @@ import { Loader } from "@shared/ui/loader";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep4 = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState(
     (localStorage.getItem("description") as string) || "",
   );
-  const { setErrorInfo } = useContext(NewPreferenceContext) || {};
+  const {
+    setErrorInfo,
+    setBackLinkPath,
+    setPageHeaderTitle,
+    setSubHeaderInfoData,
+  } = useContext(NewPreferenceContext) || {};
 
   const [timeParams] = useSearchParams();
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
-  const navigate = useNavigate();
+
+  const storedOffDays = localStorage.getItem("offDays");
+  const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
+  const storedDaysOfMonth = localStorage.getItem(
+    storedDaysOfMonthAtStep3 ? "daysOfMonthAtStep3" : "daysOfMonthAtStep2",
+  );
+  const today = new Date();
+  const month = today.getMonth();
+  const needMonth = month === 11 ? 0 : month;
+
+  useEffect(() => {
+    const storedAmountOfHolidays = localStorage.getItem("amountOfHolidays");
+    const offDays = getTranslatedKeysWithTrueValues(
+      JSON.parse(storedOffDays as string),
+    );
+    const firstOffDay = offDays[0].slice(0, 3);
+    const secondOffDay = offDays[1].slice(0, 3);
+
+    const customOffDay = JSON.parse(storedDaysOfMonth as string).find(
+      (item: ICheckbox) => item.customOffday === true,
+    );
+
+    const holidays = JSON.parse(storedDaysOfMonth as string).filter(
+      (item: ICheckbox) => item.isSelectLikeHoliday === true,
+    );
+
+    setBackLinkPath?.(
+      JSON.parse(storedAmountOfHolidays as string)
+        ? "/new-preference/steps/3?" + timeParams
+        : "/new-preference/steps/2?" + timeParams,
+    );
+    setPageHeaderTitle?.("Укажите причину предпочтения");
+    setSubHeaderInfoData?.([
+      {
+        id: 1,
+        title: "Итоги заполнения:",
+        value: "",
+      },
+      {
+        id: 2,
+        title: "Режим работы",
+        value: timeParams.get("time")?.toString() || "",
+      },
+      {
+        id: 3,
+        title: "Выходные дни недели",
+        value: `${firstOffDay}, ${secondOffDay}`,
+      },
+      {
+        id: 4,
+        title: "Желаемый выходной день",
+        value: `${customOffDay.label} ${months[needMonth].title}`,
+      },
+      {
+        id: 5,
+        title: "Желаемый выходные дни за праздничные выходные",
+        value: `${holidays[0]?.label || ""} ${holidays[1]?.label || ""} ${
+          holidays[2]?.label || ""
+        } ${holidays[3]?.label || ""} ${holidays[4]?.label || ""} ${
+          months[needMonth].title
+        }`,
+      },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleConfirmClick = async () => {
     try {
@@ -38,14 +110,18 @@ export const NewPreferenceStep4 = () => {
       const year = date.getFullYear();
 
       const token = localStorage.getItem("GCToken") as string;
+
       const storedWorkingHours = localStorage.getItem("workingHours");
-      const storedOffDays = localStorage.getItem("offDays");
-      const storedDaysOfMonth = localStorage.getItem("daysOfMonthAtStep3");
+      const storedDaysOfMonthAtStep3 =
+        localStorage.getItem("daysOfMonthAtStep3");
+      const storedDaysOfMonth = localStorage.getItem(
+        storedDaysOfMonthAtStep3 ? "daysOfMonthAtStep3" : "daysOfMonthAtStep2",
+      );
       const storedPreferenceId = localStorage.getItem("preferenceId") as string;
 
       const filteredDaysOfMonth = JSON.parse(
         storedDaysOfMonth as string,
-      ).filter((item: ICheckbox) => item?.id <= 31);
+      )?.filter((item: ICheckbox) => item?.id <= 31);
       const parsedOffDays = JSON.parse(storedOffDays as string);
 
       const data = {

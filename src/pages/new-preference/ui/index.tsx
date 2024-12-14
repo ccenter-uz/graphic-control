@@ -6,7 +6,7 @@ import { API_MAP } from "@shared/constants/apiMap";
 import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import { ICheckbox } from "@shared/lib/types";
+import { IPreference } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -16,15 +16,6 @@ import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { Loader } from "@shared/ui/loader";
 import UserProfileLink from "@shared/ui/user-profile-link";
-
-interface IPreference {
-  id: string;
-  offDays: string[];
-  workingHours: string;
-  daysOfMonth: ICheckbox[];
-  description: string;
-  requested_date: string;
-}
 
 export const NewPreference = () => {
   const { t } = useTranslation();
@@ -36,7 +27,7 @@ export const NewPreference = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isBtnLoading, setIsLoading] = useState<boolean>(false);
   const [isConfirmLoading, setConfirmIsLoading] = useState<boolean>(false);
-  const [errorText, setError] = useState<string>("");
+  const [errorText, setErrorText] = useState<string>("");
   const [preference, setPreference] = useState<IPreference>();
 
   const today = new Date();
@@ -59,6 +50,9 @@ export const NewPreference = () => {
         },
       );
       if (res.status === HttpStatusCode.OK) {
+        if (!res.data.result.length) {
+          throw new Error("У вас нет ранее выбранных предпочтений");
+        }
         const neededId = res.data.result[0].id;
 
         try {
@@ -82,13 +76,14 @@ export const NewPreference = () => {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsModalOpen(true);
         }
       }
     } catch (error: unknown) {
-      setError((error as Error).message);
+      setErrorText((error as Error).message);
     } finally {
       setIsLoading(false);
-      setIsModalOpen(!isModalOpen);
     }
   };
 
@@ -120,8 +115,11 @@ export const NewPreference = () => {
       </HeaderContainer>
       <div className="px-6 mt-6">
         <button
+          disabled={errorText ? true : false}
           onClick={handleBtnClick}
-          className="w-full border rounded px-4 py-3 text-[#506DD7] text-sm min-h-[54px]"
+          className={`${
+            errorText ? "cursor-not-allowed" : ""
+          } w-full border rounded px-4 py-3 text-[#506DD7] text-sm min-h-[54px]`}
         >
           {isBtnLoading ? (
             <Loader />

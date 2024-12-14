@@ -11,10 +11,7 @@ import {
   calendarTickPath,
 } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import {
-  canUserCreatePreference,
-  getIsPreferenceEditable,
-} from "@shared/lib/helpers";
+import { getIsPreferenceEditable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
@@ -33,11 +30,21 @@ export const Home = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        const data = res.data.result[0];
-        const year = data.requested_date.split("/")[0];
-        const month = data.requested_date.split("/")[1];
+        const preferences = res.data.result;
+        const today = new Date().getDate();
+        // const today = 16;
+        if (!preferences.length && 15 <= today && today <= 25) {
+          setIsBtnEditable(true);
+        }
 
-        setIsBtnEditable(getIsPreferenceEditable(+month, +year));
+        if (preferences.length && 15 <= today && today <= 25) {
+          const lastPreference = preferences[0];
+
+          const year = lastPreference.requested_date.split("/")[0];
+          const month = lastPreference.requested_date.split("/")[1];
+
+          setIsBtnEditable(getIsPreferenceEditable(+month, +year));
+        }
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
@@ -46,6 +53,7 @@ export const Home = () => {
 
   useEffect(() => {
     getAllPreferences();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">
@@ -60,11 +68,6 @@ export const Home = () => {
             imgSrc={calendarTickPath}
           />
         )}
-        {/* <BaseLink
-          to="new-preference"
-          title={t("home.new-preference")}
-          imgSrc={calendarTickPath}
-        /> */}
         <BaseLink
           to="schedules"
           title={t("home.my-current-schedule")}

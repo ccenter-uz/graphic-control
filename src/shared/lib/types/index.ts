@@ -13,6 +13,15 @@ export interface ICheckbox {
   isSelectLikeHoliday?: boolean;
 }
 
+export interface IPreference {
+  id?: string;
+  offDays?: string[];
+  workingHours?: string;
+  daysOfMonth: ICheckbox[];
+  description?: string;
+  requested_date: string;
+}
+
 export interface IWeekDays {
   monday: boolean;
   tuesday: boolean;

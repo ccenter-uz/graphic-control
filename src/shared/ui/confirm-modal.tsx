@@ -35,7 +35,7 @@ const ConfirmModal: FC<Props> = ({
         }
         className="min-w-[300px] my-auto px-5 py-6 border rounded-lg bg-white z-[9999]"
       >
-        <p className="text-center mb-8">
+        <p className="text-center mb-8 text-sm text-[#64748B]">
           {modalText ? modalText : "Вы действительно хотите выйти?"}
         </p>
         <div className="flex justify-between items-center">

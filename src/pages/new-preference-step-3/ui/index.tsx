@@ -2,7 +2,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
-import { monthToWeeks } from "@shared/lib/helpers";
+import { getLastDayOfCurrentMonth, monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
@@ -14,10 +14,45 @@ export const NewPreferenceStep3 = () => {
   const { setDaysOfMonth } = useContext(NewPreferenceContext) ?? {};
   const [targetId, setTargetId] = useState<number>();
   const [daysOfMonthState, setDaysOfMonthState] = useState<ICheckbox[]>([]);
-  const [amountHolidays, setAmountHolidays] = useState<number>(2);
+
+  const storedAmountHolidays = localStorage.getItem("amountOfHolidays");
+  const [amountHolidays, setAmountHolidays] = useState<number>(
+    JSON.parse(storedAmountHolidays as string),
+  );
+
   const [isResetState, setIsResetState] = useState<boolean>(false);
   const [isResetBtnActive, setIsResetBtnActive] = useState<boolean>(false);
   const [isSubmitBtnActive, setIsSubmitBtnActive] = useState<boolean>(false);
+
+  const { setBackLinkPath, setPageHeaderTitle, setSubHeaderInfoData } =
+    useContext(NewPreferenceContext) || {};
+
+  useEffect(() => {
+    setBackLinkPath?.("/new-preference/steps/2?" + timeParams);
+    if (amountHolidays === 1) {
+      setPageHeaderTitle?.(
+        "Выберите 1 рабочий день на замену 1 праздничного выходного дня.",
+      );
+    } else if (amountHolidays >= 2) {
+      setPageHeaderTitle?.(
+        `Выберите ${amountHolidays} рабочих дней на замену ${amountHolidays} праздничных выходных дней`,
+      );
+    }
+    setSubHeaderInfoData?.([
+      {
+        id: 1,
+        title: "Календарные дни",
+        value: getLastDayOfCurrentMonth(),
+      },
+      {
+        id: 2,
+        title: "Кол-во праздничных дней",
+        value: amountHolidays.toString(),
+      },
+    ]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amountHolidays]);
 
   useEffect(() => {
     const storedDaysOfMonth = localStorage.getItem("daysOfMonthAtStep2");
@@ -48,21 +83,10 @@ export const NewPreferenceStep3 = () => {
     setDaysOfMonthState?.(checkableDaysOfMonth as ICheckbox[]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleTrChange = (e: ChangeEvent<HTMLTableRowElement>) => {
     setAmountHolidays((prev) => prev - 1);
     setTargetId(+e?.target?.id);
-  };
-
-  const handleResetClick = () => {
-    setAmountHolidays(2);
-    const storedCloneData = localStorage.getItem("cloneDaysArrayAtStep3");
-    if (storedCloneData !== null) {
-      setDaysOfMonthState?.(JSON.parse(storedCloneData as string));
-    }
-    setTargetId(undefined);
-    setIsResetState((prev) => !prev);
-    setIsSubmitBtnActive(false);
-    setIsResetBtnActive(false);
   };
 
   useEffect(() => {
@@ -102,6 +126,18 @@ export const NewPreferenceStep3 = () => {
       JSON.stringify(daysOfMonthState),
     );
     setDaysOfMonth?.(daysOfMonthState);
+  };
+
+  const handleResetClick = () => {
+    setAmountHolidays(JSON.parse(storedAmountHolidays as string));
+    const storedCloneData = localStorage.getItem("cloneDaysArrayAtStep3");
+    if (storedCloneData !== null) {
+      setDaysOfMonthState?.(JSON.parse(storedCloneData as string));
+    }
+    setTargetId(undefined);
+    setIsResetState((prev) => !prev);
+    setIsSubmitBtnActive(false);
+    setIsResetBtnActive(false);
   };
 
   return (
@@ -157,7 +193,7 @@ export const NewPreferenceStep3 = () => {
           isDisabled={!isSubmitBtnActive}
           onClick={handleConfirmClick}
         >
-          Подтвердить
+          Далее
         </BaseButton>
       </Link>
     </div>

@@ -10,8 +10,9 @@ export const MyPreferences = () => {
     <BaseContainer>
       <HeaderContainer className="flex items-center ">
         <BackLink to="/" />
-        <HeaderTitle>Мои предпочтение</HeaderTitle>
+        <HeaderTitle>Полный список ваших предпочтений</HeaderTitle>
       </HeaderContainer>
+      <p className="text-sm text-[#64748B] mt-8">Выберите нужный месяц:</p>
       <MyPreferenceSelectMonth />
     </BaseContainer>
   );

@@ -17,4 +17,5 @@ export * from "./clearLocalStorageExceptToken";
 export * from "./mergeArrays";
 export * from "./generateCalendar";
 export * from "./getIsPreferenceEditable";
-export * from "./canUserCreatePreference";
+export * from "./getLastDayOfCurrentMonth";
+export * from "./getTranslatedKeysWithTrueValues";
