@@ -125,7 +125,7 @@ export const MyPreferenceSelectMonth = () => {
   const handleNextYearClick = () => setCurrentYear((prev) => prev + 1);
 
   return (
-    <div className="mt-10 border rounded-md">
+    <div className="mt-4 border rounded-md">
       <div className="flex items-center justify-between mx-2">
         <button
           onClick={handlePrevYearClick}

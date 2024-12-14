@@ -20,7 +20,7 @@ import BlueLink from "@shared/ui/blue-link";
 export const Home = () => {
   const { t } = useTranslation();
   const token = localStorage.getItem("GCToken") as string;
-  const [isBtnEditable, setIsBtnEditable] = useState<boolean>(true);
+  const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
   const getAllPreferences = async () => {
     try {
       const res = await baseApi.get(`${API_MAP.GET_ALL_PREFERENCES}`, {
@@ -31,13 +31,20 @@ export const Home = () => {
       });
       if (res.status === HttpStatusCode.OK) {
         const preferences = res.data.result;
-        console.log(preferences);
+        // const today = new Date().getDate();
+        const today = 16;
+        if (!preferences.length && 15 <= today && today <= 25) {
+          setIsBtnEditable(true);
+        }
 
-        const data = res.data.result[0];
-        const year = data.requested_date.split("/")[0];
-        const month = data.requested_date.split("/")[1];
+        if (preferences.length && 15 <= today && today <= 25) {
+          const lastPreference = preferences[0];
 
-        setIsBtnEditable(getIsPreferenceEditable(+month, +year));
+          const year = lastPreference.requested_date.split("/")[0];
+          const month = lastPreference.requested_date.split("/")[1];
+
+          setIsBtnEditable(getIsPreferenceEditable(+month, +year));
+        }
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
@@ -46,6 +53,7 @@ export const Home = () => {
 
   useEffect(() => {
     getAllPreferences();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">

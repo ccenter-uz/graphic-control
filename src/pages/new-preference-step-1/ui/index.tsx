@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -5,7 +6,7 @@ import { SelectWeekendDays } from "@widgets/select-weekend-days";
 
 import { weekDays } from "@shared/constants/weekDays";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
-import { areObjectsEqual } from "@shared/lib/helpers";
+import { areObjectsEqual, getLastDayOfCurrentMonth } from "@shared/lib/helpers";
 import { IWeekDays } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
@@ -14,6 +15,9 @@ export const NewPreferenceStep1 = () => {
   const { setHours } = useContext(NewPreferenceContext) || {};
   const [timeParams] = useSearchParams();
   const [isSubmitBtnAble, setIsSubmitBtnAble] = useState<boolean>(true);
+  const { setBackLinkPath, setPageHeaderTitle, setSubHeaderInfoData } =
+    useContext(NewPreferenceContext) || {};
+
   const defaultFormState: Record<keyof IWeekDays, boolean> = Object.keys(
     weekDays,
   ).reduce((acc, current) => {
@@ -30,11 +34,25 @@ export const NewPreferenceStep1 = () => {
   const [cloneFormData, setCloneFormData] = useState<IWeekDays[]>([]);
 
   useEffect(() => {
+    setBackLinkPath?.("/new-preference");
+    setSubHeaderInfoData?.([
+      {
+        id: 1,
+        title: "Календарные дни",
+        value: getLastDayOfCurrentMonth(),
+      },
+    ]);
+  }, []);
+
+  useEffect(() => {
     setHours?.(timeParams.get("time")?.toString() || "");
     const timeFromParams = timeParams.get("time");
     localStorage.setItem("workingHours", timeFromParams || "");
     setCloneFormData(JSON.parse(storedFormData as string));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setPageHeaderTitle?.("Выберите выходные дни");
   }, []);
 
   const handleConfirmClick = () => {

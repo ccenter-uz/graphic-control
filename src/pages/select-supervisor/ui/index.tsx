@@ -35,7 +35,6 @@ export const SelectSupervisor = () => {
       if (res.status === HttpStatusCode.OK) {
         setATSnumber(res.data[0].type);
         setSupervisors(res.data);
-        console.log(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -54,21 +53,25 @@ export const SelectSupervisor = () => {
         <BackLink to="/new-preference" />
         <HeaderTitle>{t("select-supervisor.title")}</HeaderTitle>
       </HeaderContainer>
-      <HeaderTitle className="text-center my-6">{ATSnumber}-КЦ</HeaderTitle>
       <div className=" grid gap-4 px-6">
         {loading ? (
           <Loader />
         ) : (
-          supervisors?.map((item: ISupervisor) => {
-            return (
-              <BaseLink
-                key={item?.id}
-                to={`${item?.id}`}
-                title={item?.full_name}
-                isBlue={true}
-              />
-            );
-          })
+          <>
+            <HeaderTitle className="text-center mt-4">
+              {ATSnumber} - КЦ
+            </HeaderTitle>
+            {supervisors?.map((item: ISupervisor) => {
+              return (
+                <BaseLink
+                  key={item?.id}
+                  to={`${item?.id}`}
+                  title={item?.full_name}
+                  isBlue={true}
+                />
+              );
+            })}
+          </>
         )}
       </div>
     </BaseContainer>

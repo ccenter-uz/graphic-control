@@ -14,6 +14,12 @@ export interface IErrorInfo {
   errorStatus?: number;
 }
 
+export interface ISubheaderInfo {
+  id: number;
+  title: string;
+  value: string;
+}
+
 interface NewPreferenceContextType {
   hours: string;
   setHours: Dispatch<SetStateAction<string>>;
@@ -23,6 +29,12 @@ interface NewPreferenceContextType {
   setDaysOfMonth: Dispatch<SetStateAction<ICheckbox[]>>;
   errorInfo: IErrorInfo;
   setErrorInfo: Dispatch<SetStateAction<IErrorInfo>>;
+  backLinkPath: string;
+  setBackLinkPath: Dispatch<SetStateAction<string>>;
+  pageHeaderTitle: string;
+  setPageHeaderTitle: Dispatch<SetStateAction<string>>;
+  subHeaderInfoData: ISubheaderInfo[];
+  setSubHeaderInfoData: Dispatch<SetStateAction<ISubheaderInfo[]>>;
 }
 
 interface NewPreferenceContextProviderProps {
@@ -38,6 +50,14 @@ const defaultValue: NewPreferenceContextType = {
   setDaysOfMonth: (() => "") as Dispatch<SetStateAction<ICheckbox[]>>,
   errorInfo: {},
   setErrorInfo: (() => "") as Dispatch<SetStateAction<IErrorInfo>>,
+  backLinkPath: "",
+  setBackLinkPath: (() => "") as Dispatch<SetStateAction<string>>,
+  pageHeaderTitle: "",
+  setPageHeaderTitle: (() => "") as Dispatch<SetStateAction<string>>,
+  subHeaderInfoData: [],
+  setSubHeaderInfoData: (() => "") as Dispatch<
+    SetStateAction<ISubheaderInfo[]>
+  >,
 };
 
 export const NewPreferenceContext =
@@ -50,6 +70,12 @@ const NewPreferenceContextProvider: FC<NewPreferenceContextProviderProps> = ({
   const [offDays, setOffDays] = useState<string[]>([]);
   const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>([]);
   const [errorInfo, setErrorInfo] = useState<IErrorInfo>({});
+  const [backLinkPath, setBackLinkPath] = useState<string>("");
+  const [pageHeaderTitle, setPageHeaderTitle] = useState<string>("");
+
+  const [subHeaderInfoData, setSubHeaderInfoData] = useState<ISubheaderInfo[]>(
+    [],
+  );
 
   return (
     <NewPreferenceContext.Provider
@@ -62,6 +88,12 @@ const NewPreferenceContextProvider: FC<NewPreferenceContextProviderProps> = ({
         setDaysOfMonth,
         errorInfo,
         setErrorInfo,
+        backLinkPath,
+        setBackLinkPath,
+        pageHeaderTitle,
+        setPageHeaderTitle,
+        subHeaderInfoData,
+        setSubHeaderInfoData,
       }}
     >
       {children}

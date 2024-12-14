@@ -60,15 +60,15 @@ export const SinglePreference = () => {
           const generatedData = generateCalendar(
             +year,
             +month,
-            data.daysOfMonth[0].label,
+            1,
             data.daysOfMonth.length,
           );
 
           const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
+
           setData(mergedArray);
         }
       });
-    console.log(month);
   }, [id, month, token, year]);
   return (
     <BaseContainer>

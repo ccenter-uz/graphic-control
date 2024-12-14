@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
+import { ISubheaderInfo } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
 import { generateCalendar, mergeArrays } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
@@ -12,10 +13,12 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import CheckboxGroup from "@shared/ui/checkbox-group";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
+import { SubheaderInfo } from "@shared/ui/subheader-info";
 
 export const SingleSchedule = () => {
   const params = useParams();
   const token = localStorage.getItem("GCToken") as string;
+  const [subheaderData, setSubheaderData] = useState<ISubheaderInfo[]>([]);
 
   const yearAndMonth = params.id?.split("-") || ["", ""];
   const year = yearAndMonth[0];
@@ -36,10 +39,18 @@ export const SingleSchedule = () => {
       );
       if (res.status === HttpStatusCode.OK) {
         const data = res.data;
+        const subheaderInfo = [
+          {
+            id: 1,
+            title: "Рабочее время",
+            value: data.month.workingHours,
+          },
+        ];
+        setSubheaderData(subheaderInfo);
         const generatedData = generateCalendar(
           +year,
           +month,
-          data.month.days[0].label,
+          1,
           data.month.days.length,
         );
 
@@ -61,6 +72,7 @@ export const SingleSchedule = () => {
         <BackLink to="/schedules" />
         <HeaderTitle>Ваш график за {months[+month - 1].title}</HeaderTitle>
       </HeaderContainer>
+      <SubheaderInfo data={subheaderData} />
       <CheckboxGroup
         data={daysOfMonth}
         month={month}

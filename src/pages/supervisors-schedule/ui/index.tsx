@@ -15,7 +15,6 @@ import CheckboxGroup from "@shared/ui/checkbox-group";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { Loader } from "@shared/ui/loader";
-import WorkingHours from "@shared/ui/working-hours";
 
 export const SupervisorsSchedule = () => {
   const { id } = useParams();
@@ -46,7 +45,6 @@ export const SupervisorsSchedule = () => {
       );
       if (res.status === HttpStatusCode.OK) {
         const data = res.data;
-        console.log(data, "lorem");
         const preference = {
           workingHours: data.month.workingHours,
           daysOfMonth: data.month.days,
@@ -82,8 +80,6 @@ export const SupervisorsSchedule = () => {
   }, []);
 
   const handleConfirmClick = async () => {
-    console.log(preference, "preference");
-
     try {
       setBtnLoading(true);
       const res = await baseApi.post(
@@ -126,7 +122,6 @@ export const SupervisorsSchedule = () => {
           data={data}
         />
       )}
-      <WorkingHours hours="Смена" />
       <BaseButton onClick={handleConfirmClick}>
         {btnLoading ? <Loader /> : "Подтвердить"}
       </BaseButton>

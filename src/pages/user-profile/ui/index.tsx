@@ -6,7 +6,7 @@ import { Logout } from "@features/logout";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { TgSupportLink } from "@shared/constants/links";
-import { authApi, baseApi } from "@shared/lib/baseApi";
+import { authApi } from "@shared/lib/baseApi";
 import { formatPhoneNumber } from "@shared/lib/helpers";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";

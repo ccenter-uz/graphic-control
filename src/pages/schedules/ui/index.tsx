@@ -11,9 +11,10 @@ export const Schedules = () => {
     <BaseContainer>
       <HeaderContainer className="flex items-center justify-between">
         <BackLink to="/" />
-        <HeaderTitle>Выберите месяц</HeaderTitle>
+        <HeaderTitle>Полный список ваших графиков</HeaderTitle>
         <UserProfileLink />
       </HeaderContainer>
+      <p className="text-sm text-[#64748B] mt-8">Выберите нужный месяц:</p>
       <SchedulesSelectMonth />
     </BaseContainer>
   );
