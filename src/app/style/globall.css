@@ -96,3 +96,12 @@ body {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+/* ------ Word breaker------ */
+
+.word-breaker {
+  word-break: break-word; /* Ensures text wraps properly */
+  overflow-wrap: break-word; /* Wraps long text */
+  white-space: normal; /* Allows text wrapping */
+  max-width: 100%; /* Ensures text stays within container */
+}

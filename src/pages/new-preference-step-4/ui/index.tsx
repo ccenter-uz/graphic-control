@@ -19,6 +19,20 @@ import BaseButton from "@shared/ui/base-button";
 import { Loader } from "@shared/ui/loader";
 import WorkingHours from "@shared/ui/working-hours";
 
+const daysOfWeek: { [key: string]: string } = {
+  Понедельник: "пн",
+  Вторник: "вт",
+  Среда: "ср",
+  Четверг: "чт",
+  Пятница: "пт",
+  Суббота: "сб",
+  Воскресенье: "вс",
+};
+
+function lorem(holidays: ICheckbox) {
+  return holidays ? holidays.label + ", " : "";
+}
+
 export const NewPreferenceStep4 = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,8 +63,8 @@ export const NewPreferenceStep4 = () => {
     const offDays = getTranslatedKeysWithTrueValues(
       JSON.parse(storedOffDays as string),
     );
-    const firstOffDay = offDays[0].slice(0, 3);
-    const secondOffDay = offDays[1].slice(0, 3);
+    const firstOffDay = daysOfWeek[offDays[0]];
+    const secondOffDay = daysOfWeek[offDays[1]];
 
     const customOffDay = JSON.parse(storedDaysOfMonth as string).find(
       (item: ICheckbox) => item.customOffday === true,
@@ -80,7 +94,7 @@ export const NewPreferenceStep4 = () => {
       {
         id: 3,
         title: "Выходные дни недели",
-        value: `${firstOffDay}, ${secondOffDay}`,
+        value: `${firstOffDay} | ${secondOffDay}`,
       },
       {
         id: 4,
@@ -90,11 +104,11 @@ export const NewPreferenceStep4 = () => {
       {
         id: 5,
         title: "Желаемый выходные дни за праздничные выходные",
-        value: `${holidays[0]?.label || ""} ${holidays[1]?.label || ""} ${
-          holidays[2]?.label || ""
-        } ${holidays[3]?.label || ""} ${holidays[4]?.label || ""} ${
-          months[needMonth].title
-        }`,
+        value: `${lorem(holidays[0])} ${lorem(holidays[1])} ${lorem(
+          holidays[2],
+        )} ${lorem(holidays[3])} ${lorem(holidays[4])} ${months[
+          needMonth
+        ].title.slice(0, 3)}`,
       },
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps

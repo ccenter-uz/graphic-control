@@ -11,7 +11,7 @@ import {
   calendarTickPath,
 } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import { getIsPreferenceEditable } from "@shared/lib/helpers";
+import { canUserAddPreference } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
@@ -43,7 +43,7 @@ export const Home = () => {
           const year = lastPreference.requested_date.split("/")[0];
           const month = lastPreference.requested_date.split("/")[1];
 
-          setIsBtnEditable(getIsPreferenceEditable(+month, +year));
+          setIsBtnEditable(canUserAddPreference(+month, +year));
         }
       }
     } catch (error) {

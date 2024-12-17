@@ -1,17 +1,23 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
+import { API_MAP } from "@shared/constants/apiMap";
+import { months } from "@shared/constants/months";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
+import { schedulesApi } from "@shared/lib/baseApi";
 import { getLastDayOfCurrentMonth, monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
+import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
 import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep3 = () => {
+  const token = localStorage.getItem("GCToken") as string;
   const [timeParams] = useSearchParams();
   const { setDaysOfMonth } = useContext(NewPreferenceContext) ?? {};
+  const [holidays, setHolidays] = useState<string[]>([]);
   const [targetId, setTargetId] = useState<number>();
   const [daysOfMonthState, setDaysOfMonthState] = useState<ICheckbox[]>([]);
 
@@ -26,6 +32,48 @@ export const NewPreferenceStep3 = () => {
 
   const { setBackLinkPath, setPageHeaderTitle, setSubHeaderInfoData } =
     useContext(NewPreferenceContext) || {};
+
+  const month =
+    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
+  const year =
+    month === 1 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+
+  const getHolidays = async () => {
+    try {
+      const res = await schedulesApi.get(
+        `${API_MAP.GET_HOLIDAYS_BY_MONTH}${month}`,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.status === HttpStatusCode.OK) {
+        if (res.data.lenght) {
+          const holidaysObj = JSON.parse(res.data[0].holidays);
+
+          const holidaysArr: string[] = Object.values(holidaysObj).map(
+            (holiday) => {
+              if ((holiday as string).slice(0, 1) === "0") {
+                return (holiday as string).slice(1, 2);
+              } else {
+                return (holiday as string).slice(0, 2);
+              }
+            },
+          );
+          setHolidays(holidaysArr);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getHolidays();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setBackLinkPath?.("/new-preference/steps/2?" + timeParams);
@@ -143,7 +191,9 @@ export const NewPreferenceStep3 = () => {
   return (
     <div>
       <div className="flex items-center justify-between mt-14">
-        <h6 className="text-lg font-semibold">Октябрь 2024</h6>
+        <h6 className="text-lg font-semibold">
+          {months[month - 1].title} {year}
+        </h6>
         <button
           onClick={handleResetClick}
           className={`${isResetBtnActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
@@ -167,11 +217,16 @@ export const NewPreferenceStep3 = () => {
                           isWorkDay={item?.isWorkDay}
                           isOrder={item?.isOrder}
                           isNight={item?.isNight}
-                          isHoliday={item?.isHoliday}
+                          isHoliday={
+                            holidays
+                              ? holidays?.includes(String(item?.id))
+                              : item?.isHoliday
+                          }
                           isToday={item?.isToday}
                           isCheckable={item?.isCheckable}
                           shouldBeOffday={item?.shouldBeOffday}
                           label={item?.label}
+                          isAtWork={item?.isAtWork}
                           isReset={isResetState}
                         />
                       </td>

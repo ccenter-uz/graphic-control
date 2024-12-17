@@ -17,6 +17,7 @@ export function generateNotEditableCalendarDays(
       isToday: false,
       isCheckable: i < amountDaysOfLastMonth ? false : true,
       shouldBeOffday: false,
+      isAtWork: false,
       label:
         i < amountDaysOfLastMonth
           ? i + (lastMonthLength + 1) - amountDaysOfLastMonth
