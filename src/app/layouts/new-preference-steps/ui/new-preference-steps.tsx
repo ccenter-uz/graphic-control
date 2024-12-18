@@ -24,10 +24,15 @@ export const NewPreferenceStepsLayout: FC<Props> = () => {
   const [steps, setSteps] = useState<number[]>([1, 2, 3, 4]);
   const { backLinkPath, pageHeaderTitle, subHeaderInfoData } =
     useContext(NewPreferenceContext) || {};
+
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const matchingMonth = currentMonth === 12 ? 1 : currentMonth;
+
   const getHolidays = async () => {
     try {
       const res = await schedulesApi.get(
-        `${API_MAP.GET_HOLIDAYS_BY_MONTH}${12}`,
+        `${API_MAP.GET_HOLIDAYS_BY_MONTH}${matchingMonth}`,
         {
           headers: {
             accept: "*/*",

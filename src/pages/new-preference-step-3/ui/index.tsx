@@ -50,7 +50,7 @@ export const NewPreferenceStep3 = () => {
         },
       );
       if (res.status === HttpStatusCode.OK) {
-        if (res.data.lenght) {
+        if (res.data.length) {
           const holidaysObj = JSON.parse(res.data[0].holidays);
 
           const holidaysArr: string[] = Object.values(holidaysObj).map(

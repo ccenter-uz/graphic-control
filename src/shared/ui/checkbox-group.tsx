@@ -1,15 +1,16 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
-import { baseApi } from "@shared/lib/baseApi";
+import { baseApi, schedulesApi } from "@shared/lib/baseApi";
 import {
   getDaysAvailability,
   isPreferenceEditable,
   monthToWeeks,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
+import { HttpStatusCode } from "@shared/model/httpStatus";
 import Checkbox from "@shared/ui/checkbox";
 
 import { Loader } from "./loader";
@@ -39,6 +40,46 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   const chunkedData = monthToWeeks(data || []);
   const id = localStorage.getItem("preferenceId") as string;
   const token = localStorage.getItem("GCToken") as string;
+
+  const [holidays, setHolidays] = useState<string[]>([]);
+
+  const getHolidays = async () => {
+    try {
+      const res = await schedulesApi.get(
+        `${API_MAP.GET_HOLIDAYS_BY_MONTH}${month}`,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.status === HttpStatusCode.OK) {
+        console.log(res.data);
+        if (res.data.length) {
+          const holidaysObj = JSON.parse(res.data[0].holidays);
+
+          const holidaysArr: string[] = Object.values(holidaysObj).map(
+            (holiday) => {
+              if ((holiday as string).slice(0, 1) === "0") {
+                return (holiday as string).slice(1, 2);
+              } else {
+                return (holiday as string).slice(0, 2);
+              }
+            },
+          );
+          setHolidays(holidaysArr);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getHolidays();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month]);
 
   const handleEditBtnClick = async () => {
     setIsLoading(true);
@@ -100,7 +141,11 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                         isWorkDay={item?.isWorkDay}
                         isOrder={item?.isOrder}
                         isNight={item?.isNight}
-                        isHoliday={item?.isHoliday}
+                        isHoliday={
+                          holidays
+                            ? holidays?.includes(String(item?.id))
+                            : item.isHoliday
+                        }
                         isToday={item?.isToday}
                         isCheckable={
                           !isEditAvailable ? false : item.isCheckable

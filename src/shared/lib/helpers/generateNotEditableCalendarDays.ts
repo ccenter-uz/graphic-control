@@ -8,7 +8,7 @@ export function generateNotEditableCalendarDays(
     (_, i) => ({
       id:
         i < amountDaysOfLastMonth
-          ? i + (lastMonthLength + 1)
+          ? i + (lastMonthLength + 2)
           : i - (amountDaysOfLastMonth - 1),
       isWorkDay: i < amountDaysOfLastMonth ? false : true,
       isOrder: false,

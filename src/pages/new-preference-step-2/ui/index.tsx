@@ -55,7 +55,6 @@ export const NewPreferenceStep2 = () => {
   const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
   const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
   const [isResetState, setIsResetState] = useState<boolean>(false);
-  const [shouldBeOffday, setShouldBeOffday] = useState<number>(1);
   const [holidays, setHolidays] = useState<string[]>([]);
 
   const month =
@@ -80,7 +79,7 @@ export const NewPreferenceStep2 = () => {
         },
       );
       if (res.status === HttpStatusCode.OK) {
-        if (res.data.lenght) {
+        if (res.data.length) {
           const holidaysObj = JSON.parse(res.data[0].holidays);
 
           const holidaysArr: string[] = Object.values(holidaysObj).map(
@@ -105,29 +104,29 @@ export const NewPreferenceStep2 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    schedulesApi
-      .get(`${API_MAP.GET_SINGLE_SCHEDULE_HELPERS}${year}/${month}`, {
-        headers: {
-          accept: "*/*",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        if (res.status === HttpStatusCode.OK) {
-          const data = res.data.months;
+  // useEffect(() => {
+  //   schedulesApi
+  //     .get(`${API_MAP.GET_SINGLE_SCHEDULE_HELPERS}${year}/${month}`, {
+  //       headers: {
+  //         accept: "*/*",
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === HttpStatusCode.OK) {
+  //         const data = res.data.months;
 
-          if (data.staight == 0) {
-            setShouldBeOffday(0);
-          } else {
-            setShouldBeOffday(6 - Number(data.straight));
-          }
-        }
-      })
-      .catch((error) => console.log(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  //         if (data.staight == 0) {
+  //           setShouldBeOffday(0);
+  //         } else {
+  //           setShouldBeOffday(6 - Number(data.straight));
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [token]);
 
   useEffect(() => {
     const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
@@ -186,14 +185,6 @@ export const NewPreferenceStep2 = () => {
       daysArray = JSON.parse(storedDaysArray);
     }
 
-    shouldBeOffday
-      ? daysArray.find((item) => {
-          if (item?.id == shouldBeOffday) {
-            item.shouldBeOffday = true;
-          }
-        })
-      : null;
-
     storedDaysArray ? setIsBtnsActive(true) : null;
     const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
     !storedCloneDaysArray
@@ -202,7 +193,7 @@ export const NewPreferenceStep2 = () => {
 
     setDaysOfMonth?.(daysArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldBeOffday, offDaysFromStorage, setDaysOfMonth]);
+  }, [offDaysFromStorage, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
     setIsBtnsActive(true);

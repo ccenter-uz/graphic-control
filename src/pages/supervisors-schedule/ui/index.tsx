@@ -23,38 +23,34 @@ export const SupervisorsSchedule = () => {
   const [loading, setLaoding] = useState<boolean>(false);
   const [data, setData] = useState<ICheckbox[]>([]);
   const { setErrorInfo } = useContext(NewPreferenceContext) || {};
-  const [scheduleYear, setScheduleYear] = useState<string>("");
-  const [scheduleMonth, setScheduleMonth] = useState<string>("");
   const [supervisorName, setSupervisorName] = useState<string>("");
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [preference, setPreference] = useState<IPreference>();
+
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
+
   const getScheduleOfSupervisor = async () => {
     try {
-      const matchingMonth = currentMonth === 12 ? 1 : currentMonth;
-      const matchingYear = currentMonth === 12 ? currentYear + 1 : currentYear;
-      setScheduleYear(`${matchingYear}`);
-      setScheduleMonth(`${matchingMonth}`);
+      const requestedMonth = currentMonth === 12 ? 1 : currentMonth;
+      const requestedYear = currentMonth === 12 ? currentYear + 1 : currentYear;
       setLaoding(true);
       const res = await schedulesApi.get(
-        `${
-          API_MAP.GET_SINGLE_SCHEDULE_OF_SUPERVISOR
-        }${id}?year_and_month=${2024}%2F${11}`,
+        `${API_MAP.GET_SINGLE_SCHEDULE_OF_SUPERVISOR}${id}?year_and_month=${currentYear}%2F${currentMonth}`,
       );
       if (res.status === HttpStatusCode.OK) {
         const data = res.data;
         const preference = {
           workingHours: data.month.workingHours,
           daysOfMonth: data.month.days,
-          requested_date: `${matchingYear}/${matchingMonth}`,
+          requested_date: `${requestedYear}/${requestedMonth}`,
         };
         setPreference(preference);
         setSupervisorName(data.name);
         const generatedData = generateCalendar(
-          +matchingYear,
-          +matchingMonth,
+          +currentYear,
+          +currentMonth,
           data.month.days[0].label,
           data.month.days.length,
         );
@@ -117,8 +113,8 @@ export const SupervisorsSchedule = () => {
       ) : (
         <CheckboxGroup
           isEditAvailable={false}
-          month={scheduleMonth}
-          year={scheduleYear}
+          month={String(currentMonth)}
+          year={String(currentYear)}
           data={data}
         />
       )}
