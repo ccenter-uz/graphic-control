@@ -11,6 +11,7 @@ export function generateEditableCalendarDays(
       isNight: false,
       isHoliday: false,
       isToday: false,
+      isAtWork: false,
       isCheckable: i < daysOfLastMonth ? false : true,
       shouldBeOffday: false,
       label:

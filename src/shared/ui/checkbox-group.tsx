@@ -6,11 +6,11 @@ import { months } from "@shared/constants/months";
 import { baseApi } from "@shared/lib/baseApi";
 import {
   getDaysAvailability,
-  getIsPreferenceEditable,
+  isPreferenceEditable,
   monthToWeeks,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
-import BaseDay from "@shared/ui/checkbox";
+import Checkbox from "@shared/ui/checkbox";
 
 import { Loader } from "./loader";
 import { TableHead } from "./table-head";
@@ -31,7 +31,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   if (month && year) {
     !isEditAvailable
       ? isEditAvailable
-      : (isEditAvailable = getIsPreferenceEditable(+month, +year));
+      : (isEditAvailable = isPreferenceEditable(+month, +year));
   }
   const navigate = useNavigate();
 
@@ -95,7 +95,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                 {rowData.map((item) => {
                   return (
                     <td key={item?.id} className="p-1">
-                      <BaseDay
+                      <Checkbox
                         id={item?.id}
                         isWorkDay={item?.isWorkDay}
                         isOrder={item?.isOrder}
@@ -107,6 +107,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                         }
                         label={item?.label}
                         shouldBeOffday={item?.shouldBeOffday}
+                        isAtWork={item?.isAtWork}
                         isReset={false}
                       />
                     </td>
