@@ -143,7 +143,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                         isNight={item?.isNight}
                         isHoliday={
                           holidays
-                            ? holidays?.includes(String(item?.id))
+                            ? holidays?.includes(String(item?.label))
                             : item.isHoliday
                         }
                         isToday={item?.isToday}
