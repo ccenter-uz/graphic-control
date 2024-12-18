@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
+import { months } from "@shared/constants/months";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
 import {
@@ -14,23 +15,24 @@ import {
   getLastDayOfCurrentMonth,
   generateCalendar,
 } from "@shared/lib/helpers";
+import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
 import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
-interface ICheckbox {
-  id: number;
-  isWorkDay: boolean;
-  isOrder: boolean;
-  isNight: boolean;
-  isHoliday: boolean;
-  isToday: boolean;
-  isCheckable: boolean;
-  shouldBeOffday: boolean;
-  label: number;
-}
+// interface ICheckbox {
+//   id: number;
+//   isWorkDay: boolean;
+//   isOrder: boolean;
+//   isNight: boolean;
+//   isHoliday: boolean;
+//   isToday: boolean;
+//   isCheckable: boolean;
+//   shouldBeOffday: boolean;
+//   label: number;
+// }
 
 const MIDDLE_OF_MONTH_INDEX = 15;
 const FIRST_DAY_OF_WEEK_INDEX = 0;
@@ -54,6 +56,7 @@ export const NewPreferenceStep2 = () => {
   const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
   const [isResetState, setIsResetState] = useState<boolean>(false);
   const [shouldBeOffday, setShouldBeOffday] = useState<number>(1);
+  const [holidays, setHolidays] = useState<string[]>([]);
 
   const month =
     new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
@@ -65,9 +68,46 @@ export const NewPreferenceStep2 = () => {
   const { setBackLinkPath, setPageHeaderTitle, setSubHeaderInfoData } =
     useContext(NewPreferenceContext) || {};
 
+  const getHolidays = async () => {
+    try {
+      const res = await schedulesApi.get(
+        `${API_MAP.GET_HOLIDAYS_BY_MONTH}${month}`,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.status === HttpStatusCode.OK) {
+        if (res.data.lenght) {
+          const holidaysObj = JSON.parse(res.data[0].holidays);
+
+          const holidaysArr: string[] = Object.values(holidaysObj).map(
+            (holiday) => {
+              if ((holiday as string).slice(0, 1) === "0") {
+                return (holiday as string).slice(1, 2);
+              } else {
+                return (holiday as string).slice(0, 2);
+              }
+            },
+          );
+          setHolidays(holidaysArr);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getHolidays();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     schedulesApi
-      .get(API_MAP.GET_SINGLE_SCHEDULE_HELPERS + `${year}/${month}`, {
+      .get(`${API_MAP.GET_SINGLE_SCHEDULE_HELPERS}${year}/${month}`, {
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
@@ -77,7 +117,12 @@ export const NewPreferenceStep2 = () => {
       .then((res) => {
         if (res.status === HttpStatusCode.OK) {
           const data = res.data.months;
-          setShouldBeOffday(6 - Number(data.straight));
+
+          if (data.staight == 0) {
+            setShouldBeOffday(0);
+          } else {
+            setShouldBeOffday(6 - Number(data.straight));
+          }
         }
       })
       .catch((error) => console.log(error));
@@ -248,7 +293,9 @@ export const NewPreferenceStep2 = () => {
   return (
     <div>
       <div className="flex items-center justify-between mt-14">
-        <h6 className="text-lg font-semibold">sanani olib kelish kerak</h6>
+        <h6 className="text-lg font-semibold">
+          {months[month - 1].title} {year}
+        </h6>
         <button
           onClick={handleResetClick}
           className={`${isBtnsActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
@@ -271,11 +318,16 @@ export const NewPreferenceStep2 = () => {
                         isWorkDay={item.isWorkDay}
                         isOrder={item.isOrder}
                         isNight={item.isNight}
-                        isHoliday={item.isHoliday}
+                        isHoliday={
+                          holidays
+                            ? holidays?.includes(String(item?.id))
+                            : item.isHoliday
+                        }
                         isToday={item.isToday}
                         isCheckable={item.isCheckable}
                         shouldBeOffday={item.shouldBeOffday}
                         label={item.label}
+                        isAtWork={item.isAtWork}
                         isReset={isResetState}
                       />
                     </td>
@@ -286,27 +338,6 @@ export const NewPreferenceStep2 = () => {
           })}
         </tbody>
       </table>
-      <p className="mb-1 text-sm text-[#64748B]">Объяснение:</p>
-      <div className="flex items-center mb-5">
-        <Checkbox
-          id={1}
-          isWorkDay={true}
-          isOrder={false}
-          isNight={false}
-          isHoliday={false}
-          isToday={false}
-          isCheckable={false}
-          shouldBeOffday={true}
-          label={1}
-          isReset
-        />
-        <p className="text-sm text-[#64748B] ml-4 max-w-[250px]">
-          {" "}
-          Из-за продолжительного периода рабочих дней подряд эта дата
-          обязательно будет выходным
-        </p>
-      </div>
-
       <WorkingHours hours={timeParams.get("time")?.toString()} />
       <Link
         to={`${THIRD_PAGE_PATH}?${timeParams}`}

@@ -7,6 +7,7 @@ export interface ICheckbox {
   isToday: boolean;
   isCheckable: boolean;
   label: number;
+  isAtWork: boolean;
   shouldBeOffday: boolean;
   customOffday?: boolean;
   systemSuggestsLikeWorkday?: boolean;

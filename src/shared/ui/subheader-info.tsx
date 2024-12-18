@@ -16,7 +16,7 @@ export const SubheaderInfo: FC<Props> = ({ data, className = "" }) => {
             return (
               <tr key={item?.id}>
                 <td className="py-1.5">{item?.title}</td>
-                <td className="text-[#007AFF] pl-2 min-w-[100px]">
+                <td className="text-[#007AFF] pl-2 min-w-[100px] word-breaker">
                   {item?.value}
                 </td>
               </tr>

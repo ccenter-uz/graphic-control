@@ -1,4 +1,4 @@
-export function getIsPreferenceEditable(
+export function isPreferenceEditable(
   monthFromParams: number,
   yearFromParams: number,
 ) {
