@@ -24,52 +24,109 @@ export const SinglePreference = () => {
   const { id } = useParams();
   localStorage.setItem("preferenceId", id || "");
   const token = localStorage.getItem("GCToken");
+
   const [data, setData] = useState<ICheckbox[]>([]);
+
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
+
   const [subheaderInfo, setSubheaderInfo] = useState<iSubheaderInfo[]>([]);
-  useEffect(() => {
-    baseApi
-      .get(`${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`, {
-        headers: {
-          accept: "*/*",
-          Authorization: `Bearer ${token}`,
+
+  const fetchData = async () => {
+    try {
+      const response = await baseApi.get(
+        `${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
-      .then((res) => {
-        if (res.status === HttpStatusCode.OK) {
-          const data = res.data;
-          const subheaderInfo = [
-            {
-              id: 1,
-              title: "Рабочее время",
-              value: data.workingHours,
-            },
-            {
-              id: 2,
-              title: "Причина",
-              value: data.description,
-            },
-          ];
-          setSubheaderInfo(subheaderInfo);
+      );
 
-          const splittedRequestDate = res.data.requested_date.split("/");
-          setYear(splittedRequestDate[0]);
-          setMonth(splittedRequestDate[1]);
+      if (response.status === HttpStatusCode.OK) {
+        const data = response.data;
+        const subheaderInfo = [
+          {
+            id: 1,
+            title: "Рабочее время",
+            value: data.workingHours,
+          },
+          {
+            id: 2,
+            title: "Причина",
+            value: data.description,
+          },
+        ];
+        setSubheaderInfo(subheaderInfo);
 
-          const generatedData = generateCalendar(
-            +year,
-            +month,
-            1,
-            data.daysOfMonth.length,
-          );
+        const splittedRequestDate = data.requested_date.split("/");
+        setYear(splittedRequestDate[0]);
+        setMonth(splittedRequestDate[1]);
 
-          const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
+        const generatedData = generateCalendar(
+          +year,
+          +month,
+          1,
+          data.daysOfMonth.length,
+        );
 
-          setData(mergedArray);
-        }
-      });
+        const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
+
+        setData(mergedArray);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, month, token, year]);
+
+  // useEffect(() => {
+  //   baseApi
+  //     .get(`${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`, {
+  //       headers: {
+  //         accept: "*/*",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === HttpStatusCode.OK) {
+  //         const data = res.data;
+  //         const subheaderInfo = [
+  //           {
+  //             id: 1,
+  //             title: "Рабочее время",
+  //             value: data.workingHours,
+  //           },
+  //           {
+  //             id: 2,
+  //             title: "Причина",
+  //             value: data.description,
+  //           },
+  //         ];
+  //         setSubheaderInfo(subheaderInfo);
+
+  //         const splittedRequestDate = res.data.requested_date.split("/");
+  //         setYear(splittedRequestDate[0]);
+  //         setMonth(splittedRequestDate[1]);
+
+  //         const generatedData = generateCalendar(
+  //           +year,
+  //           +month,
+  //           1,
+  //           data.daysOfMonth.length,
+  //         );
+
+  //         const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
+
+  //         setData(mergedArray);
+  //       }
+  //     });
+  // }, [id, month, token, year]);
   return (
     <BaseContainer>
       <HeaderContainer className="flex items-center">

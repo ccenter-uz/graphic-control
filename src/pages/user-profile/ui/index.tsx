@@ -8,6 +8,7 @@ import { API_MAP } from "@shared/constants/apiMap";
 import { TgSupportLink } from "@shared/constants/links";
 import { authApi } from "@shared/lib/baseApi";
 import { formatPhoneNumber } from "@shared/lib/helpers";
+import Avatar from "@shared/ui/avatar";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BlueLink from "@shared/ui/blue-link";
@@ -15,9 +16,8 @@ import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
-import userProfileImg from "../../../../assets/images/user-profile.svg";
-
 interface IUserInfo {
+  profile_image: string;
   first_number: string;
   login: string;
   name: string;
@@ -26,52 +26,77 @@ interface IUserInfo {
   service_name: string;
 }
 
+const defaultUserInfo: IUserInfo = {
+  profile_image: "",
+  first_number: "",
+  login: "",
+  name: "",
+  password: "",
+  role: "",
+  service_name: "",
+};
+
 export const UserProfile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [data, setData] = useState<IUserInfo>({
-    first_number: "",
-    login: "",
-    name: "",
-    password: "",
-    role: "",
-    service_name: "",
-  });
-  const token = localStorage.getItem("GCToken") as string;
 
-  useEffect(() => {
-    authApi
-      .get(API_MAP.GET_USER_INFO, {
+  const storedUserImage = localStorage.getItem("userImage");
+  const storedUserFullName = localStorage.getItem("userFullName");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<IUserInfo>(defaultUserInfo);
+
+  const fetchUserInfo = async () => {
+    try {
+      const { data: responseData } = await authApi.get(API_MAP.GET_USER_INFO, {
         headers: {
           accept: "*/*",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("GCToken")}` as string,
         },
-      })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => console.log(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const handleLogoutClick = () => {
-    setIsModalOpen(!isModalOpen);
+      });
+
+      setData({
+        profile_image: responseData.image,
+        first_number: responseData.first_number,
+        login: responseData.login,
+        name: responseData.name,
+        password: responseData.password,
+        role: responseData.role,
+        service_name: responseData.service_name,
+      });
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
+    }
   };
 
-  const handleConfirmClick = () => {
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
+  const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
+
   return (
     <BaseContainer>
+      {/* ✅ Header Section */}
       <HeaderContainer>
         <div className="flex justify-between items-start">
           <BackLink to="/" />
-          <img src={userProfileImg} alt="user img" />
-          <Logout onClick={handleLogoutClick} />
+          <Avatar
+            fullname={storedUserFullName || data.name}
+            src={storedUserImage || data.profile_image}
+            width="w-[100px]"
+            height="h-[100px]"
+          />
+          <Logout onClick={toggleModal} />
         </div>
         <p className="text-[#394e34] text-center mt-3">{data.name}</p>
       </HeaderContainer>
+
+      {/* ✅ User Info Section */}
       <div className="px-6 mt-12 grid gap-4">
         <UserSingleInfo title={t("user-profile.username")} value={data.login} />
         <UserSingleInfo
@@ -91,13 +116,16 @@ export const UserProfile = () => {
           value={data.service_name}
         />
       </div>
+
+      {/* ✅ Confirm Modal */}
       {isModalOpen && (
         <ConfirmModal
           state={isModalOpen}
           setState={setIsModalOpen}
-          confirmBtnClick={handleConfirmClick}
+          confirmBtnClick={handleLogout}
         />
       )}
+
       <BlueLink
         title={t("user-profile.support")}
         to={TgSupportLink}

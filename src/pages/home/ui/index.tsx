@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { HomeHeader } from "@widgets/home-header";
 
@@ -10,17 +12,22 @@ import {
   calendarListPath,
   calendarTickPath,
 } from "@shared/constants/svg-paths";
-import { baseApi } from "@shared/lib/baseApi";
+import { authApi, baseApi } from "@shared/lib/baseApi";
 import { canUserAddPreference } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import BlueLink from "@shared/ui/blue-link";
+import ConfirmModal from "@shared/ui/confirm-modal";
 
 export const Home = () => {
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
   const token = localStorage.getItem("GCToken") as string;
   const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+
   const getAllPreferences = async () => {
     try {
       const res = await baseApi.get(`${API_MAP.GET_ALL_PREFERENCES}`, {
@@ -32,7 +39,7 @@ export const Home = () => {
       if (res.status === HttpStatusCode.OK) {
         const preferences = res.data.result;
         const today = new Date().getDate();
-        // const today = 16;
+        // const today = 14;
         if (!preferences.length && 15 <= today && today <= 25) {
           setIsBtnEditable(true);
         }
@@ -51,23 +58,55 @@ export const Home = () => {
     }
   };
 
+  const fetchUserInfo = useCallback(async () => {
+    try {
+      const res = await authApi.get(API_MAP.GET_USER_INFO, {
+        headers: {
+          accept: "*/*",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === HttpStatusCode.OK) {
+        localStorage.setItem("userImage", res.data.image);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
+    }
+  }, []);
+
   useEffect(() => {
     getAllPreferences();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserInfo();
   }, []);
+
+  const handleNewPreferenceClick = () => {
+    if (isBtnEditable) {
+      navigate("/new-preference");
+    } else {
+      setIsConfirmModalOpen(true);
+    }
+  };
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">
       <HomeHeader />
       <div className="grid gap-7 mt-11 px-6">
-        {!isBtnEditable ? (
-          ""
-        ) : (
+        <button onClick={handleNewPreferenceClick}>
           <BaseLink
-            to="new-preference"
             title={t("home.new-preference")}
             imgSrc={calendarTickPath}
           />
-        )}
+        </button>
+        {isConfirmModalOpen ? (
+          <ConfirmModal
+            state={isConfirmModalOpen}
+            setState={setIsConfirmModalOpen}
+            modalText={
+              "Заявку можно оставить только с 15 по 25 число месяца, либо вы уже оставили её. Оставленную заявку можно просмотреть или изменить в разделе 'Мои предпочтения'"
+            }
+            confirmBtnClick={() => setIsConfirmModalOpen(false)}
+          />
+        ) : null}
         <BaseLink
           to="schedules"
           title={t("home.my-current-schedule")}
