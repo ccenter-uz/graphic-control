@@ -55,7 +55,6 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
         },
       );
       if (res.status === HttpStatusCode.OK) {
-        console.log(res.data);
         if (res.data.length) {
           const holidaysObj = JSON.parse(res.data[0].holidays);
 
@@ -83,36 +82,38 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
 
   const handleEditBtnClick = async () => {
     setIsLoading(true);
-    baseApi
-      .get(`${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`, {
-        headers: {
-          accept: "*/*",
-          Authorization: `Bearer ${token}`,
+    try {
+      const response = await baseApi.get(
+        `${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
-      .then((res) => {
-        const data = res.data;
+      );
 
-        const offDays = getDaysAvailability(data.offDays);
-        const workingHours = data.workingHours;
-        const description = data.description;
+      const data = response.data;
 
-        const daysOfMonth = data.daysOfMonth.map((item: ICheckbox) =>
-          item.isSelectLikeHoliday ? { ...item, isWorkDay: true } : item,
-        );
+      const offDays = getDaysAvailability(data.offDays);
+      const workingHours = data.workingHours;
+      const description = data.description;
 
-        localStorage.setItem("workingHours", workingHours);
-        localStorage.setItem("description", description);
-        localStorage.setItem("offDays", JSON.stringify(offDays));
-        localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
-      })
-      .catch((error) => {
-        console.error("Failed to fetch preference data:", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        navigate("/new-preference");
-      });
+      const daysOfMonth = data.daysOfMonth.map((item: ICheckbox) =>
+        item.isSelectLikeHoliday ? { ...item, isWorkDay: true } : item,
+      );
+
+      localStorage.setItem("workingHours", workingHours);
+      localStorage.setItem("description", description);
+      localStorage.setItem("offDays", JSON.stringify(offDays));
+      localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
+    } catch (error) {
+      console.error("Failed to fetch preference data:", error);
+      // You can add error handling logic here, like setting an error state or showing a message
+    } finally {
+      setIsLoading(false);
+      navigate("/new-preference");
+    }
   };
 
   return (

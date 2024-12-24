@@ -13,6 +13,15 @@ export const authApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/Auth/",
 });
 
+// authApi.interceptors.request.use(function (config) {
+//   const token = localStorage.getItem("authToken") as string;
+//   config.headers.Accept = "*/*";
+//   config.headers.Authorization = `Bearer ${token}`;
+//   return config;
+// });
+
+// export { authApi };
+
 export function handleGenericError(error: AxiosError) {
   /**
    * spec told that only 422 status code should return GenericError errors

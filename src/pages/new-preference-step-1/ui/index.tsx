@@ -57,7 +57,7 @@ export const NewPreferenceStep1 = () => {
 
   const handleConfirmClick = () => {
     localStorage.setItem("offDays", JSON.stringify(formState));
-    if (!areObjectsEqual(cloneFormData[0], formState)) {
+    if (!areObjectsEqual(cloneFormData && cloneFormData[0], formState)) {
       localStorage.removeItem("daysOfMonthAtStep2");
       localStorage.removeItem("cloneDaysArrayAtStep2");
       localStorage.removeItem("cloneDaysArrayAtStep3");

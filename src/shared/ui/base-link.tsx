@@ -7,7 +7,7 @@ import SvgIcon from "./svg-icon";
 
 interface Props {
   title: string;
-  to: string;
+  to?: string;
   imgSrc?: string;
   isBlue?: boolean;
   className?: string;
@@ -15,7 +15,7 @@ interface Props {
 
 const BaseLink: FC<Props> = ({ to, title, imgSrc, isBlue, className = "" }) => {
   return (
-    <Link to={to}>
+    <Link to={to ? to : "/"}>
       <div
         className={`${className} flex items-center justify-between border rounded px-4 py-3`}
       >
