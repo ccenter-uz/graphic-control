@@ -69,9 +69,11 @@ export const Home = () => {
 
       if (res.status === HttpStatusCode.OK) {
         localStorage.setItem("userImage", res.data.image);
+        localStorage.setItem("userFullName", res.data.name);
       }
-    } catch (error) {
-      console.error("Failed to fetch user info:", error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error, "error from Home page");
     }
   }, []);
 
@@ -101,6 +103,7 @@ export const Home = () => {
           <ConfirmModal
             state={isConfirmModalOpen}
             setState={setIsConfirmModalOpen}
+            confirmBtnTitle="OK"
             modalText={
               "Заявку можно оставить только с 15 по 25 число месяца, либо вы уже оставили её. Оставленную заявку можно просмотреть или изменить в разделе 'Мои предпочтения'"
             }

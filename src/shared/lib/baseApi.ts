@@ -1,6 +1,19 @@
 import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
+import { HttpStatusCode } from "@shared/model/httpStatus";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const errorCatchInterceptor = (error: any) => {
+  const errMessage = error.message;
+
+  if (+errMessage.slice(-3) === HttpStatusCode.FORBIDDEN) {
+    localStorage.clear();
+    window.location.href = "/login";
+  }
+  return Promise.reject(error);
+};
+
 export const baseApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/Application/",
 });
@@ -13,14 +26,17 @@ export const authApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/Auth/",
 });
 
-// authApi.interceptors.request.use(function (config) {
-//   const token = localStorage.getItem("authToken") as string;
-//   config.headers.Accept = "*/*";
-//   config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
+baseApi.interceptors.response.use(function (response) {
+  return response;
+}, errorCatchInterceptor);
 
-// export { authApi };
+schedulesApi.interceptors.response.use(function (response) {
+  return response;
+}, errorCatchInterceptor);
+
+authApi.interceptors.response.use(function (response) {
+  return response;
+}, errorCatchInterceptor);
 
 export function handleGenericError(error: AxiosError) {
   /**
