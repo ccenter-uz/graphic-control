@@ -54,8 +54,7 @@ const UserProfileLink = () => {
       <Avatar
         src={storedUserImage || userImage.image}
         fullname={storedUserFullName || userImage.fullname}
-        width="w-8"
-        height="h-8"
+        size="small"
       />
     </Link>
   );

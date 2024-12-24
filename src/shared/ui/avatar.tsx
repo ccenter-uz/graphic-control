@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 interface IAvatarProps {
   fullname: string;
   src?: string;
-  width: string;
-  height?: string;
+  size: string;
 }
 
-const Avatar: React.FC<IAvatarProps> = ({ fullname, src, width, height }) => {
+const Avatar: React.FC<IAvatarProps> = ({ fullname, src, size }) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -33,7 +32,9 @@ const Avatar: React.FC<IAvatarProps> = ({ fullname, src, width, height }) => {
 
   return (
     <div
-      className={`flex items-center justify-center bg-gray-200 ${width} ${height} rounded-full`}
+      className={`${
+        size === "big" ? "w-[100px] h-[100px]" : "w-8 h-8"
+      } flex items-center justify-center bg-gray-200 rounded-full`}
     >
       {isLoading ? (
         <div className="animate-pulse h-full w-full bg-gray-300 rounded-full" />
@@ -41,10 +42,16 @@ const Avatar: React.FC<IAvatarProps> = ({ fullname, src, width, height }) => {
         <img
           src={imageSrc}
           alt={fullname}
-          className={`${width} ${height} object-cover object-top rounded-full`}
+          className={`${
+            size === "big" ? "w-[100px] h-[100px]" : "w-8 h-8"
+          } object-cover object-top rounded-full`}
         />
       ) : (
-        <span className="text-3xl font-bold text-[#394e34]">
+        <span
+          className={`${
+            size === "big" ? "text-3xl" : "text-xs"
+          } font-bold text-[#394e34]`}
+        >
           {firstLetters}
         </span>
       )}

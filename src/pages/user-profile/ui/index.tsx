@@ -88,8 +88,7 @@ export const UserProfile = () => {
           <Avatar
             fullname={storedUserFullName || data.name}
             src={storedUserImage || data.profile_image}
-            width="w-[100px]"
-            height="h-[100px]"
+            size="big"
           />
           <Logout onClick={toggleModal} />
         </div>
