@@ -47,9 +47,9 @@ export const NewPreferenceStep2 = () => {
   const [holidays, setHolidays] = useState<string[]>([]);
 
   const month =
-    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
+    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 2;
   const year =
-    month === 1 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+    month === 12 ? new Date().getFullYear() + 1 : new Date().getFullYear();
   const firstDayOfCurrentMonth = +new Date(year, month, 1).getDate().toString();
   const lastDayOfCurrentMonth = +new Date(year, month, 0).getDate().toString();
 

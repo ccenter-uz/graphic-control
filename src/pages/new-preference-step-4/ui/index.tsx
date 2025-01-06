@@ -150,7 +150,6 @@ export const NewPreferenceStep4 = () => {
         description: textareaValue.trim(),
         requested_date: getRequestDate(month, year),
       };
-      console.log(data, "finsins");
 
       if (!storedPreferenceId) {
         const response = await baseApi.post(API_MAP.CREATE_PREFERENCE, data, {

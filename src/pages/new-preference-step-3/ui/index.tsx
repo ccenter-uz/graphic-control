@@ -34,7 +34,7 @@ export const NewPreferenceStep3 = () => {
     useContext(NewPreferenceContext) || {};
 
   const month =
-    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
+    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 2;
   const year =
     month === 1 ? new Date().getFullYear() + 1 : new Date().getFullYear();
 
