@@ -152,7 +152,6 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
                           !isEditAvailable ? false : item.isCheckable
                         }
                         label={item?.label}
-                        shouldBeOffday={item?.shouldBeOffday}
                         isAtWork={item?.isAtWork}
                         isReset={false}
                       />
