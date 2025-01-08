@@ -59,7 +59,8 @@ export const SchedulesSelectMonth = () => {
   const updateMonthAvailability = useCallback(() => {
     const updatedMonths = months.map((month) => {
       const matchingPreference = schedules?.find(
-        (pref: ISchedule) => month.orderedNumber === pref.number,
+        (pref: ISchedule) =>
+          +pref.year == currentYear && month.orderedNumber === pref.number,
       ) as ISchedule | undefined;
       return {
         ...month,
@@ -67,13 +68,15 @@ export const SchedulesSelectMonth = () => {
         date: matchingPreference?.year + "-" + matchingPreference?.number,
       };
     });
-
     setCloneMonths(updatedMonths);
-  }, [schedules]);
+  }, [schedules, currentYear]);
 
   const updateButtonStates = useCallback(() => {
-    const minYear = yearsHaveData[0];
-    const maxYear = yearsHaveData[yearsHaveData.length - 1];
+    const minYear = yearsHaveData.length ? yearsHaveData[0] : currentYear + 1;
+    const maxYear =
+      yearsHaveData.length > 1
+        ? yearsHaveData[yearsHaveData.length - 1]
+        : currentYear - 1;
 
     setIsBtnsActive({
       decrement: currentYear > minYear,

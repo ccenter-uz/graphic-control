@@ -29,7 +29,7 @@ const daysOfWeek: { [key: string]: string } = {
   Воскресенье: "вс",
 };
 
-function lorem(holidays: ICheckbox) {
+function getHolidaysLabel(holidays: ICheckbox) {
   return holidays ? holidays.label + ", " : "";
 }
 
@@ -99,16 +99,21 @@ export const NewPreferenceStep4 = () => {
       {
         id: 4,
         title: "Желаемый выходной день",
-        value: `${customOffDay.label} ${months[needMonth].title}`,
+        value: customOffDay
+          ? `${customOffDay.label} ${months[needMonth].title}`
+          : "Не выбрано",
       },
       {
         id: 5,
         title: "Желаемый выходные дни за праздничные выходные",
-        value: `${lorem(holidays[0])} ${lorem(holidays[1])} ${lorem(
-          holidays[2],
-        )} ${lorem(holidays[3])} ${lorem(holidays[4])} ${months[
-          needMonth
-        ].title.slice(0, 3)}`,
+        value: `${getHolidaysLabel(holidays[0])} ${getHolidaysLabel(
+          holidays[1],
+        )} ${getHolidaysLabel(holidays[2])} ${getHolidaysLabel(
+          holidays[3],
+        )} ${getHolidaysLabel(holidays[4])} ${months[needMonth].title.slice(
+          0,
+          3,
+        )}`,
       },
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps

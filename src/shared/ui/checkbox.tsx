@@ -14,7 +14,6 @@ type Props = {
   label?: number;
   isCheckable?: boolean;
   isAtWork: boolean;
-  shouldBeOffday?: boolean;
   className?: string;
   isReset: boolean;
 };

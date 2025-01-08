@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -22,18 +23,6 @@ import Checkbox from "@shared/ui/checkbox";
 import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
-// interface ICheckbox {
-//   id: number;
-//   isWorkDay: boolean;
-//   isOrder: boolean;
-//   isNight: boolean;
-//   isHoliday: boolean;
-//   isToday: boolean;
-//   isCheckable: boolean;
-//   shouldBeOffday: boolean;
-//   label: number;
-// }
-
 const MIDDLE_OF_MONTH_INDEX = 15;
 const FIRST_DAY_OF_WEEK_INDEX = 0;
 const LAST_DAY_OF_WEEK_INDEX = 7;
@@ -44,7 +33,7 @@ export const NewPreferenceStep2 = () => {
   const offDays: string[] = Object.keys(
     JSON.parse(offDaysFromStorage || "{}"),
   ).filter((key) => JSON.parse(offDaysFromStorage || "{}")[key]);
-  const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>();
+  const [daysOfMonth, setDaysOfMonth] = useState<ICheckbox[]>([]);
   const token = localStorage.getItem("GCToken") as string;
   const storedAmountOfSteps = localStorage.getItem("amountOfHolidays");
   const THIRD_PAGE_PATH = !JSON.parse(storedAmountOfSteps as string)
@@ -58,9 +47,9 @@ export const NewPreferenceStep2 = () => {
   const [holidays, setHolidays] = useState<string[]>([]);
 
   const month =
-    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 1;
+    new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 2;
   const year =
-    month === 1 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+    month === 12 ? new Date().getFullYear() + 1 : new Date().getFullYear();
   const firstDayOfCurrentMonth = +new Date(year, month, 1).getDate().toString();
   const lastDayOfCurrentMonth = +new Date(year, month, 0).getDate().toString();
 
@@ -101,32 +90,7 @@ export const NewPreferenceStep2 = () => {
 
   useEffect(() => {
     getHolidays();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   schedulesApi
-  //     .get(`${API_MAP.GET_SINGLE_SCHEDULE_HELPERS}${year}/${month}`, {
-  //       headers: {
-  //         accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === HttpStatusCode.OK) {
-  //         const data = res.data.months;
-
-  //         if (data.staight == 0) {
-  //           setShouldBeOffday(0);
-  //         } else {
-  //           setShouldBeOffday(6 - Number(data.straight));
-  //         }
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [token]);
 
   useEffect(() => {
     const storedDaysOfMonthAtStep3 = localStorage.getItem("daysOfMonthAtStep3");
@@ -152,7 +116,6 @@ export const NewPreferenceStep2 = () => {
         value: "1",
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -192,7 +155,6 @@ export const NewPreferenceStep2 = () => {
       : setCloneData(daysArray);
 
     setDaysOfMonth?.(daysArray);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offDaysFromStorage, setDaysOfMonth]);
 
   const handleTrChange = (e: React.ChangeEvent<HTMLTableRowElement>) => {
@@ -278,7 +240,15 @@ export const NewPreferenceStep2 = () => {
   };
 
   const handleConfirmClick = () => {
-    localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
+    const storedCloneDaysArray = localStorage.getItem("cloneDaysArrayAtStep2");
+    const parsedCloneDaysArray = storedCloneDaysArray
+      ? JSON.parse(storedCloneDaysArray)
+      : [];
+    if (daysOfMonth.length) {
+      localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
+    } else {
+      localStorage.setItem("daysOfMonthAtStep2", parsedCloneDaysArray);
+    }
   };
 
   return (
@@ -316,7 +286,6 @@ export const NewPreferenceStep2 = () => {
                         }
                         isToday={item.isToday}
                         isCheckable={item.isCheckable}
-                        shouldBeOffday={item.shouldBeOffday}
                         label={item.label}
                         isAtWork={item.isAtWork}
                         isReset={isResetState}
@@ -330,15 +299,8 @@ export const NewPreferenceStep2 = () => {
         </tbody>
       </table>
       <WorkingHours hours={timeParams.get("time")?.toString()} />
-      <Link
-        to={`${THIRD_PAGE_PATH}?${timeParams}`}
-        className={`${
-          isBtnsActive ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-      >
-        <BaseButton isDisabled={!isBtnsActive} onClick={handleConfirmClick}>
-          Далее
-        </BaseButton>
+      <Link to={`${THIRD_PAGE_PATH}?${timeParams}`}>
+        <BaseButton onClick={handleConfirmClick}>Далее</BaseButton>
       </Link>
     </div>
   );
