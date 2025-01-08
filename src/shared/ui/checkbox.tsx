@@ -69,7 +69,7 @@ const Checkbox: FC<Props> = ({
           : !isWorkDayState
           ? "text-[#ccc]"
           : ""
-      } ${isToday ? "font-bold" : ""} ${
+      } ${isToday ? "underline underline-offset-4" : ""} ${
         !isCheckable ? "cursor-not-allowed" : "cursor-pointer"
       }`}
     >
