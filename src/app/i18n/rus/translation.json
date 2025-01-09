@@ -1,19 +1,50 @@
 {
   "shared": {
+    "checkbox_group": {
+      "edit_btn_title": "Изменить"
+    },
+    "confirm_modal" : {
+      "title": "Вы действительно хотите выйти?",
+      "cancel": "Отмена",
+      "confirm": "Выйти"
+    },
+    "table_head": {
+      "monday": "ПH",
+      "tuesday": "ВТ",
+      "wednesday": "СР",
+      "thursday": "ЧТ",
+      "friday": "ПТ",
+      "saturday": "СБ",
+      "sunday": "ВС"
+    },
     "working_hours": {
       "title": "Режим работы"
     }
   },
   "widgets": {
-    "login-form": {}
+    "home_header": {
+      "title": "Предпочтения графиков"
+    },
+    "login-form": {
+      "username": "Логин",
+      "password": "Пароль",
+      "submit": "Войти"
   },
-  "login": {
-    "title": "Авторизация",
-    "username": "Логин",
-    "password": "Пароль",
-    "submit": "Войти",
-    "support": "Поддержка"
+    "select_weekend_days": {
+      "title": "Выберите желаемые 2 выходные дни недели",
+      "monday": "Понедельник",
+      "tuesday": "Вторник",
+      "wednesday": "Среда",
+      "thursday": "Четверг",
+      "friday": "Пятница",
+      "saturday": "Суббота",
+      "sunday": "Воскресенье"
+    },
+    "step_4_reason_form": {
+      "title": "Укажите причину предпочтения:"
+    }
   },
+  
   "home": {
     "new-preference": "Новое предпочтение",
     "my-current-schedule": "Мои графики",

@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React, { useContext, useEffect, useState } from "react";
 
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
@@ -16,13 +17,13 @@ interface Props {
 }
 
 const weekdaysInRussian: { [key: string]: string } = {
-  monday: "Понедельник",
-  tuesday: "Вторник",
-  wednesday: "Среда",
-  thursday: "Четверг",
-  friday: "Пятница",
-  saturday: "Суббота",
-  sunday: "Воскресенье",
+  monday: t("widgets.select_weekend_days.monday"),
+  tuesday: t("widgets.select_weekend_days.tuesday"),
+  wednesday: t("widgets.select_weekend_days.wednesday"),
+  thursday: t("widgets.select_weekend_days.thursday"),
+  friday: t("widgets.select_weekend_days.friday"),
+  saturday: t("widgets.select_weekend_days.saturday"),
+  sunday: t("widgets.select_weekend_days.sunday"),
 };
 
 export const SelectWeekendDays: React.FC<Props> = ({
@@ -70,7 +71,7 @@ export const SelectWeekendDays: React.FC<Props> = ({
   return (
     <div>
       <p className="mt-5 text-sm text-[#64748B]">
-        Выберите желаемые 2 выходные дни недели
+        {t("widgets.select_weekend_days.title")}
       </p>
       <form
         onChange={handleFormChange}

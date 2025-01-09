@@ -8,6 +8,7 @@ type Props = {
   hours: string | undefined;
 };
 const WorkingHours: FC<Props> = ({ hours }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
     const isActiveHour = scheduleLinks.find((item) => item?.time === hours);
@@ -16,7 +17,6 @@ const WorkingHours: FC<Props> = ({ hours }) => {
     }
   }, [hours, navigate]);
 
-  const { t } = useTranslation();
   return (
     <>
       <hr />

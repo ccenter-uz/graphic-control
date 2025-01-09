@@ -56,7 +56,7 @@ export const LoginForm = () => {
         inputValue={usernameValue}
         setInputValue={setUsernameValue}
         isInputError={false}
-        inputPlaceholder={t("login.username")}
+        inputPlaceholder={t("widgets.login-form.username")}
         inputType="text"
         iconSrc={LoginPath}
       />
@@ -64,12 +64,14 @@ export const LoginForm = () => {
         inputValue={password}
         setInputValue={setPasswordValue}
         isInputError={false}
-        inputPlaceholder={t("login.password")}
+        inputPlaceholder={t("widgets.login-form.password")}
         inputType="password"
         iconSrc={passwordPath}
       />
       <p className="text-red-600 text-sm">{error}</p>
-      <BaseButton>{isLoading ? <Loader /> : "Войти"}</BaseButton>
+      <BaseButton>
+        {isLoading ? <Loader /> : t("widgets.login-form.submit")}
+      </BaseButton>
     </form>
   );
 };
