@@ -1,110 +1,139 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-// import { API_MAP } from "@shared/constants/apiMap";
+import { API_MAP } from "@shared/constants/apiMap";
 import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
-// import { baseApi } from "@shared/lib/baseApi";
-// import { IPreference } from "@shared/lib/types";
-// import { HttpStatusCode } from "@shared/model/httpStatus";
+import { baseApi, schedulesApi } from "@shared/lib/baseApi";
+import { getOffDaysInObj } from "@shared/lib/helpers";
+import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
-// import ConfirmModal from "@shared/ui/confirm-modal";
+import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
-// import { Loader } from "@shared/ui/loader";
+import { Loader } from "@shared/ui/loader";
 import UserProfileLink from "@shared/ui/user-profile-link";
+
+interface IFetchData {
+  username: string;
+  year: number;
+  month: number;
+}
 
 export const NewPreference = () => {
   const { t } = useTranslation();
   const [timeParams] = useSearchParams();
   const storedWorkingHours = localStorage.getItem("workingHours") as string;
-  // const token = localStorage.getItem("GCToken") as string;
-  // const navigate = useNavigate();
+  const token = localStorage.getItem("GCToken") as string;
+  const navigate = useNavigate();
 
-  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [isBtnLoading, setIsLoading] = useState<boolean>(false);
-  // const [isConfirmLoading, setConfirmIsLoading] = useState<boolean>(false);
-  // const [errorText, setErrorText] = useState<string>("");
-  // const [preference, setPreference] = useState<IPreference>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isBtnLoading, setIsLoading] = useState<boolean>(false);
+  const [isConfirmLoading, setConfirmIsLoading] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string>("");
 
-  // const today = new Date();
-  // const month = today.getMonth();
-  // const year = today.getFullYear();
+  const [supervisorUsername, setSupervisorUsername] = useState<string>("");
 
-  // const handleBtnClick = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const matchYear = month === 1 ? year - 1 : year;
-  //     const matchMonth = month === 1 ? 12 : month + 1;
+  const today = new Date();
+  const month = today.getMonth();
+  const year = today.getFullYear();
+  const matchMonth = month === 11 ? 12 : month + 1;
+  const storedUsername = localStorage.getItem("username") as string;
 
-  //     const res = await baseApi.get(
-  //       `${API_MAP.GET_PREFERENCES_BY_YEAR}${matchYear}&month=${matchMonth}`,
-  //       {
-  //         headers: {
-  //           accept: "*/*",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-  //     if (res.status === HttpStatusCode.OK) {
-  //       if (!res.data.result.length) {
-  //         throw new Error("У вас нет ранее выбранных предпочтений");
-  //       }
-  //       const neededId = res.data.result[0].id;
+  const fetchScheduleByLogin = async ({
+    username,
+    year,
+    month,
+  }: IFetchData): Promise<any> => {
+    return schedulesApi.get(
+      `${API_MAP.GET_SINGLE_SCHEDULE_OF_USER_BY_LOGIN}${username}?year_and_month=${year}%2F${month}`,
+      {
+        headers: {
+          accept: "*/*",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  };
 
-  //       try {
-  //         const res = await baseApi.get(
-  //           `${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${neededId}`,
-  //           {
-  //             headers: {
-  //               accept: "*/*",
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           },
-  //         );
-  //         if (res.status === HttpStatusCode.OK) {
-  //           const neededYear = month === 11 ? year + 1 : year;
-  //           const neededMonth = month === 11 ? 1 : month + 1;
-  //           const data = res.data;
-  //           setPreference({
-  //             ...data,
-  //             requested_date: `${neededYear}/${neededMonth}`,
-  //           });
-  //         }
-  //       } catch (error) {
-  //         console.log(error);
-  //       } finally {
-  //         setIsModalOpen(true);
-  //       }
-  //     }
-  //   } catch (error: unknown) {
-  //     setErrorText((error as Error).message);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const handleBtnClick = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchScheduleByLogin({
+        username: storedUsername,
+        year,
+        month: matchMonth,
+      });
 
-  // const modalConfirmClick = async () => {
-  //   try {
-  //     setConfirmIsLoading(true);
-  //     const res = await baseApi.post(API_MAP.CREATE_PREFERENCE, preference, {
-  //       headers: {
-  //         accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     if (res.status === HttpStatusCode.CREATED) {
-  //       navigate("/done");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setConfirmIsLoading(false);
-  //   }
-  // };
+      if (res.status === HttpStatusCode.OK) {
+        const response = res.data.month;
+        setSupervisorUsername(response.currentSupervisor);
+
+        if (response.workingHours === "NO") {
+          throw new Error("У вас нет ранее оставленных предпочтений");
+        } else if (response.workingHours !== "20-08.") {
+          const lastOffDays = getOffDaysInObj("пн", "сб");
+          localStorage.setItem("workingHours", response.workingHours);
+          localStorage.setItem("offDays", JSON.stringify(lastOffDays));
+          navigate(
+            `/new-preference/steps/2?time=${response.workingHours.slice(
+              0,
+              -1,
+            )}`,
+          );
+        } else {
+          setIsModalOpen(true);
+        }
+      }
+    } catch (error: any) {
+      setErrorText(error.message);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const modalConfirmClick = async () => {
+    try {
+      setConfirmIsLoading(true);
+      const res = await fetchScheduleByLogin({
+        username: supervisorUsername,
+        year,
+        month: matchMonth,
+      });
+      if (res.status === HttpStatusCode.OK) {
+        const response = res.data;
+        console.log(response);
+        try {
+          const res = await baseApi.post(
+            API_MAP.CREATE_PREFERENCE,
+            { supervizorName: response.name },
+            {
+              headers: {
+                accept: "*/*",
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            },
+          );
+          if (res.status === HttpStatusCode.CREATED) {
+            navigate("/done");
+          }
+        } catch (error: any) {
+          console.log(error);
+        }
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setConfirmIsLoading(false);
+    }
+  };
 
   return (
     <BaseContainer className="bg-[#F9FDFF]">
@@ -114,8 +143,8 @@ export const NewPreference = () => {
         <UserProfileLink />
       </HeaderContainer>
       <div className="px-6 mt-6">
-        {/* <button
-          disabled={errorText ? true : false}
+        <button
+          disabled={!!errorText}
           onClick={handleBtnClick}
           className={`${
             errorText ? "cursor-not-allowed" : ""
@@ -142,7 +171,7 @@ export const NewPreference = () => {
           />
         ) : (
           ""
-        )} */}
+        )}
         <div className="grid grid-rows-4 grid-flow-col gap-4 mt-6">
           {scheduleLinks?.map((item, index) => {
             timeParams.set("time", item?.time);
