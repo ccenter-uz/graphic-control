@@ -7,7 +7,6 @@ import { Done } from "@pages/done";
 import { Error } from "@pages/error";
 import { Home } from "@pages/home";
 import { LoginPage } from "@pages/login";
-import { MyCurrentSchedule } from "@pages/my-current-schedule";
 import { MyPreferences } from "@pages/my-preferences";
 import { NewPreference } from "@pages/new-preference";
 import { NewPreferenceStep1 } from "@pages/new-preference-step-1";
@@ -42,10 +41,6 @@ export const router = createBrowserRouter([
           {
             path: "/user",
             element: <UserProfile />,
-          },
-          {
-            path: "/select-month/my-schedule",
-            element: <MyCurrentSchedule />,
           },
           {
             path: "/schedules",

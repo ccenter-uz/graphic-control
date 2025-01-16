@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -100,19 +101,18 @@ export const NewPreferenceStep2 = () => {
   }, []);
 
   useEffect(() => {
+    const pageTitle = t("pages.new_preference_step_2.title").toString();
     setBackLinkPath?.("/new-preference/steps/1?" + timeParams);
-    setPageHeaderTitle?.(
-      "Выберите один рабочий день на замену одного выходного дня",
-    );
+    setPageHeaderTitle?.(pageTitle);
     setSubHeaderInfoData?.([
       {
         id: 1,
-        title: "Календарные дни",
+        title: t("pages.new_preference_step_2.calendar_days").toString(),
         value: getLastDayOfCurrentMonth(),
       },
       {
         id: 2,
-        title: "Кол-во произволных дней",
+        title: t("pages.new_preference_step_2.amount_custom_offdays"),
         value: "1",
       },
     ]);
@@ -262,7 +262,7 @@ export const NewPreferenceStep2 = () => {
           className={`${isBtnsActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
           disabled={!isBtnsActive}
         >
-          Сбросить выбор
+          {t("pages.new_preference_step_2.reset_btn_title")}
         </button>
       </div>
       <table className="my-5">
@@ -300,7 +300,9 @@ export const NewPreferenceStep2 = () => {
       </table>
       <WorkingHours hours={timeParams.get("time")?.toString()} />
       <Link to={`${THIRD_PAGE_PATH}?${timeParams}`}>
-        <BaseButton onClick={handleConfirmClick}>Далее</BaseButton>
+        <BaseButton onClick={handleConfirmClick}>
+          {t("pages.new_preference_step_2.submit")}
+        </BaseButton>
       </Link>
     </div>
   );

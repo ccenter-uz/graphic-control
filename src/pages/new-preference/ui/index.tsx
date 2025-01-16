@@ -110,7 +110,7 @@ export const NewPreference = () => {
     <BaseContainer className="bg-[#F9FDFF]">
       <HeaderContainer className="flex items-center justify-between">
         <BackLink to="/" />
-        <HeaderTitle>{t("new-preference.title")}</HeaderTitle>
+        <HeaderTitle>{t("pages.new_preference.title")}</HeaderTitle>
         <UserProfileLink />
       </HeaderContainer>
       <div className="px-6 mt-6">
@@ -160,7 +160,7 @@ export const NewPreference = () => {
           })}
           <BaseLink
             className="min-h-[54px]"
-            title={t("new-preference.smena")}
+            title={t("pages.new_preference.order_btn_title")}
             to="select-supervisor"
             isBlue={true}
           />

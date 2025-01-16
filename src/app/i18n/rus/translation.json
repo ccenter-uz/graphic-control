@@ -44,34 +44,87 @@
       "title": "Укажите причину предпочтения:"
     }
   },
-  
-  "home": {
-    "new-preference": "Новое предпочтение",
-    "my-current-schedule": "Мои графики",
-    "my-preferences": "Мои предпочтения",
-    "support": "Поддержка"
-  },
-  "user-profile": {
-    "branch": "КЦ",
-    "username": "Логин",
-    "password": "Пароль",
-    "phone-number": "Тел номер",
-    "support": "Поддержка"
-  },
-  "my_current_schedule": {
-    "title": "Мой текущий график"
-  },
-  "new-preference": {
-    "title": "Какой график предпочитаете?",
-    "main-btn-title": "Такой же как и в прошлом месяце",
-    "smena": "Смена"
-  },
-  "select-supervisor": {
-    "title": "Выберите сменного Супервайзера",
-    "second-title": "255-КЦ"
-  },
-  "done": {
-    "title": "Готово",
-    "button_title": "Перейти в главное меню"
+  "pages": {
+    "done": {
+      "title": "Готово",
+      "submit": "Перейти в главное меню"
+    },
+    "error": {
+      "title": "Произошла ошибка",
+      "submit": "Перейти в главное меню"
+    },
+    "home": {
+      "new_preference": "Новое предпочтение",
+      "modal_text": "Заявку можно оставить только с 15 по 25 число месяца, либо вы уже оставили её. Оставленную заявку можно просмотреть или изменить в разделе 'Мои предпочтения'",
+      "my_schedules": "Мои графики",
+      "my_preferences": "Мои предпочтения",
+      "support": "Поддержка"
+    },
+    "login": {
+      "title": "Авторизация",
+      "support": "Поддержка"
+    },
+    "my_preferences": {
+      "title": "Полный список ваших предпочтений",
+      "select_month_title": "Выберите нужный месяц:"
+    },
+    "new_preference": {
+      "title": "Какой график предпочитаете?",
+      "order_btn_title": "Смена"
+    },
+    "new_preference_step_1": {
+      "title": "Выберите выходные дни",
+      "calendar_days": "Календарные дни",
+      "submit": "Далее"
+    },
+    "new_preference_step_2": {
+      "title": "Выберите один рабочий день на замену одного выходного дня",
+      "calendar_days": "Календарные дни",
+      "amount_custom_offdays": "Кол-во произволных дней",
+      "reset_btn_title": "Сбросить выбор",
+      "submit": "Далее"
+    },
+    "new_preference_step_3": {
+      "title": "Выберите рабочий день для замены праздничного выходного дня",
+      "calendar_days":"Календарные дни",
+      "amount_holidays": "Кол-во произволных дней",
+      "reset_btn_title": "Сбросить выбор",
+      "confirm": "Далее"
+    },
+    "new_preference_step_4": {
+      "title": "Укажите причину предпочтения",
+      "summary": "Итоги заполнения:",
+      "working_hours": "Режим работы",
+      "weekends": "Выходные дни недели",
+      "custom_offday": "Желаемый выходной день",
+      "not_selected": "Не выбрано",
+      "custom_offdays_instead_holidays": "Желаемый выходные дни за праздничные выходные",
+      "submit": "Подтвердить"
+    },
+    "schedules": {
+      "title": "Полный список ваших графиков",
+      "select_month_title": "Выберите нужный месяц:"
+    },
+    "select_supervisor": {
+      "title": "Выберите сменного Супервайзера",
+      "cc": "КЦ"
+    },
+    "single_preferences": {
+      "title": "Ваше предпочтение за"
+    },
+    "single_schedule": {
+      "title": "Ваш график за"
+    },
+    "supervisors_schedule": {
+      "title": "График",
+      "submit": "Подтвердить"
+    },
+    "user_profile": {
+      "username": "Логин",
+      "password": "Пароль",
+      "phone_number": "Тел. номер",
+      "cc": "КЦ",
+      "support": "Поддержка"
+    }
   }
 }

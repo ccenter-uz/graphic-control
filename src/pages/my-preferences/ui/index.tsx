@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { MyPreferenceSelectMonth } from "@widgets/my-preference-select-month";
 
 import BackLink from "@shared/ui/back-link";
@@ -10,9 +12,11 @@ export const MyPreferences = () => {
     <BaseContainer>
       <HeaderContainer className="flex items-center ">
         <BackLink to="/" />
-        <HeaderTitle>Полный список ваших предпочтений</HeaderTitle>
+        <HeaderTitle>{t("pages.my_preferences.title")}</HeaderTitle>
       </HeaderContainer>
-      <p className="text-sm text-[#64748B] mt-8">Выберите нужный месяц:</p>
+      <p className="text-sm text-[#64748B] mt-8">
+        {t("pages.my_preferences.select_month_title")}
+      </p>
       <MyPreferenceSelectMonth />
     </BaseContainer>
   );

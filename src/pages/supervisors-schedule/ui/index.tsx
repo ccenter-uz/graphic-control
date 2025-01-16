@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -106,7 +107,9 @@ export const SupervisorsSchedule = () => {
     <BaseContainer>
       <HeaderContainer className="flex">
         <BackLink to="/new-preference/select-supervisor" />
-        <HeaderTitle>График - {supervisorName}</HeaderTitle>
+        <HeaderTitle>
+          {t("pages.supervisors_schedule.title")} - {supervisorName}
+        </HeaderTitle>
       </HeaderContainer>
       {loading ? (
         <Loader />
@@ -119,7 +122,7 @@ export const SupervisorsSchedule = () => {
         />
       )}
       <BaseButton onClick={handleConfirmClick}>
-        {btnLoading ? <Loader /> : "Подтвердить"}
+        {btnLoading ? <Loader /> : t("pages.supervisors_schedule.submit")}
       </BaseButton>
     </BaseContainer>
   );

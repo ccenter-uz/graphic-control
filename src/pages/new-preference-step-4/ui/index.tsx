@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -79,33 +80,34 @@ export const NewPreferenceStep4 = () => {
         ? "/new-preference/steps/3?" + timeParams
         : "/new-preference/steps/2?" + timeParams,
     );
-    setPageHeaderTitle?.("Укажите причину предпочтения");
+    const pageTitle = t("pages.new_preference_step_4.title");
+    setPageHeaderTitle?.(pageTitle);
     setSubHeaderInfoData?.([
       {
         id: 1,
-        title: "Итоги заполнения:",
+        title: t("pages.new_preference_step_4.summary"),
         value: "",
       },
       {
         id: 2,
-        title: "Режим работы",
+        title: t("pages.new_preference_step_4.working_hours"),
         value: timeParams.get("time")?.toString() || "",
       },
       {
         id: 3,
-        title: "Выходные дни недели",
+        title: t("pages.new_preference_step_4.weekends"),
         value: `${firstOffDay} | ${secondOffDay}`,
       },
       {
         id: 4,
-        title: "Желаемый выходной день",
+        title: t("pages.new_preference_step_4.custom_offday"),
         value: customOffDay
           ? `${customOffDay.label} ${months[needMonth].title}`
-          : "Не выбрано",
+          : t("pages.new_preference_step_4.not_selected"),
       },
       {
         id: 5,
-        title: "Желаемый выходные дни за праздничные выходные",
+        title: t("pages.new_preference_step_4.custom_offdays_instead_holidays"),
         value: `${getHolidaysLabel(holidays[0])} ${getHolidaysLabel(
           holidays[1],
         )} ${getHolidaysLabel(holidays[2])} ${getHolidaysLabel(
@@ -213,7 +215,7 @@ export const NewPreferenceStep4 = () => {
           isDisabled={!isSubmitBtnActive}
           onClick={handleConfirmClick}
         >
-          {isLoading ? <Loader /> : "Подтвердить"}
+          {isLoading ? <Loader /> : t("pages.new_preference_step_4.submit")}
         </BaseButton>
       </Link>
     </div>

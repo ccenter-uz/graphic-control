@@ -51,7 +51,7 @@ export const SelectSupervisor = () => {
     <BaseContainer>
       <HeaderContainer className="flex items-center ">
         <BackLink to="/new-preference" />
-        <HeaderTitle>{t("select-supervisor.title")}</HeaderTitle>
+        <HeaderTitle>{t("pages.select_supervisor.title")}</HeaderTitle>
       </HeaderContainer>
       <div className=" grid gap-4 px-6">
         {loading ? (
@@ -59,7 +59,7 @@ export const SelectSupervisor = () => {
         ) : (
           <>
             <HeaderTitle className="text-center mt-4">
-              {ATSnumber} - КЦ
+              {ATSnumber} - {t("pages.select_supervisor.cc")}
             </HeaderTitle>
             {supervisors?.map((item: ISupervisor) => {
               return (

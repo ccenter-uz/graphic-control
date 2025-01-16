@@ -1,3 +1,130 @@
 {
-  "welcome": "Ҳуш келибсиз"
+  "shared": {
+    "checkbox_group": {
+      "edit_btn_title": "Ўзгартириш"
+    },
+    "confirm_modal": {
+      "title": "Ҳақиқатан ҳам чиқмоқчимисиз?",
+      "cancel": "Йўқ",
+      "confirm": "Ҳа"
+    },
+    "table_head": {
+      "monday": "ДУ",
+      "tuesday": "СЕ",
+      "wednesday": "ЧХ",
+      "thursday": "ПА",
+      "friday": "ЖУ",
+      "saturday": "ШБ",
+      "sunday": "ЯК"
+    },
+    "working_hours": {
+      "title": "Иш вақти"
+    }
+  },
+  "widgets": {
+    "home_header": {
+      "title": "Жадвал аризалари"
+    },
+    "login-form": {
+      "username": "Логин",
+      "password": "Парол",
+      "submit": "Кириш"
+    },
+    "select_weekend_days": {
+      "title": "Ҳафта давомидаги 2 кунлик дам олиш кунларини танланг",
+      "monday": "Душанба",
+      "tuesday": "Сешанба",
+      "wednesday": "Чоршанба",
+      "thursday": "Пайшанба",
+      "friday": "Жума",
+      "saturday": "Шанба",
+      "sunday": "Якшанба"
+    },
+    "step_4_reason_form": {
+      "title": "Ариза сабабини кўрсатинг:"
+    }
+  },
+  "pages": {
+    "done": {
+      "title": "Тайёр",
+      "submit": "Бош менюга ўтиш"
+    },
+    "error": {
+      "title": "Хатолик юз берди",
+      "submit": "Бош менюга ўтиш"
+    },
+    "home": {
+      "new_preference": "Янги ариза",
+      "modal_text": "Ариза фақат ойнинг 15 дан 25 кунигача қолдирилиши мумкин ёки сиз уни аллақачон қолдиргансиз. Қолдирилган аризани 'Менинг аризаларим' бўлимида кўриш ёки таҳрирлаш мумкин",
+      "my_schedules": "Менинг жадвалим",
+      "my_preferences": "Менинг аризаларим",
+      "support": "Қўллаб-қувватлаш"
+    },
+    "login": {
+      "title": "Кириш",
+      "support": "Қўллаб-қувватлаш"
+    },
+    "my_preferences": {
+      "title": "Сизнинг барча аризаларингиз рўйхати",
+      "select_month_title": "Керакли ойни танланг:"
+    },
+    "new_preference": {
+      "title": "Қайси жадвални афзал кўрасиз?",
+      "order_btn_title": "Смена"
+    },
+    "new_preference_step_1": {
+      "title": "Дам олиш кунларини танланг",
+      "calendar_days": "Тақвим кунлари",
+      "submit": "Кейингиси"
+    },
+    "new_preference_step_2": {
+      "title": "Дам олиш кунининг ўрнига иш кунини танланг",
+      "calendar_days": "Тақвим кунлари",
+      "amount_custom_offdays": "Ихтиёрий кунлар сони",
+      "reset_btn_title": "Танловни бекор қилиш",
+      "submit": "Кейингиси"
+    },
+    "new_preference_step_3": {
+      "title": "Байрам кунининг ўрнига иш кунини танланг",
+      "calendar_days": "Тақвим кунлари",
+      "amount_holidays": "Байрам кунлари сони",
+      "reset_btn_title": "Танловни бекор қилиш",
+      "confirm": "Кейингиси"
+    },
+    "new_preference_step_4": {
+      "title": "Ариза сабабини кўрсатинг",
+      "summary": "Ариза натижалари:",
+      "working_hours": "Иш вақти",
+      "weekends": "Дам олиш кунлари",
+      "custom_offday": "Танланган дам олиш куни",
+      "not_selected": "Танланмаган",
+      "custom_offdays_instead_holidays": "Байрам кунлари учун ихтиёрий дам олиш кунлари",
+      "submit": "Тасдиқлаш"
+    },
+    "schedules": {
+      "title": "Сизнинг иш жадвалларингиз рўйхати",
+      "select_month_title": "Керакли ойни танланг:"
+    },
+    "select_supervisor": {
+      "title": "Навбатчи Супервайзерни танланг",
+      "cc": "КМ"
+    },
+    "single_preferences": {
+      "title": "Сизнинг аризангиз"
+    },
+    "single_schedule": {
+      "title": "Сизнинг иш жадвалингиз"
+    },
+    "supervisors_schedule": {
+      "title": "Иш жадвал",
+      "submit": "Тасдиқлаш"
+    },
+    "user_profile": {
+      "username": "Логин",
+      "password": "Парол",
+      "phone_number": "Телефон рақам",
+      "cc": "КМ",
+      "support": "Қўллаб-қувватлаш"
+    }
+  }
 }

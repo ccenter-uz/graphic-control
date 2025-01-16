@@ -97,13 +97,16 @@ export const UserProfile = () => {
 
       {/* ✅ User Info Section */}
       <div className="px-6 mt-12 grid gap-4">
-        <UserSingleInfo title={t("user-profile.username")} value={data.login} />
         <UserSingleInfo
-          title={t("user-profile.password")}
+          title={t("pages.user_profile.username")}
+          value={data.login}
+        />
+        <UserSingleInfo
+          title={t("pages.user_profile.password")}
           value={data.password}
         />
         <UserSingleInfo
-          title={t("user-profile.phone-number")}
+          title={t("pages.user_profile.phone_number")}
           value={
             data.first_number.length === 13
               ? formatPhoneNumber(data.first_number)
@@ -111,7 +114,7 @@ export const UserProfile = () => {
           }
         />
         <UserSingleInfo
-          title={t("user-profile.branch")}
+          title={t("pages.user_profile.cc")}
           value={data.service_name}
         />
       </div>
@@ -126,7 +129,7 @@ export const UserProfile = () => {
       )}
 
       <BlueLink
-        title={t("user-profile.support")}
+        title={t("pages.user_profile.support")}
         to={TgSupportLink}
         className="ml-auto mt-auto"
       />

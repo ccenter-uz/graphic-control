@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { FC, useContext } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,7 +16,6 @@ type Props = {
 
 export const Error: FC<Props> = () => {
   const { errorInfo } = useContext(NewPreferenceContext) || {};
-  console.log(errorInfo);
 
   return (
     <BaseContainer className="pt-20">
@@ -25,7 +25,7 @@ export const Error: FC<Props> = () => {
         {errorInfo?.errorMessage}
       </HeaderTitle>
       <Link to="/">
-        <BaseButton>Перейти в главное меню</BaseButton>
+        <BaseButton>{t("pages.error.submit")}</BaseButton>
       </Link>
     </BaseContainer>
   );

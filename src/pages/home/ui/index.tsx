@@ -93,7 +93,7 @@ export const Home = () => {
       <div className="grid gap-7 mt-11 px-6">
         <button onClick={handleNewPreferenceClick}>
           <BaseLink
-            title={t("home.new-preference")}
+            title={t("pages.home.new_preference")}
             imgSrc={calendarTickPath}
           />
         </button>
@@ -101,26 +101,24 @@ export const Home = () => {
           <ConfirmModal
             state={isConfirmModalOpen}
             setState={setIsConfirmModalOpen}
-            modalText={
-              "Заявку можно оставить только с 15 по 25 число месяца, либо вы уже оставили её. Оставленную заявку можно просмотреть или изменить в разделе 'Мои предпочтения'"
-            }
+            modalText={t("pages.home.modal_text")}
             confirmBtnClick={() => setIsConfirmModalOpen(false)}
           />
         ) : null}
         <BaseLink
           to="schedules"
-          title={t("home.my-current-schedule")}
+          title={t("pages.home.my_schedules")}
           imgSrc={calendarClockPath}
         />
         <BaseLink
           to="my-preferences"
-          title={t("home.my-preferences")}
+          title={t("pages.home.my_preferences")}
           imgSrc={calendarListPath}
         />
       </div>
       <BlueLink
         to={TgSupportLink}
-        title={t("home.support")}
+        title={t("pages.home.support")}
         className="ml-auto mt-auto mb-6"
       />
     </BaseContainer>
