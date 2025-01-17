@@ -36,6 +36,7 @@ export const LoginForm = () => {
 
       if (response.status === HttpStatusCode.OK) {
         localStorage.setItem("GCToken", response.data.token);
+        localStorage.setItem("username", usernameValue);
         navigate("/");
       }
     } catch (error: unknown) {

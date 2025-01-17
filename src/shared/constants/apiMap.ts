@@ -16,5 +16,6 @@ export enum API_MAP {
   GET_SINGLE_SCHEDULE_HELPERS = "data-months?year_and_month=",
   GET_ALL_SUPERVISORS = "get-supervisors",
   GET_SINGLE_SCHEDULE_OF_SUPERVISOR = "get-operator-by-id/",
+  GET_SINGLE_SCHEDULE_OF_USER_BY_LOGIN = "get-operator-by-id/",
   GET_HOLIDAYS_BY_MONTH = "get-holiday-via-id?month_id=",
 }
