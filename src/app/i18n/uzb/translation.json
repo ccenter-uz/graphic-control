@@ -110,7 +110,8 @@
     },
     "select_supervisor": {
       "title": "Navbatchi Supervayzerni tanlang",
-      "cc": "KM"
+      "cc": "KM",
+      "no_supervisors": "Navbatchi Supervayzer mavjud emas"
     },
     "single_preferences": {
       "title": "Sizning arizangiz"

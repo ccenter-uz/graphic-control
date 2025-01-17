@@ -7,7 +7,7 @@ import { API_MAP } from "@shared/constants/apiMap";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
 import { generateCalendar, mergeArrays } from "@shared/lib/helpers";
-import { ICheckbox, IPreference } from "@shared/lib/types";
+import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseButton from "@shared/ui/base-button";
@@ -18,15 +18,17 @@ import HeaderTitle from "@shared/ui/header-title";
 import { Loader } from "@shared/ui/loader";
 
 export const SupervisorsSchedule = () => {
-  const { id } = useParams();
+  const { login } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("GCToken") as string;
+
+  const { setErrorInfo } = useContext(NewPreferenceContext) || {};
+
   const [loading, setLaoding] = useState<boolean>(false);
   const [data, setData] = useState<ICheckbox[]>([]);
-  const { setErrorInfo } = useContext(NewPreferenceContext) || {};
   const [supervisorName, setSupervisorName] = useState<string>("");
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
-  const [preference, setPreference] = useState<IPreference>();
+  const [preference, setPreference] = useState<{ supervizorName: string }>();
 
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
@@ -34,28 +36,25 @@ export const SupervisorsSchedule = () => {
 
   const getScheduleOfSupervisor = async () => {
     try {
-      const requestedMonth = currentMonth === 12 ? 1 : currentMonth;
-      const requestedYear = currentMonth === 12 ? currentYear + 1 : currentYear;
       setLaoding(true);
       const res = await schedulesApi.get(
-        `${API_MAP.GET_SINGLE_SCHEDULE_OF_SUPERVISOR}${id}?year_and_month=${currentYear}%2F${currentMonth}`,
+        `${API_MAP.GET_SINGLE_SCHEDULE_OF_USER_BY_LOGIN}${login}?year_and_month=${currentYear}%2F${currentMonth}`,
       );
       if (res.status === HttpStatusCode.OK) {
         const data = res.data;
         const preference = {
-          workingHours: data.month.workingHours,
-          daysOfMonth: data.month.days,
-          requested_date: `${requestedYear}/${requestedMonth}`,
+          supervizorName: data.name,
         };
         setPreference(preference);
+
         setSupervisorName(data.name);
+
         const generatedData = generateCalendar(
           +currentYear,
           +currentMonth,
           data.month.days[0].label,
           data.month.days.length,
         );
-
         const mergedArray = mergeArrays(generatedData, data.month.days);
         setData(mergedArray);
       }

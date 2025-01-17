@@ -110,7 +110,8 @@
     },
     "select_supervisor": {
       "title": "Выберите сменного Супервайзера",
-      "cc": "КЦ"
+      "cc": "КЦ",
+      "no_supervisors": "Нет сменного Супервайзера"
     },
     "single_preferences": {
       "title": "Ваше предпочтение за"
