@@ -1,4 +1,4 @@
-export function canUserAddPreference(
+export function canUserEditPreference(
   monthFromParams: number,
   yearFromParams: number,
 ) {
@@ -7,11 +7,15 @@ export function canUserAddPreference(
   const currentYear = today.getFullYear();
 
   if (yearFromParams && monthFromParams) {
-    if (currentYear > yearFromParams) {
+    if (
+      currentYear === yearFromParams &&
+      monthFromParams - currentMonth === 1
+    ) {
       return true;
     } else if (
-      currentYear === yearFromParams &&
-      currentMonth + 1 > monthFromParams
+      yearFromParams - currentYear === 1 &&
+      monthFromParams === 1 &&
+      currentMonth === 12
     ) {
       return true;
     } else {

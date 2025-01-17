@@ -46,11 +46,13 @@ export const Home = () => {
 
         if (preferences.length && 15 <= today && today <= 25) {
           const lastPreference = preferences[0];
+          const splittedDate = lastPreference.requested_date.split("/");
+          const requestedYear = splittedDate[0];
+          const requestedMonth = splittedDate[1];
 
-          const year = lastPreference.requested_date.split("/")[0];
-          const month = lastPreference.requested_date.split("/")[1];
-
-          setIsBtnEditable(canUserAddPreference(+month, +year));
+          setIsBtnEditable(
+            canUserAddPreference(+requestedMonth, +requestedYear) || false,
+          );
         }
       }
     } catch (error) {
