@@ -13,7 +13,9 @@ export const Done = () => {
   return (
     <BaseContainer>
       <HeaderContainer>
-        <HeaderTitle className="text-center">{t("done.title")}</HeaderTitle>
+        <HeaderTitle className="text-center">
+          {t("pages.done.title")}
+        </HeaderTitle>
       </HeaderContainer>
       <img
         src={doneImg}
@@ -21,7 +23,7 @@ export const Done = () => {
         className="mx-auto my-20 w-[129px] h-[133px]"
       />
       <Link to="/">
-        <BaseButton>{t("done.button_title")}</BaseButton>
+        <BaseButton>{t("pages.done.submit")}</BaseButton>
       </Link>
     </BaseContainer>
   );

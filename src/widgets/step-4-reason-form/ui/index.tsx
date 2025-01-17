@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { ChangeEvent, Dispatch, FC, useEffect, useState } from "react";
 
 import BaseLabel from "@shared/ui/base-label";
@@ -16,6 +17,7 @@ export const Step4ReasonForm: FC<Props> = ({
   setIsSubmitBtnActive,
 }) => {
   const MAX_LETTER = 250;
+
   const [message, setMessage] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,7 +42,7 @@ export const Step4ReasonForm: FC<Props> = ({
   }, [setIsSubmitBtnActive, textareaValue]);
   return (
     <div className={`${className}`}>
-      <BaseLabel>Укажите причину предпочтения:</BaseLabel>
+      <BaseLabel>{t("widgets.step_4_reason_form.title")}</BaseLabel>
       <BaseTextarea
         value={textareaValue}
         onChange={handleTextAreaChange}

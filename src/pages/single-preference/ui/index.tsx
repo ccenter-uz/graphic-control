@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -132,7 +133,7 @@ export const SinglePreference = () => {
       <HeaderContainer className="flex items-center">
         <BackLink to="/my-preferences" />
         <HeaderTitle>
-          Ваше предпочтение за {months[+month - 1]?.title}
+          {t("pages.single_preferences.title")} {months[+month - 1]?.title}
         </HeaderTitle>
       </HeaderContainer>
       <SubheaderInfo data={subheaderInfo} />

@@ -1,3 +1,130 @@
 {
-  "welcome": "Hush kelibsiz"
+  "shared": {
+    "checkbox_group": {
+      "edit_btn_title": "O'zgartirish"
+    },
+    "confirm_modal": {
+      "title": "Haqiqatan ham chiqmoqchimisiz?",
+      "cancel": "Yo'q",
+      "confirm": "Ha"
+    },
+    "table_head": {
+      "monday": "DU",
+      "tuesday": "SE",
+      "wednesday": "CH",
+      "thursday": "PA",
+      "friday": "JU",
+      "saturday": "SH",
+      "sunday": "YA"
+    },
+    "working_hours": {
+      "title": "Ish vaqti"
+    }
+  },
+  "widgets": {
+    "home_header": {
+      "title": "Jadval arizalari"
+    },
+    "login-form": {
+      "username": "Login",
+      "password": "Parol",
+      "submit": "Kirish"
+    },
+    "select_weekend_days": {
+      "title": "Hafta davomidagi 2 kunlik dam olish kunlarini tanlang",
+      "monday": "Dushanba",
+      "tuesday": "Seshanba",
+      "wednesday": "Chorshanba",
+      "thursday": "Payshanba",
+      "friday": "Juma",
+      "saturday": "Shanba",
+      "sunday": "Yakshanba"
+    },
+    "step_4_reason_form": {
+      "title": "Ariza sababini ko'rsating:"
+    }
+  },
+  "pages": {
+    "done": {
+      "title": "Tayyor",
+      "submit": "Bosh menyuga o'tish"
+    },
+    "error": {
+      "title": "Xatolik yuz berdi",
+      "submit": "Bosh menyuga o'tish"
+    },
+    "home": {
+      "new_preference": "Yangi ariza",
+      "modal_text": "Ariza faqat oyning 15 dan 25 kunigacha qoldirilishi mumkin yoki siz uni allaqachon qoldirgansiz. Qoldirilgan arizani 'Mening arizalarim' bo'limida ko'rish yoki tahrirlash mumkin",
+      "my_schedules": "Mening jadvalim",
+      "my_preferences": "Mening arizalarim",
+      "support": "Qo'llab-quvvatlash"
+    },
+    "login": {
+      "title": "Kirish",
+      "support": "Qo'llab-quvvatlash"
+    },
+    "my_preferences": {
+      "title": "Sizning barcha arizalaringiz ro'yxati",
+      "select_month_title": "Kerakli oynani tanlang:"
+    },
+    "new_preference": {
+      "title": "Qaysi jadvalni afzal ko'rasiz?",
+      "order_btn_title": "Smena"
+    },
+    "new_preference_step_1": {
+      "title": "Dam olish kunlarini tanlang",
+      "calendar_days": "Taqvim kunlari",
+      "submit": "Keyingisi"
+    },
+    "new_preference_step_2": {
+      "title": "Dam olish kunining o'rniga ish kunini tanlang",
+      "calendar_days": "Taqvim kunlari",
+      "amount_custom_offdays": "Ixtiyoriy kunlar soni",
+      "reset_btn_title": "Tanlovni bekor qilish",
+      "submit": "Keyingisi"
+    },
+    "new_preference_step_3": {
+      "title": "Bayram kunining o'rniga ish kunini tanlang",
+      "calendar_days": "Taqvim kunlari",
+      "amount_holidays": "Bayram kunlar soni",
+      "reset_btn_title": "Tanlovni bekor qilish",
+      "confirm": "Keyingisi"
+    },
+    "new_preference_step_4": {
+      "title": "Ariza sababini ko'rsating",
+      "summary": "Ariza natijalari:",
+      "working_hours": "Ish vaqti",
+      "weekends": "Dam olish kunlari",
+      "custom_offday": "Tanlagan dam olish kuni",
+      "not_selected": "Tanlanmagan",
+      "custom_offdays_instead_holidays": "Bayram kunlari uchun istalgan dam olish kunlari",
+      "submit": "Tasdiqlash"
+    },
+    "schedules": {
+      "title": "Sizning ish jadvallaringiz ro'yxati",
+      "select_month_title": "Kerakli oyni tanlang:"
+    },
+    "select_supervisor": {
+      "title": "Navbatchi Supervayzerni tanlang",
+      "cc": "KM"
+    },
+    "single_preferences": {
+      "title": "Sizning arizangiz"
+    },
+    "single_schedule": {
+      "title": "Sizning ish jadvalingiz"
+    },
+    "supervisors_schedule": {
+      "title": "Ish jadval",
+      "submit": "Tasdiqlash"
+    },
+    "user_profile": {
+      "username": "Login",
+      "password": "Parol",
+      "phone_number": "Telefon raqam",
+      "cc": "KM",
+      "support": "Qo'llab-quvvatlash"
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
@@ -34,6 +35,8 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
       ? isEditAvailable
       : (isEditAvailable = isPreferenceEditable(+month, +year));
   }
+
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -124,7 +127,7 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
         </h6>
         {isEditAvailable && (
           <button onClick={handleEditBtnClick} className="text-[#007AFF]">
-            {isLoading ? <Loader /> : "Изменить"}
+            {isLoading ? <Loader /> : t("shared.checkbox_group.edit_btn_title")}
           </button>
         )}
       </div>

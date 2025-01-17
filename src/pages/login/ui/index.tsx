@@ -23,12 +23,12 @@ export const LoginPage = () => {
   return (
     <BaseContainer>
       <div className="py-8 h-screen flex flex-col">
-        <PageTitle>{t("login.title")}</PageTitle>
+        <PageTitle>{t("pages.login.title")}</PageTitle>
         <img src={LoginImg} className="my-10 mx-auto" />
         <LoginForm />
         <BlueLink
           to={TgSupportLink}
-          title={t("login.support")}
+          title={t("pages.login.support")}
           className="ml-auto mt-auto"
         />
       </div>

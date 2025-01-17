@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -70,7 +71,9 @@ export const SingleSchedule = () => {
     <BaseContainer>
       <HeaderContainer className="flex items-center">
         <BackLink to="/schedules" />
-        <HeaderTitle>Ваш график за {months[+month - 1].title}</HeaderTitle>
+        <HeaderTitle>
+          {t("pages.single_schedule.title")} {months[+month - 1].title}
+        </HeaderTitle>
       </HeaderContainer>
       <SubheaderInfo data={subheaderData} />
       <CheckboxGroup

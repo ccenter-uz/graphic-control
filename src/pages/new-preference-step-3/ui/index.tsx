@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -76,25 +77,18 @@ export const NewPreferenceStep3 = () => {
   }, []);
 
   useEffect(() => {
+    const pageTitle = t("pages.new_preference_step_3.title").toString();
     setBackLinkPath?.("/new-preference/steps/2?" + timeParams);
-    if (amountHolidays === 1) {
-      setPageHeaderTitle?.(
-        "Выберите 1 рабочий день на замену 1 праздничного выходного дня.",
-      );
-    } else if (amountHolidays >= 2) {
-      setPageHeaderTitle?.(
-        `Выберите ${amountHolidays} рабочих дней на замену ${amountHolidays} праздничных выходных дней`,
-      );
-    }
+    setPageHeaderTitle?.(pageTitle);
     setSubHeaderInfoData?.([
       {
         id: 1,
-        title: "Календарные дни",
+        title: t("pages.new_preference_step_3.calendar_days"),
         value: getLastDayOfCurrentMonth(),
       },
       {
         id: 2,
-        title: "Кол-во праздничных дней",
+        title: t("pages.new_preference_step_3.amount_holidays"),
         value: amountHolidays.toString(),
       },
     ]);
@@ -199,7 +193,7 @@ export const NewPreferenceStep3 = () => {
           className={`${isResetBtnActive ? "text-[#007AFF]" : "text-[#ccc]"} `}
           disabled={!isResetBtnActive}
         >
-          Сбросить выбор
+          {t("pages.new_preference_step_3.reset_btn_title")}
         </button>
       </div>
       <table className="my-5">
@@ -247,7 +241,7 @@ export const NewPreferenceStep3 = () => {
           isDisabled={!isSubmitBtnActive}
           onClick={handleConfirmClick}
         >
-          Далее
+          {t("pages.new_preference_step_3.confirm")}
         </BaseButton>
       </Link>
     </div>

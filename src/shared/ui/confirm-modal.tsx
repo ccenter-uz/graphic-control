@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import BaseButton from "./base-button";
 import { Loader } from "./loader";
@@ -20,6 +21,8 @@ const ConfirmModal: FC<Props> = ({
   confirmBtnTitle,
   loading,
 }) => {
+  const { t } = useTranslation();
+
   const handleCancelClick = () => {
     setState(!state);
   };
@@ -36,17 +39,19 @@ const ConfirmModal: FC<Props> = ({
         className="min-w-[300px] my-auto px-5 py-6 border rounded-lg bg-white z-[9999]"
       >
         <p className="text-center mb-8 text-sm text-[#64748B]">
-          {modalText ? modalText : "Вы действительно хотите выйти?"}
+          {modalText ? modalText : t("shared.confirm_modal.title")}
         </p>
         <div className="flex justify-between items-center">
           <SecondaryButton className="w-1/3" onClick={handleCancelClick}>
-            Отмена
+            {t("shared.confirm_modal.cancel")}
           </SecondaryButton>
           {loading ? (
             <Loader />
           ) : (
             <BaseButton widthNotFull={true} onClick={confirmBtnClick}>
-              {confirmBtnTitle ? confirmBtnTitle : "Выйти"}
+              {confirmBtnTitle
+                ? confirmBtnTitle
+                : t("shared.confirm_modal.confirm")}
             </BaseButton>
           )}
         </div>

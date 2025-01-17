@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -38,7 +39,7 @@ export const NewPreferenceStep1 = () => {
     setSubHeaderInfoData?.([
       {
         id: 1,
-        title: "Календарные дни",
+        title: t("pages.new_preference_step_1.calendar_days").toString(),
         value: getLastDayOfCurrentMonth(),
       },
     ]);
@@ -52,7 +53,8 @@ export const NewPreferenceStep1 = () => {
   }, []);
 
   useEffect(() => {
-    setPageHeaderTitle?.("Выберите выходные дни");
+    const pageTitle = t("pages.new_preference_step_1.title").toString();
+    setPageHeaderTitle?.(pageTitle);
   }, []);
 
   const handleConfirmClick = () => {
@@ -80,7 +82,7 @@ export const NewPreferenceStep1 = () => {
         }`}
       >
         <BaseButton isDisabled={!isSubmitBtnAble} onClick={handleConfirmClick}>
-          Далее
+          {t("pages.new_preference_step_1.submit")}
         </BaseButton>
       </Link>
     </div>
