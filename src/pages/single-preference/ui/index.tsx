@@ -26,6 +26,7 @@ interface iSubheaderInfo {
 }
 
 export const SinglePreference = () => {
+  const WORKING_HOURS_OF_ORDER_SHCEDULE = "20-08";
   const { id } = useParams();
   localStorage.setItem("preferenceId", id || "");
   const token = localStorage.getItem("GCToken");
@@ -35,9 +36,12 @@ export const SinglePreference = () => {
 
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
+  const [isPreferenceForOrder, setIsPreferenceForOrder] =
+    useState<boolean>(false);
 
   const [isPreferenceEditable, setIsPreferenceEditable] =
     useState<boolean>(false);
+  const [supervisorName, setSupervisorName] = useState<string>("");
 
   const fetchData = async () => {
     try {
@@ -53,6 +57,10 @@ export const SinglePreference = () => {
 
       if (response.status === HttpStatusCode.OK) {
         const data = response.data;
+        if (data.workingHours === WORKING_HOURS_OF_ORDER_SHCEDULE) {
+          setIsPreferenceForOrder(true);
+          setSupervisorName(data.supervizorName);
+        }
 
         const prefenenceDate = data.requested_date.split("/");
         const requestedYear = prefenenceDate[0];
@@ -101,48 +109,6 @@ export const SinglePreference = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, month, token, year]);
 
-  // useEffect(() => {
-  //   baseApi
-  //     .get(`${API_MAP.GET_SINGLE_PREFERENCE_BY_ID}${id}`, {
-  //       headers: {
-  //         accept: "*/*",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === HttpStatusCode.OK) {
-  //         const data = res.data;
-  //         const subheaderInfo = [
-  //           {
-  //             id: 1,
-  //             title: "Рабочее время",
-  //             value: data.workingHours,
-  //           },
-  //           {
-  //             id: 2,
-  //             title: "Причина",
-  //             value: data.description,
-  //           },
-  //         ];
-  //         setSubheaderInfo(subheaderInfo);
-
-  //         const splittedRequestDate = res.data.requested_date.split("/");
-  //         setYear(splittedRequestDate[0]);
-  //         setMonth(splittedRequestDate[1]);
-
-  //         const generatedData = generateCalendar(
-  //           +year,
-  //           +month,
-  //           1,
-  //           data.daysOfMonth.length,
-  //         );
-
-  //         const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
-
-  //         setData(mergedArray);
-  //       }
-  //     });
-  // }, [id, month, token, year]);
   return (
     <BaseContainer>
       <HeaderContainer className="flex items-center">
@@ -152,12 +118,18 @@ export const SinglePreference = () => {
         </HeaderTitle>
       </HeaderContainer>
       <SubheaderInfo data={subheaderInfo} />
-      <CheckboxGroup
-        data={data}
-        year={year}
-        month={month}
-        isEditAvailable={isPreferenceEditable}
-      />
+      {isPreferenceForOrder ? (
+        <p className="text-sm text-[#64748B] mt-8 text-center">
+          {t("pages.single_preferences.no_schedule")}: {supervisorName}.
+        </p>
+      ) : (
+        <CheckboxGroup
+          data={data}
+          year={year}
+          month={month}
+          isEditAvailable={isPreferenceEditable}
+        />
+      )}
     </BaseContainer>
   );
 };

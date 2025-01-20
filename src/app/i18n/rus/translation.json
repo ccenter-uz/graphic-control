@@ -114,7 +114,8 @@
       "no_supervisors": "Нет сменного Супервайзера"
     },
     "single_preferences": {
-      "title": "Ваше предпочтение за"
+      "title": "Ваше предпочтение за",
+      "no_schedule": "Siz quyidagi supervayzer smenasiga so'rov qoldirdingiz"
     },
     "single_schedule": {
       "title": "Ваш график за"
