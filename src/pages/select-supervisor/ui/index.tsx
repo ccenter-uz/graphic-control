@@ -13,6 +13,7 @@ import { Loader } from "@shared/ui/loader";
 
 interface ISupervisor {
   id: string;
+  login: string;
   full_name: string;
 }
 
@@ -22,6 +23,8 @@ export const SelectSupervisor = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [supervisors, setSupervisors] = useState([]);
   const [ATSnumber, setATSnumber] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   const getAllSupervisors = async () => {
     try {
       setLoading(true);
@@ -33,8 +36,11 @@ export const SelectSupervisor = () => {
       });
 
       if (res.status === HttpStatusCode.OK) {
-        setATSnumber(res.data[0].type);
+        setATSnumber(res.data[0]?.type);
         setSupervisors(res.data);
+        if (res.data.length === 0) {
+          setError(t("pages.select_supervisor.no_supervisors"));
+        }
       }
     } catch (error) {
       console.log(error);
@@ -64,13 +70,14 @@ export const SelectSupervisor = () => {
             {supervisors?.map((item: ISupervisor) => {
               return (
                 <BaseLink
-                  key={item?.id}
-                  to={`${item?.id}`}
+                  key={item.id}
+                  to={`${item?.login}`}
                   title={item?.full_name}
                   isBlue={true}
                 />
               );
             })}
+            <HeaderTitle>{error}</HeaderTitle>
           </>
         )}
       </div>

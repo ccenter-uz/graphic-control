@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { useState } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
+import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
 import { getOffDaysInObj } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -31,6 +32,8 @@ export const NewPreference = () => {
   const storedWorkingHours = localStorage.getItem("workingHours") as string;
   const token = localStorage.getItem("GCToken") as string;
   const navigate = useNavigate();
+
+  const { setErrorInfo } = useContext(NewPreferenceContext) || {};
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isBtnLoading, setIsLoading] = useState<boolean>(false);
@@ -75,9 +78,12 @@ export const NewPreference = () => {
         setSupervisorUsername(response.currentSupervisor);
 
         if (response.workingHours === "NO") {
-          throw new Error("У вас нет ранее оставленных предпочтений");
+          throw new Error(t("pages.new_preference.error_text"));
         } else if (response.workingHours !== "20-08.") {
-          const lastOffDays = getOffDaysInObj("пн", "сб");
+          const lastOffDays = getOffDaysInObj(
+            response.lastOffDays[0],
+            response.lastOffDays[1],
+          );
           localStorage.setItem("workingHours", response.workingHours);
           localStorage.setItem("offDays", JSON.stringify(lastOffDays));
           navigate(
@@ -99,6 +105,7 @@ export const NewPreference = () => {
   };
 
   const modalConfirmClick = async () => {
+    // Checking last month data of the operator which is working in order
     try {
       setConfirmIsLoading(true);
       const res = await fetchScheduleByLogin({
@@ -108,7 +115,6 @@ export const NewPreference = () => {
       });
       if (res.status === HttpStatusCode.OK) {
         const response = res.data;
-        console.log(response);
         try {
           const res = await baseApi.post(
             API_MAP.CREATE_PREFERENCE,
@@ -125,6 +131,11 @@ export const NewPreference = () => {
             navigate("/done");
           }
         } catch (error: any) {
+          setErrorInfo?.({
+            errorMessage: error.message,
+            errorStatus: error.status,
+          });
+          navigate("/error");
           console.log(error);
         }
       }
@@ -155,7 +166,7 @@ export const NewPreference = () => {
           ) : errorText ? (
             errorText
           ) : (
-            "Такой же как и в прошлом месяце"
+            t("pages.new_preference.like_current_schedule")
           )}
         </button>
         {isModalOpen ? (
@@ -163,9 +174,7 @@ export const NewPreference = () => {
             state={isModalOpen}
             setState={setIsModalOpen}
             confirmBtnClick={modalConfirmClick}
-            modalText={
-              "Вы действительно хотите использовать данные из прошлого месяца?"
-            }
+            modalText={t("pages.new_preference.modal_text")}
             confirmBtnTitle="Да"
             loading={isConfirmLoading}
           />

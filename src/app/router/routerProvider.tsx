@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
             element: <SelectSupervisor />,
           },
           {
-            path: "/new-preference/select-supervisor/:id",
+            path: "/new-preference/select-supervisor/:login",
             element: <SupervisorsSchedule />,
           },
           {

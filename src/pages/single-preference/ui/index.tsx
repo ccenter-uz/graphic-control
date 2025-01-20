@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { baseApi } from "@shared/lib/baseApi";
-import { generateCalendar, mergeArrays } from "@shared/lib/helpers";
+import {
+  canUserEditPreference,
+  generateCalendar,
+  mergeArrays,
+} from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
@@ -27,11 +31,13 @@ export const SinglePreference = () => {
   const token = localStorage.getItem("GCToken");
 
   const [data, setData] = useState<ICheckbox[]>([]);
+  const [subheaderInfo, setSubheaderInfo] = useState<iSubheaderInfo[]>([]);
 
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
 
-  const [subheaderInfo, setSubheaderInfo] = useState<iSubheaderInfo[]>([]);
+  const [isPreferenceEditable, setIsPreferenceEditable] =
+    useState<boolean>(false);
 
   const fetchData = async () => {
     try {
@@ -47,6 +53,15 @@ export const SinglePreference = () => {
 
       if (response.status === HttpStatusCode.OK) {
         const data = response.data;
+
+        const prefenenceDate = data.requested_date.split("/");
+        const requestedYear = prefenenceDate[0];
+        const requestedMonth = prefenenceDate[1];
+
+        setIsPreferenceEditable(
+          canUserEditPreference(+requestedMonth, +requestedYear) || false,
+        );
+
         const subheaderInfo = [
           {
             id: 1,
@@ -141,7 +156,7 @@ export const SinglePreference = () => {
         data={data}
         year={year}
         month={month}
-        isEditAvailable={true}
+        isEditAvailable={isPreferenceEditable}
       />
     </BaseContainer>
   );

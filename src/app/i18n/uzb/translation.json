@@ -23,7 +23,7 @@
   },
   "widgets": {
     "home_header": {
-      "title": "Jadval arizalari"
+      "title": "Grafik arizalari"
     },
     "login-form": {
       "username": "Login",
@@ -70,7 +70,10 @@
     },
     "new_preference": {
       "title": "Qaysi jadvalni afzal ko'rasiz?",
-      "order_btn_title": "Smena"
+      "like_current_schedule": "Joriy oyda bo'lgani kabi",
+      "order_btn_title": "Smena",
+      "modal_text": "Siz haqiqatan ham joriy oyning ma'lumotlarini ishlatmoqchimisiz?",
+      "error_text": "Sizda oldin qoldirilgan arizalar mavjud emas"
     },
     "new_preference_step_1": {
       "title": "Dam olish kunlarini tanlang",
@@ -107,7 +110,8 @@
     },
     "select_supervisor": {
       "title": "Navbatchi Supervayzerni tanlang",
-      "cc": "KM"
+      "cc": "KM",
+      "no_supervisors": "Navbatchi Supervayzer mavjud emas"
     },
     "single_preferences": {
       "title": "Sizning arizangiz"
