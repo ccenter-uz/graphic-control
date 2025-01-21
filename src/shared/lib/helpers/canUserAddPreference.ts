@@ -7,11 +7,9 @@ export function canUserAddPreference(
   const currentYear = today.getFullYear();
 
   if (yearFromParams && monthFromParams) {
-    if (currentYear > yearFromParams) {
-      return true;
-    } else if (
+    if (
       currentYear === yearFromParams &&
-      currentMonth + 1 > monthFromParams
+      currentMonth + 1 === monthFromParams
     ) {
       return true;
     } else {
