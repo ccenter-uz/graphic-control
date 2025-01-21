@@ -12,7 +12,7 @@ export const Internationalization = () => {
 
   useEffect(() => {
     i18next.changeLanguage(storedLang);
-  }, []);
+  }, [storedLang]);
 
   return (
     <select

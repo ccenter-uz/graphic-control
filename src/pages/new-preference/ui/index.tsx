@@ -106,6 +106,11 @@ export const NewPreference = () => {
 
   const modalConfirmClick = async () => {
     // Checking last month data of the operator which is working in order
+
+    const today = new Date();
+    const requestedMonth = today.getMonth() === 11 ? 1 : today.getMonth() + 2;
+    const requestedYear =
+      today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear();
     try {
       setConfirmIsLoading(true);
       const res = await fetchScheduleByLogin({
@@ -115,10 +120,16 @@ export const NewPreference = () => {
       });
       if (res.status === HttpStatusCode.OK) {
         const response = res.data;
+
+        const requestBody = {
+          workingHours: "20-08",
+          supervizorName: response.name,
+          requested_date: `${requestedYear}/${requestedMonth}`,
+        };
         try {
           const res = await baseApi.post(
             API_MAP.CREATE_PREFERENCE,
-            { supervizorName: response.name },
+            requestBody,
             {
               headers: {
                 accept: "*/*",

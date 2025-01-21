@@ -114,7 +114,8 @@
       "no_supervisors": "Navbatchi Supervayzer mavjud emas"
     },
     "single_preferences": {
-      "title": "Sizning arizangiz"
+      "title": "Sizning arizangiz",
+      "no_schedule": "Siz quyidagi supervayzer smenasiga so'rov qoldirdingiz"
     },
     "single_schedule": {
       "title": "Sizning ish jadvalingiz"

@@ -28,13 +28,19 @@ export const SupervisorsSchedule = () => {
   const [data, setData] = useState<ICheckbox[]>([]);
   const [supervisorName, setSupervisorName] = useState<string>("");
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
-  const [preference, setPreference] = useState<{ supervizorName: string }>();
+  const [preference, setPreference] = useState<{
+    supervizorName: string;
+    workingHours: string;
+    requested_date: string;
+  }>();
 
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
 
   const getScheduleOfSupervisor = async () => {
+    const requestedMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+    const requestedYear = currentMonth === 12 ? currentYear + 1 : currentYear;
     try {
       setLaoding(true);
       const res = await schedulesApi.get(
@@ -42,10 +48,13 @@ export const SupervisorsSchedule = () => {
       );
       if (res.status === HttpStatusCode.OK) {
         const data = res.data;
-        const preference = {
+        const requestBody = {
+          workingHours: "20-08",
           supervizorName: data.name,
+          requested_date: `${requestedYear}/${requestedMonth}`,
         };
-        setPreference(preference);
+
+        setPreference(requestBody);
 
         setSupervisorName(data.name);
 
