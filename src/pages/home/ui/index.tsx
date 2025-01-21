@@ -20,6 +20,11 @@ import BaseLink from "@shared/ui/base-link";
 import BlueLink from "@shared/ui/blue-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
 
+const PREFERENCE = {
+  START: 15,
+  END: 25,
+};
+
 export const Home = () => {
   const navigate = useNavigate();
 
@@ -28,6 +33,15 @@ export const Home = () => {
   const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
+  const findLastPreference = (preferences: any) => {
+    const lastPreferenceDate = Math.max(
+      ...preferences.map((preference: any) => new Date(preference.create_data)),
+    );
+
+    return preferences.find(
+      (item: any) => Number(new Date(item.create_data)) === lastPreferenceDate,
+    );
+  };
   const getAllPreferences = async () => {
     try {
       const res = await baseApi.get(`${API_MAP.GET_ALL_PREFERENCES}`, {
@@ -37,21 +51,37 @@ export const Home = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        const preferences = res.data.result;
         const today = new Date().getDate();
-        // const today = 14;
-        if (!preferences.length && 15 <= today && today <= 25) {
+
+        const preferences = await res.data.result;
+
+        const lastPreference = findLastPreference(preferences);
+
+        const lastPreferenceDate = lastPreference.create_data;
+
+        const lastPreferenceYear = new Date(lastPreferenceDate).getFullYear();
+        const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
+        const thisMonth = new Date().getMonth();
+        const thisYear = new Date().getFullYear();
+
+        const matchedInterval =
+          PREFERENCE.START <= today && today <= PREFERENCE.END;
+
+        const isSameDate =
+          lastPreferenceMonth + lastPreferenceYear === thisMonth + thisYear;
+
+        if (!isSameDate && matchedInterval) {
           setIsBtnEditable(true);
         }
 
-        if (preferences.length && 15 <= today && today <= 25) {
-          const lastPreference = preferences[0];
+        if (preferences.length && matchedInterval) {
           const splittedDate = lastPreference.requested_date.split("/");
           const requestedYear = splittedDate[0];
           const requestedMonth = splittedDate[1];
 
           setIsBtnEditable(
-            canUserAddPreference(+requestedMonth, +requestedYear) || false,
+            canUserAddPreference(Number(requestedMonth) + 1, +requestedYear) ||
+              false,
           );
         }
       }
