@@ -120,7 +120,8 @@ export const SinglePreference = () => {
       <SubheaderInfo data={subheaderInfo} />
       {isPreferenceForOrder ? (
         <p className="text-sm text-[#64748B] mt-8 text-center">
-          {t("pages.single_preferences.no_schedule")}: {supervisorName}.
+          {t("pages.single_preferences.no_schedule")}:{" "}
+          <strong>{supervisorName}</strong>.
         </p>
       ) : (
         <CheckboxGroup

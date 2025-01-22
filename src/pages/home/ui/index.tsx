@@ -25,6 +25,12 @@ const PREFERENCE = {
   END: 25,
 };
 
+interface IPreference {
+  id: string;
+  create_data: string;
+  requested_date: string;
+}
+
 export const Home = () => {
   const navigate = useNavigate();
 
@@ -33,13 +39,18 @@ export const Home = () => {
   const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
-  const findLastPreference = (preferences: any) => {
+  const findLastPreference = (preferences: IPreference[]) => {
     const lastPreferenceDate = Math.max(
-      ...preferences.map((preference: any) => new Date(preference.create_data)),
+      ...preferences.map((preference: IPreference) =>
+        new Date(preference.create_data).getTime(),
+      ),
     );
 
-    return preferences.find(
-      (item: any) => Number(new Date(item.create_data)) === lastPreferenceDate,
+    return (
+      preferences.find(
+        (item: IPreference) =>
+          Number(new Date(item.create_data).getTime()) === lastPreferenceDate,
+      ) || null
     );
   };
   const getAllPreferences = async () => {
@@ -51,38 +62,57 @@ export const Home = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        const today = new Date().getDate();
-
+        // Extract the preferences data from the response
         const preferences = await res.data.result;
-
+        // Find the most recent preference
         const lastPreference = findLastPreference(preferences);
 
-        const lastPreferenceDate = lastPreference.create_data;
+        // Check if there are any preferences
+        if (preferences.length && lastPreference) {
+          // Get today's date
+          const today = new Date().getDate();
 
-        const lastPreferenceYear = new Date(lastPreferenceDate).getFullYear();
-        const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
-        const thisMonth = new Date().getMonth();
-        const thisYear = new Date().getFullYear();
+          // Extract the creation date of the last preference
+          const lastPreferenceDate = lastPreference.create_data;
 
-        const matchedInterval =
-          PREFERENCE.START <= today && today <= PREFERENCE.END;
+          // Extract the year and month from the last preference date
+          const lastPreferenceYear = new Date(lastPreferenceDate).getFullYear();
+          const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
+          // Get the current month and year
+          const thisMonth = new Date().getMonth();
+          const thisYear = new Date().getFullYear();
 
-        const isSameDate =
-          lastPreferenceMonth + lastPreferenceYear === thisMonth + thisYear;
+          // Check if today's date is within the allowed preference interval
+          const matchedInterval =
+            PREFERENCE.START <= today && today <= PREFERENCE.END;
 
-        if (!isSameDate && matchedInterval) {
+          // Determine if the last preference was made in the current month and year
+          const isSameDate =
+            lastPreferenceMonth + lastPreferenceYear === thisMonth + thisYear;
+
+          // If the last preference was not made this month and the interval is matched, enable the button
+          if (!isSameDate && matchedInterval) {
+            setIsBtnEditable(true);
+          }
+
+          // Additional check for preferences and interval matching
+          if (preferences.length && matchedInterval) {
+            // Split the requested date of the last preference to get the year and month
+            const splittedDate = lastPreference.requested_date.split("/");
+            const requestedYear = splittedDate[0];
+            const requestedMonth = splittedDate[1];
+
+            // Set the button's editability based on whether a new preference can be added
+            setIsBtnEditable(
+              canUserAddPreference(
+                Number(requestedMonth) + 1,
+                +requestedYear,
+              ) || false,
+            );
+          }
+        } else {
+          // If there are no preferences, enable the button
           setIsBtnEditable(true);
-        }
-
-        if (preferences.length && matchedInterval) {
-          const splittedDate = lastPreference.requested_date.split("/");
-          const requestedYear = splittedDate[0];
-          const requestedMonth = splittedDate[1];
-
-          setIsBtnEditable(
-            canUserAddPreference(Number(requestedMonth) + 1, +requestedYear) ||
-              false,
-          );
         }
       }
     } catch (error) {
