@@ -3,7 +3,7 @@
     "checkbox_group": {
       "edit_btn_title": "Изменить"
     },
-    "confirm_modal" : {
+    "confirm_modal": {
       "title": "Вы действительно хотите выйти?",
       "cancel": "Отмена",
       "confirm": "Выйти"
@@ -29,7 +29,7 @@
       "username": "Логин",
       "password": "Пароль",
       "submit": "Войти"
-  },
+    },
     "select_weekend_days": {
       "title": "Выберите желаемые 2 выходные дни недели",
       "monday": "Понедельник",
@@ -89,8 +89,8 @@
     },
     "new_preference_step_3": {
       "title": "Выберите рабочий день для замены праздничного выходного дня",
-      "calendar_days":"Календарные дни",
-      "amount_holidays": "Кол-во произволных дней",
+      "calendar_days": "Календарные дни",
+      "amount_holidays": "Кол-во празднечний дней",
       "reset_btn_title": "Сбросить выбор",
       "confirm": "Далее"
     },
