@@ -26,8 +26,11 @@ export const NewPreferenceStepsLayout: FC<Props> = () => {
     useContext(NewPreferenceContext) || {};
 
   const now = new Date();
+  // Get the current month, JS months are 0 indexed, so we add 1
   const currentMonth = now.getMonth() + 1;
-  const matchingMonth = currentMonth === 12 ? 1 : currentMonth;
+
+  // Get the next month. If the current month is December, the next month is January
+  const matchingMonth = currentMonth === 12 ? 1 : currentMonth + 1;
 
   const getHolidays = async () => {
     try {
@@ -43,6 +46,7 @@ export const NewPreferenceStepsLayout: FC<Props> = () => {
       if (res.status === HttpStatusCode.OK) {
         const holidays = res.data[0].holidays;
         const parsedHolidays = JSON.parse(holidays);
+
         const amountOfHolidays = Object.keys(parsedHolidays).length;
         localStorage.setItem("amountOfHolidays", amountOfHolidays.toString());
         if (amountOfHolidays === 0) {
