@@ -115,7 +115,7 @@
     },
     "single_preferences": {
       "title": "Ваше предпочтение за",
-      "no_schedule": "Siz quyidagi supervayzer smenasiga so'rov qoldirdingiz"
+      "no_schedule": "Вы подали заявку на следующую смену супервайзера"
     },
     "single_schedule": {
       "title": "Ваш график за"

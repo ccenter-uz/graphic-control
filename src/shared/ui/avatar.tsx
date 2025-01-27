@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { getFirstLetters } from "@shared/lib/helpers";
+
 interface IAvatarProps {
   fullname: string;
   src?: string;
@@ -25,11 +27,7 @@ const Avatar: React.FC<IAvatarProps> = ({ fullname, src, size }) => {
     }
   }, [src]);
 
-  const firstLetters = fullname
-    .split(" ")
-    .map((name) => name[0])
-    .join("");
-
+  const firstLetters = getFirstLetters(fullname);
   return (
     <div
       className={`${

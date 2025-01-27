@@ -62,47 +62,33 @@ export const Home = () => {
         },
       });
       if (res.status === HttpStatusCode.OK) {
-        // Extract the preferences data from the response
         const preferences = await res.data.result;
-        // Find the most recent preference
         const lastPreference = findLastPreference(preferences);
 
-        // Check if there are any preferences
-        if (preferences.length && lastPreference) {
-          // Get today's date
-          const today = new Date().getDate();
+        const today = new Date().getDate();
+        const matchedInterval =
+          PREFERENCE.START <= today && today <= PREFERENCE.END;
 
-          // Extract the creation date of the last preference
+        if (preferences.length && lastPreference) {
           const lastPreferenceDate = lastPreference.create_data;
 
-          // Extract the year and month from the last preference date
           const lastPreferenceYear = new Date(lastPreferenceDate).getFullYear();
           const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
-          // Get the current month and year
           const thisMonth = new Date().getMonth();
           const thisYear = new Date().getFullYear();
 
-          // Check if today's date is within the allowed preference interval
-          const matchedInterval =
-            PREFERENCE.START <= today && today <= PREFERENCE.END;
-
-          // Determine if the last preference was made in the current month and year
           const isSameDate =
             lastPreferenceMonth + lastPreferenceYear === thisMonth + thisYear;
 
-          // If the last preference was not made this month and the interval is matched, enable the button
           if (!isSameDate && matchedInterval) {
             setIsBtnEditable(true);
           }
 
-          // Additional check for preferences and interval matching
           if (preferences.length && matchedInterval) {
-            // Split the requested date of the last preference to get the year and month
             const splittedDate = lastPreference.requested_date.split("/");
             const requestedYear = splittedDate[0];
             const requestedMonth = splittedDate[1];
 
-            // Set the button's editability based on whether a new preference can be added
             setIsBtnEditable(
               canUserAddPreference(
                 Number(requestedMonth) + 1,
@@ -110,9 +96,11 @@ export const Home = () => {
               ) || false,
             );
           }
-        } else {
-          // If there are no preferences, enable the button
+        } else if (matchedInterval) {
           setIsBtnEditable(true);
+          console.log("working");
+        } else {
+          setIsBtnEditable(false);
         }
       }
     } catch (error) {
@@ -142,6 +130,8 @@ export const Home = () => {
     fetchUserInfo();
   }, []);
 
+  console.log(isBtnEditable, "lorem1");
+
   const handleNewPreferenceClick = () => {
     if (isBtnEditable) {
       navigate("/new-preference");
@@ -149,6 +139,9 @@ export const Home = () => {
       setIsConfirmModalOpen(true);
     }
   };
+
+  console.log(isBtnEditable, "lorem2");
+
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">
       <HomeHeader />

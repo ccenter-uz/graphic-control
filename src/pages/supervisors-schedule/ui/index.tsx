@@ -6,7 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
-import { generateCalendar, mergeArrays } from "@shared/lib/helpers";
+import {
+  clearLocalStorageExceptMultipleKeys,
+  generateCalendar,
+  mergeArrays,
+} from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
@@ -109,6 +113,7 @@ export const SupervisorsSchedule = () => {
       console.log(error);
     } finally {
       setBtnLoading(false);
+      clearLocalStorageExceptMultipleKeys(["token", "username"]);
     }
   };
   return (

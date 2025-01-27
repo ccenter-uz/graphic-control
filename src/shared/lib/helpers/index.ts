@@ -23,3 +23,6 @@ export * from "./canUserEditPreference";
 
 export * from "./getOffDaysInObj";
 export * from "./getLastDayOfNextMonth";
+export * from "./findLastPreference";
+export * from "./clearLocalStorageExceptMultipleKeys";
+export * from "./getFirstLetters";

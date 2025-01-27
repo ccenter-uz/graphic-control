@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
@@ -26,10 +26,12 @@ interface iSubheaderInfo {
 }
 
 export const SinglePreference = () => {
-  const WORKING_HOURS_OF_ORDER_SHCEDULE = "20-08";
+  const WORKING_HOURS_OF_ORDER_SCHEDULE = "20-08";
   const { id } = useParams();
   localStorage.setItem("preferenceId", id || "");
   const token = localStorage.getItem("GCToken");
+
+  const navigate = useNavigate();
 
   const [data, setData] = useState<ICheckbox[]>([]);
   const [subheaderInfo, setSubheaderInfo] = useState<iSubheaderInfo[]>([]);
@@ -38,10 +40,8 @@ export const SinglePreference = () => {
   const [month, setMonth] = useState<string>("");
   const [isPreferenceForOrder, setIsPreferenceForOrder] =
     useState<boolean>(false);
-
-  const [isPreferenceEditable, setIsPreferenceEditable] =
-    useState<boolean>(false);
   const [supervisorName, setSupervisorName] = useState<string>("");
+  const [isEditAvailable, setIsEditAvailable] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
@@ -57,7 +57,8 @@ export const SinglePreference = () => {
 
       if (response.status === HttpStatusCode.OK) {
         const data = response.data;
-        if (data.workingHours === WORKING_HOURS_OF_ORDER_SHCEDULE) {
+
+        if (data.workingHours === WORKING_HOURS_OF_ORDER_SCHEDULE) {
           setIsPreferenceForOrder(true);
           setSupervisorName(data.supervizorName);
         }
@@ -66,7 +67,7 @@ export const SinglePreference = () => {
         const requestedYear = prefenenceDate[0];
         const requestedMonth = prefenenceDate[1];
 
-        setIsPreferenceEditable(
+        setIsEditAvailable(
           canUserEditPreference(+requestedMonth, +requestedYear) || false,
         );
 
@@ -92,7 +93,7 @@ export const SinglePreference = () => {
           +year,
           +month,
           1,
-          data.daysOfMonth.length,
+          data.daysOfMonth?.length,
         );
 
         const mergedArray = mergeArrays(generatedData, data.daysOfMonth);
@@ -109,6 +110,10 @@ export const SinglePreference = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, month, token, year]);
 
+  const handleEditBtnClick = async () => {
+    navigate("/new-preference");
+  };
+
   return (
     <BaseContainer>
       <HeaderContainer className="flex items-center">
@@ -119,16 +124,26 @@ export const SinglePreference = () => {
       </HeaderContainer>
       <SubheaderInfo data={subheaderInfo} />
       {isPreferenceForOrder ? (
-        <p className="text-sm text-[#64748B] mt-8 text-center">
-          {t("pages.single_preferences.no_schedule")}:{" "}
-          <strong>{supervisorName}</strong>.
-        </p>
+        <div className="mt-5">
+          {isEditAvailable && (
+            <button
+              onClick={handleEditBtnClick}
+              className="text-[#007AFF] float-right"
+            >
+              {t("shared.checkbox_group.edit_btn_title")}
+            </button>
+          )}
+          <p className="text-sm text-[#64748B] mt-8 text-center">
+            {t("pages.single_preferences.no_schedule")}:{" "}
+            <strong>{supervisorName}</strong>.
+          </p>
+        </div>
       ) : (
         <CheckboxGroup
           data={data}
           year={year}
           month={month}
-          isEditAvailable={isPreferenceEditable}
+          isEditAvailable={isEditAvailable}
         />
       )}
     </BaseContainer>
