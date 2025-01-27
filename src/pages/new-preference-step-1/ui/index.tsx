@@ -7,7 +7,7 @@ import { SelectWeekendDays } from "@widgets/select-weekend-days";
 
 import { weekDays } from "@shared/constants/weekDays";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
-import { areObjectsEqual, getLastDayOfCurrentMonth } from "@shared/lib/helpers";
+import { areObjectsEqual, getLastDayOfNextMonth } from "@shared/lib/helpers";
 import { IWeekDays } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
 import WorkingHours from "@shared/ui/working-hours";
@@ -40,7 +40,7 @@ export const NewPreferenceStep1 = () => {
       {
         id: 1,
         title: t("pages.new_preference_step_1.calendar_days").toString(),
-        value: getLastDayOfCurrentMonth(),
+        value: getLastDayOfNextMonth(),
       },
     ]);
   }, []);
