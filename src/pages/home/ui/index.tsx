@@ -38,6 +38,7 @@ export const Home = () => {
   const token = localStorage.getItem("GCToken") as string;
   const [isBtnEditable, setIsBtnEditable] = useState<boolean>(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [statusOfWarningText, setStatusOfWarningText] = useState<string>("");
 
   const findLastPreference = (preferences: IPreference[]) => {
     const lastPreferenceDate = Math.max(
@@ -69,22 +70,27 @@ export const Home = () => {
         const matchedInterval =
           PREFERENCE.START <= today && today <= PREFERENCE.END;
 
-        if (preferences.length && lastPreference) {
-          const lastPreferenceDate = lastPreference.create_data;
+        if (matchedInterval) {
+          if (preferences.length && lastPreference) {
+            const lastPreferenceDate = lastPreference.create_data;
 
-          const lastPreferenceYear = new Date(lastPreferenceDate).getFullYear();
-          const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
-          const thisMonth = new Date().getMonth();
-          const thisYear = new Date().getFullYear();
+            const lastPreferenceYear = new Date(
+              lastPreferenceDate,
+            ).getFullYear();
+            const lastPreferenceMonth = new Date(lastPreferenceDate).getMonth();
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
 
-          const isSameDate =
-            lastPreferenceMonth + lastPreferenceYear === thisMonth + thisYear;
+            const isSameDate =
+              lastPreferenceMonth === thisMonth &&
+              lastPreferenceYear === thisYear;
 
-          if (!isSameDate && matchedInterval) {
-            setIsBtnEditable(true);
-          }
+            if (isSameDate) {
+              setIsBtnEditable(false);
+              setStatusOfWarningText("hasPreference");
+              return;
+            }
 
-          if (preferences.length && matchedInterval) {
             const splittedDate = lastPreference.requested_date.split("/");
             const requestedYear = splittedDate[0];
             const requestedMonth = splittedDate[1];
@@ -95,13 +101,15 @@ export const Home = () => {
                 +requestedYear,
               ) || false,
             );
+          } else {
+            setIsBtnEditable(true);
           }
-        } else if (matchedInterval) {
-          setIsBtnEditable(true);
-          console.log("working");
         } else {
           setIsBtnEditable(false);
+          setStatusOfWarningText("isNotInInterval");
         }
+      } else {
+        setIsBtnEditable(false);
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
@@ -156,7 +164,14 @@ export const Home = () => {
           <ConfirmModal
             state={isConfirmModalOpen}
             setState={setIsConfirmModalOpen}
-            modalText={t("pages.home.modal_text")}
+            modalText={
+              statusOfWarningText === "isNotInInterval"
+                ? t("pages.home.is_not_in_interval_warning_text", {
+                    start: PREFERENCE.START,
+                    end: PREFERENCE.END,
+                  })
+                : t("pages.home.has_preference_warning_text")
+            }
             confirmBtnClick={() => setIsConfirmModalOpen(false)}
           />
         ) : null}

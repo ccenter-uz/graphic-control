@@ -26,12 +26,6 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   year,
   isEditAvailable,
 }) => {
-  // if (month && year) {
-  //   !isEditAvailable
-  //     ? isEditAvailable
-  //     : (isEditAvailable = isPreferenceEditable(+month, +year));
-  // }
-
   const { t } = useTranslation();
   const navigate = useNavigate();
 
