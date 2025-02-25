@@ -14,8 +14,8 @@ import {
   getExchangeableItem,
   generateEditableCalendarDays,
   generateOffDays,
-  getLastDayOfCurrentMonth,
   generateCalendar,
+  getLastDayOfNextMonth,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -108,7 +108,7 @@ export const NewPreferenceStep2 = () => {
       {
         id: 1,
         title: t("pages.new_preference_step_2.calendar_days").toString(),
-        value: getLastDayOfCurrentMonth(),
+        value: getLastDayOfNextMonth(),
       },
       {
         id: 2,

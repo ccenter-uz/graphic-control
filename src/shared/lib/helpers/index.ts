@@ -17,9 +17,12 @@ export * from "./clearLocalStorageExceptToken";
 export * from "./mergeArrays";
 export * from "./generateCalendar";
 export * from "./isPreferenceEditable";
-export * from "./getLastDayOfCurrentMonth";
 export * from "./getTranslatedKeysWithTrueValues";
 export * from "./canUserAddPreference";
 export * from "./canUserEditPreference";
 
 export * from "./getOffDaysInObj";
+export * from "./getLastDayOfNextMonth";
+export * from "./findLastPreference";
+export * from "./clearLocalStorageExceptMultipleKeys";
+export * from "./getFirstLetters";

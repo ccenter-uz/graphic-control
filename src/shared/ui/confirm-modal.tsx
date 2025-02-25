@@ -9,7 +9,7 @@ type Props = {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   confirmBtnClick: () => void;
-  modalText?: string;
+  modalText?: string | React.ReactNode;
   confirmBtnTitle?: string;
   loading?: boolean;
 };

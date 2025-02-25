@@ -5,11 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
-import {
-  getDaysAvailability,
-  isPreferenceEditable,
-  monthToWeeks,
-} from "@shared/lib/helpers";
+import { getDaysAvailability, monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import Checkbox from "@shared/ui/checkbox";
@@ -30,12 +26,6 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
   year,
   isEditAvailable,
 }) => {
-  if (month && year) {
-    !isEditAvailable
-      ? isEditAvailable
-      : (isEditAvailable = isPreferenceEditable(+month, +year));
-  }
-
   const { t } = useTranslation();
   const navigate = useNavigate();
 

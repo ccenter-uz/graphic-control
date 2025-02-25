@@ -16,4 +16,6 @@ export function canUserAddPreference(
       return false;
     }
   }
+
+  return false;
 }

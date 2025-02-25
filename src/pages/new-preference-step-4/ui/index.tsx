@@ -11,8 +11,8 @@ import { baseApi } from "@shared/lib/baseApi";
 import {
   getOffDays,
   getRequestDate,
-  clearLocalStorageExceptToken,
   getTranslatedKeysWithTrueValues,
+  clearLocalStorageExceptMultipleKeys,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -191,7 +191,7 @@ export const NewPreferenceStep4 = () => {
       });
       navigate("/error");
     } finally {
-      clearLocalStorageExceptToken();
+      clearLocalStorageExceptMultipleKeys(["token", "username"]);
       setIsLoading(false);
     }
   };

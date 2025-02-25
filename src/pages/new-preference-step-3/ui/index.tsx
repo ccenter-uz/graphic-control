@@ -6,7 +6,7 @@ import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
-import { getLastDayOfCurrentMonth, monthToWeeks } from "@shared/lib/helpers";
+import { getLastDayOfNextMonth, monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
@@ -84,7 +84,7 @@ export const NewPreferenceStep3 = () => {
       {
         id: 1,
         title: t("pages.new_preference_step_3.calendar_days"),
-        value: getLastDayOfCurrentMonth(),
+        value: getLastDayOfNextMonth(),
       },
       {
         id: 2,

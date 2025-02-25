@@ -55,7 +55,9 @@
     },
     "home": {
       "new_preference": "Новое предпочтение",
-      "modal_text": "Заявку можно оставить только с 15 по 25 число месяца, либо вы уже оставили её. Оставленную заявку можно просмотреть или изменить в разделе 'Мои предпочтения'",
+      "is_not_in_interval_warning_text": "Заявку можно оставить только с {{start}} по {{end}} число месяца",
+      "has_preference_warning_text": "Вы уже оставили заявку. Её можно просмотреть или изменить в разделе «Мои предпочтения»",
+
       "my_schedules": "Мои графики",
       "my_preferences": "Мои предпочтения",
       "support": "Поддержка"
@@ -115,7 +117,7 @@
     },
     "single_preferences": {
       "title": "Ваше предпочтение за",
-      "no_schedule": "Siz quyidagi supervayzer smenasiga so'rov qoldirdingiz"
+      "no_schedule": "Вы подали заявку на следующую смену супервайзера"
     },
     "single_schedule": {
       "title": "Ваш график за"
