@@ -26,4 +26,3 @@ export * from "./getLastDayOfNextMonth";
 export * from "./findLastPreference";
 export * from "./clearLocalStorageExceptMultipleKeys";
 export * from "./getFirstLetters";
-export * from "./isTokenAvailable";

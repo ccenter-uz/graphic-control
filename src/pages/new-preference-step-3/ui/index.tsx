@@ -1,16 +1,12 @@
 import { t } from "i18next";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
-import {
-  getLastDayOfNextMonth,
-  isTokenAvailable,
-  monthToWeeks,
-} from "@shared/lib/helpers";
+import { getLastDayOfNextMonth, monthToWeeks } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
@@ -20,7 +16,6 @@ import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep3 = () => {
-  const navigate = useNavigate();
   const token = localStorage.getItem("GCToken") as string;
   const [timeParams] = useSearchParams();
   const { setDaysOfMonth } = useContext(NewPreferenceContext) ?? {};
@@ -72,9 +67,8 @@ export const NewPreferenceStep3 = () => {
           setHolidays(holidaysArr);
         }
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      !isTokenAvailable(error.status) ? navigate("/login") : null;
+    } catch (error) {
+      console.log(error);
     }
   };
 

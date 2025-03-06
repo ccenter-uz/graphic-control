@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { authApi } from "@shared/lib/baseApi";
-import { isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 
 import Avatar from "./avatar";
@@ -19,8 +18,6 @@ const initialUserImage = {
 };
 
 const UserProfileLink = () => {
-  const navigate = useNavigate();
-
   const [userImage, setUserImage] = useState<IUserImage>(initialUserImage);
   const token = localStorage.getItem("GCToken") as string;
   const storedUserImage = localStorage.getItem("userImage");
@@ -42,9 +39,8 @@ const UserProfileLink = () => {
           fullname: res.data.name,
         });
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      !isTokenAvailable(error.status) ? navigate("/login") : null;
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
     }
   };
 

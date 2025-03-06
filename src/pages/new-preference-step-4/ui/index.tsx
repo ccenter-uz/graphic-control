@@ -13,7 +13,6 @@ import {
   getRequestDate,
   getTranslatedKeysWithTrueValues,
   clearLocalStorageExceptMultipleKeys,
-  isTokenAvailable,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -186,7 +185,7 @@ export const NewPreferenceStep4 = () => {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      !isTokenAvailable(error.status) ? navigate("/login") : null;
+      console.error("Error:", error);
       setErrorInfo?.({
         errorMessage: error?.message,
         errorStatus: error?.status,

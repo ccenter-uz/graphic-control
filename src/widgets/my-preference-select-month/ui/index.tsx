@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { IMonth, months } from "@shared/constants/months";
 import { arrowLeftPath, arrowRightPath } from "@shared/constants/svg-paths";
 import { baseApi } from "@shared/lib/baseApi";
-import { isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import SvgIcon from "@shared/ui/svg-icon";
 
@@ -17,7 +16,6 @@ interface ISinglePreference {
 }
 
 export const MyPreferenceSelectMonth = () => {
-  const navigate = useNavigate();
   const token = localStorage.getItem("GCToken") || "";
   const today = new Date();
 
@@ -55,10 +53,8 @@ export const MyPreferenceSelectMonth = () => {
         const sortedYearsHaveDataArr = yearsHaveDataArr.sort((a, b) => a - b);
         setYearsHaveData(sortedYearsHaveDataArr);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       console.error("Failed to fetch preferences:", error);
-      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   }, []);
 
@@ -77,10 +73,8 @@ export const MyPreferenceSelectMonth = () => {
       if (res.status === HttpStatusCode.OK) {
         setPreferences(res.data.result);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       console.error("Failed to fetch preferences:", error);
-      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   }, [currentYear, token]);
 
