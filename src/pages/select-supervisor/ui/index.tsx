@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { schedulesApi } from "@shared/lib/baseApi";
+import { isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -18,6 +20,7 @@ interface ISupervisor {
 }
 
 export const SelectSupervisor = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const token = localStorage.getItem("GCToken") as string;
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,8 +45,9 @@ export const SelectSupervisor = () => {
           setError(t("pages.select_supervisor.no_supervisors"));
         }
       }
-    } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     } finally {
       setLoading(false);
     }

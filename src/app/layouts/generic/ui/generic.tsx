@@ -3,5 +3,13 @@ import { UserLayout } from "../../user/ui/user";
 
 export const GenericLayout = () => {
   const token = localStorage.getItem("GCToken");
-  return token ? <UserLayout /> : <LoginLayout />;
+  return token ? (
+    <>
+      <UserLayout />
+    </>
+  ) : (
+    <>
+      <LoginLayout />;
+    </>
+  );
 };

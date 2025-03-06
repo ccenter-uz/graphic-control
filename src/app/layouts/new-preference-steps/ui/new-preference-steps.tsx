@@ -1,9 +1,10 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
+import { isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -18,12 +19,16 @@ type Props = {
 };
 
 export const NewPreferenceStepsLayout: FC<Props> = () => {
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token") as string;
   const location = useLocation();
   const currentStep = location.pathname.charAt(location.pathname.length - 1);
-  const [steps, setSteps] = useState<number[]>([1, 2, 3, 4]);
+
   const { backLinkPath, pageHeaderTitle, subHeaderInfoData } =
     useContext(NewPreferenceContext) || {};
+
+  const [steps, setSteps] = useState<number[]>([1, 2, 3, 4]);
 
   const now = new Date();
   // Get the current month, JS months are 0 indexed, so we add 1
@@ -53,8 +58,9 @@ export const NewPreferenceStepsLayout: FC<Props> = () => {
           setSteps([1, 2, 3]);
         }
       }
-    } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   };
 

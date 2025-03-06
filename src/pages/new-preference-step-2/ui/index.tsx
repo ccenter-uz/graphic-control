@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
@@ -16,6 +16,7 @@ import {
   generateOffDays,
   generateCalendar,
   getLastDayOfNextMonth,
+  isTokenAvailable,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
@@ -30,6 +31,15 @@ const LAST_DAY_OF_WEEK_INDEX = 7;
 const OFFSET_OF_MONTH_INDEX = 32;
 
 export const NewPreferenceStep2 = () => {
+  const navigate = useNavigate();
+
+  const [timeParams] = useSearchParams();
+
+  const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
+  const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
+  const [isResetState, setIsResetState] = useState<boolean>(false);
+  const [holidays, setHolidays] = useState<string[]>([]);
+
   const offDaysFromStorage = localStorage.getItem("offDays");
   const offDays: string[] = Object.keys(
     JSON.parse(offDaysFromStorage || "{}"),
@@ -40,12 +50,6 @@ export const NewPreferenceStep2 = () => {
   const THIRD_PAGE_PATH = !JSON.parse(storedAmountOfSteps as string)
     ? "/new-preference/steps/4"
     : "/new-preference/steps/3";
-
-  const [timeParams] = useSearchParams();
-  const [cloneData, setCloneData] = useState<ICheckbox[]>([]);
-  const [isBtnsActive, setIsBtnsActive] = useState<boolean>(false);
-  const [isResetState, setIsResetState] = useState<boolean>(false);
-  const [holidays, setHolidays] = useState<string[]>([]);
 
   const month =
     new Date().getMonth() + 1 === 12 ? 1 : new Date().getMonth() + 2;
@@ -84,8 +88,9 @@ export const NewPreferenceStep2 = () => {
           setHolidays(holidaysArr);
         }
       }
-    } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   };
 

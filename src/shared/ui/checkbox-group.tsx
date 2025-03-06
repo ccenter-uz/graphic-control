@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
-import { getDaysAvailability, monthToWeeks } from "@shared/lib/helpers";
+import {
+  getDaysAvailability,
+  isTokenAvailable,
+  monthToWeeks,
+} from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import Checkbox from "@shared/ui/checkbox";
@@ -63,8 +67,9 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
           setHolidays(holidaysArr);
         }
       }
-    } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   };
 
@@ -100,9 +105,10 @@ const CheckboxGroup: FC<ICheckboxGroup> = ({
       localStorage.setItem("description", description);
       localStorage.setItem("offDays", JSON.stringify(offDays));
       localStorage.setItem("daysOfMonthAtStep2", JSON.stringify(daysOfMonth));
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("Failed to fetch preference data:", error);
-      // You can add error handling logic here, like setting an error state or showing a message
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     } finally {
       setIsLoading(false);
       navigate("/new-preference");

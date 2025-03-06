@@ -9,6 +9,7 @@ import { baseApi, schedulesApi } from "@shared/lib/baseApi";
 import {
   clearLocalStorageExceptMultipleKeys,
   generateCalendar,
+  isTokenAvailable,
   mergeArrays,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
@@ -72,6 +73,8 @@ export const SupervisorsSchedule = () => {
         setData(mergedArray);
       }
     } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
+
       setErrorInfo?.({
         errorMessage: error.message,
         errorStatus: error.status,

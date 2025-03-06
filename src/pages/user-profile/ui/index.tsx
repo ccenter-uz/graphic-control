@@ -7,7 +7,7 @@ import { Logout } from "@features/logout";
 import { API_MAP } from "@shared/constants/apiMap";
 import { TgSupportLink } from "@shared/constants/links";
 import { authApi } from "@shared/lib/baseApi";
-import { formatPhoneNumber } from "@shared/lib/helpers";
+import { formatPhoneNumber, isTokenAvailable } from "@shared/lib/helpers";
 import Avatar from "@shared/ui/avatar";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -64,8 +64,9 @@ export const UserProfile = () => {
         role: responseData.role,
         service_name: responseData.service_name,
       });
-    } catch (error) {
-      console.error("Failed to fetch user info:", error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   };
 

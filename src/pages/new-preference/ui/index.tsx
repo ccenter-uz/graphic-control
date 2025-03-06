@@ -9,7 +9,7 @@ import { scheduleLinks } from "@shared/constants/local-data";
 import { clockPath } from "@shared/constants/svg-paths";
 import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { baseApi, schedulesApi } from "@shared/lib/baseApi";
-import { getOffDaysInObj } from "@shared/lib/helpers";
+import { getOffDaysInObj, isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
@@ -98,7 +98,7 @@ export const NewPreference = () => {
       }
     } catch (error: any) {
       setErrorText(error.message);
-      console.log(error);
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     } finally {
       setIsLoading(false);
     }

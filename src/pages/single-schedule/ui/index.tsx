@@ -1,12 +1,16 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { months } from "@shared/constants/months";
 import { ISubheaderInfo } from "@shared/contexts/new-preference-context";
 import { schedulesApi } from "@shared/lib/baseApi";
-import { generateCalendar, mergeArrays } from "@shared/lib/helpers";
+import {
+  generateCalendar,
+  isTokenAvailable,
+  mergeArrays,
+} from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BackLink from "@shared/ui/back-link";
@@ -17,6 +21,7 @@ import HeaderTitle from "@shared/ui/header-title";
 import { SubheaderInfo } from "@shared/ui/subheader-info";
 
 export const SingleSchedule = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const token = localStorage.getItem("GCToken") as string;
   const [subheaderData, setSubheaderData] = useState<ISubheaderInfo[]>([]);
@@ -58,8 +63,9 @@ export const SingleSchedule = () => {
         const mergedArray = mergeArrays(generatedData, data.month.days);
         setDaysOfMonth(mergedArray);
       }
-    } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   };
 

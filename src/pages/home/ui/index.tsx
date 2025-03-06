@@ -13,7 +13,7 @@ import {
   calendarTickPath,
 } from "@shared/constants/svg-paths";
 import { authApi, baseApi } from "@shared/lib/baseApi";
-import { canUserAddPreference } from "@shared/lib/helpers";
+import { canUserAddPreference, isTokenAvailable } from "@shared/lib/helpers";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
@@ -128,8 +128,9 @@ export const Home = () => {
       if (res.status === HttpStatusCode.OK) {
         localStorage.setItem("userImage", res.data.image);
       }
-    } catch (error) {
-      console.error("Failed to fetch user info:", error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/login") : null;
     }
   }, []);
 
@@ -138,8 +139,6 @@ export const Home = () => {
     fetchUserInfo();
   }, []);
 
-  console.log(isBtnEditable, "lorem1");
-
   const handleNewPreferenceClick = () => {
     if (isBtnEditable) {
       navigate("/new-preference");
@@ -147,8 +146,6 @@ export const Home = () => {
       setIsConfirmModalOpen(true);
     }
   };
-
-  console.log(isBtnEditable, "lorem2");
 
   return (
     <BaseContainer className="h-screen bg-[#f9fdff]">

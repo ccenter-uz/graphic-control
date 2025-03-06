@@ -8,6 +8,7 @@ import { baseApi } from "@shared/lib/baseApi";
 import {
   canUserEditPreference,
   generateCalendar,
+  isTokenAvailable,
   mergeArrays,
 } from "@shared/lib/helpers";
 import { ICheckbox } from "@shared/lib/types";
@@ -100,8 +101,9 @@ export const SinglePreference = () => {
 
         setData(mergedArray);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      !isTokenAvailable(error.status) ? navigate("/") : null;
     }
   };
 
