@@ -6,6 +6,7 @@ import BackLink from "@shared/ui/back-link";
 import BaseContainer from "@shared/ui/base-cotainer";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
+import SwipeBack from "@shared/ui/swipe-back";
 import UserProfileLink from "@shared/ui/user-profile-link";
 
 export const Schedules = () => {
@@ -20,6 +21,7 @@ export const Schedules = () => {
         {t("pages.schedules.select_month_title")}
       </p>
       <SchedulesSelectMonth />
+      <SwipeBack />
     </BaseContainer>
   );
 };

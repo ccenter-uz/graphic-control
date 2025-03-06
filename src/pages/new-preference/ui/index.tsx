@@ -18,6 +18,7 @@ import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { Loader } from "@shared/ui/loader";
+import SwipeBack from "@shared/ui/swipe-back";
 import UserProfileLink from "@shared/ui/user-profile-link";
 
 interface IFetchData {
@@ -215,6 +216,7 @@ export const NewPreference = () => {
           />
         </div>
       </div>
+      <SwipeBack />
     </BaseContainer>
   );
 };

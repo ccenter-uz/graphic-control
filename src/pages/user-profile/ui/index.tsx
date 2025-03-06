@@ -14,6 +14,7 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import BlueLink from "@shared/ui/blue-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
 import HeaderContainer from "@shared/ui/header-container";
+import SwipeBack from "@shared/ui/swipe-back";
 import UserSingleInfo from "@shared/ui/user-single-info";
 
 interface IUserInfo {
@@ -134,6 +135,7 @@ export const UserProfile = () => {
         to={TgSupportLink}
         className="ml-auto mt-auto"
       />
+      <SwipeBack />
     </BaseContainer>
   );
 };

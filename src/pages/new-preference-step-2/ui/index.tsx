@@ -22,6 +22,7 @@ import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import Checkbox from "@shared/ui/checkbox";
+import SwipeBack from "@shared/ui/swipe-back";
 import { TableHead } from "@shared/ui/table-head";
 import WorkingHours from "@shared/ui/working-hours";
 
@@ -309,6 +310,7 @@ export const NewPreferenceStep2 = () => {
           {t("pages.new_preference_step_2.submit")}
         </BaseButton>
       </Link>
+      <SwipeBack />
     </div>
   );
 };

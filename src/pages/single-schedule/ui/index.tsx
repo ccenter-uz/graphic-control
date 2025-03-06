@@ -19,6 +19,7 @@ import CheckboxGroup from "@shared/ui/checkbox-group";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { SubheaderInfo } from "@shared/ui/subheader-info";
+import SwipeBack from "@shared/ui/swipe-back";
 
 export const SingleSchedule = () => {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ export const SingleSchedule = () => {
         year={year}
         isEditAvailable={false}
       />
+      <SwipeBack />
     </BaseContainer>
   );
 };

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const SwipeBack = () => {
   const navigate = useNavigate();
   const [touchStartX, setTouchStartX] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
+  // const [touchEndX, setTouchEndX] = useState(0);
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -12,12 +12,15 @@ const SwipeBack = () => {
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      setTouchEndX(e.changedTouches[0].clientX);
+      // setTouchEndX(e.changedTouches[0].clientX);
 
       // Check if the swipe is from left to right
-      if (touchStartX - touchEndX > 50) {
+      console.log("touchStartX", touchStartX);
+      console.log("touchEndX", e.changedTouches[0].clientX);
+
+      if (touchStartX - e.changedTouches[0].clientX > 50) {
         console.log("Swipe Right → Left (Ignored)");
-      } else if (touchEndX - touchStartX > 50) {
+      } else if (e.changedTouches[0].clientX - touchStartX > 50) {
         console.log("Swipe Left → Right (Go Back)");
         navigate(-1); // Go back
       }
@@ -30,7 +33,7 @@ const SwipeBack = () => {
       document.removeEventListener("touchstart", handleTouchStart);
       document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [touchStartX, touchEndX, navigate]);
+  }, [touchStartX]);
 
   return null;
 };
