@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
+import { HttpStatusCode } from "@shared/model/httpStatus";
+
 export const baseApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/Application/",
 });
@@ -13,14 +15,50 @@ export const authApi = axios.create({
   baseURL: "https://api.graphic.ccenter.uz/api/v1/Auth/",
 });
 
-// authApi.interceptors.request.use(function (config) {
-//   const token = localStorage.getItem("authToken") as string;
-//   config.headers.Accept = "*/*";
-//   config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
+baseApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (
+      error.response &&
+      (error.response.status === HttpStatusCode.FORBIDDEN ||
+        error.response.status === HttpStatusCode.UNAUTHORIZED)
+    ) {
+      localStorage.clear();
+    }
 
-// export { authApi };
+    return Promise.reject(error);
+  },
+);
+
+schedulesApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (
+      error.response &&
+      (error.response.status === HttpStatusCode.FORBIDDEN ||
+        error.response.status === HttpStatusCode.UNAUTHORIZED)
+    ) {
+      localStorage.clear();
+    }
+
+    return Promise.reject(error);
+  },
+);
+
+authApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (
+      error.response &&
+      (error.response.status === HttpStatusCode.FORBIDDEN ||
+        error.response.status === HttpStatusCode.UNAUTHORIZED)
+    ) {
+      localStorage.clear();
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export function handleGenericError(error: AxiosError) {
   /**
