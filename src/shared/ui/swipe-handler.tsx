@@ -6,6 +6,9 @@ interface SwipeHandlerProps {
   children: ReactNode;
 }
 
+const THRESHOLD = 70; // Minimum swipe distance
+const SWIPEABLE_AREA = window.innerWidth / 3; // Swipeable area
+
 const SwipeHandler = ({ children }: SwipeHandlerProps) => {
   const [startX, setStartX] = useState(0);
   const [swipeX, setSwipeX] = useState<number | null>(null); // Store current swipe position
@@ -21,9 +24,9 @@ const SwipeHandler = ({ children }: SwipeHandlerProps) => {
 
     const handleTouchMove = (event: TouchEvent) => {
       if (pathname !== "/") {
-        if (event.touches[0].clientX < window.innerWidth / 3) {
+        if (event.touches[0].clientX < SWIPEABLE_AREA) {
           setSwipeX(event.touches[0].clientX); // Update swipe position
-          if (event.touches[0].clientX > 70) {
+          if (event.touches[0].clientX > THRESHOLD) {
             setShowIndicator(true); // Show the circle
           }
         }
@@ -33,11 +36,10 @@ const SwipeHandler = ({ children }: SwipeHandlerProps) => {
     const handleTouchEnd = (event: TouchEvent) => {
       const endX = event.changedTouches[0].clientX;
       const swipeDistance = endX - startX;
-      const threshold = 70; // Minimum swipe distance
       setShowIndicator(false); // Hide indicator after swipe
 
-      if (startX < window.innerWidth / 3) {
-        if (swipeDistance > threshold) {
+      if (startX < SWIPEABLE_AREA) {
+        if (swipeDistance > THRESHOLD) {
           if (pathname !== "/") {
             navigate(-1); // Go back on left swipe
           }
