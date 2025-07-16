@@ -7,6 +7,7 @@ import { HomeHeader } from "@widgets/home-header";
 
 import { API_MAP } from "@shared/constants/apiMap";
 import { TgSupportLink } from "@shared/constants/links";
+import { PREFERENCE } from "@shared/constants/preference-period";
 import {
   calendarClockPath,
   calendarListPath,
@@ -19,11 +20,6 @@ import BaseContainer from "@shared/ui/base-cotainer";
 import BaseLink from "@shared/ui/base-link";
 import BlueLink from "@shared/ui/blue-link";
 import ConfirmModal from "@shared/ui/confirm-modal";
-
-const PREFERENCE = {
-  START: 15,
-  END: 25,
-};
 
 interface IPreference {
   id: string;

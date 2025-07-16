@@ -1,7 +1,4 @@
-const PREFERENCE = {
-  START: 15,
-  END: 25,
-};
+import { PREFERENCE } from "@shared/constants/preference-period";
 
 export function canUserEditPreference(
   monthFromParams: number,

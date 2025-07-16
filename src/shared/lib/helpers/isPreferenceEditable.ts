@@ -1,3 +1,5 @@
+import { PREFERENCE } from "@shared/constants/preference-period";
+
 export function isPreferenceEditable(
   monthFromParams: number,
   yearFromParams: number,
@@ -12,8 +14,8 @@ export function isPreferenceEditable(
     if (
       currentYear == yearFromParams &&
       currentMonth == monthFromParams &&
-      15 <= currentDay &&
-      currentDay <= 25
+      PREFERENCE.START <= currentDay &&
+      currentDay <= PREFERENCE.END
     ) {
       return true;
     }
