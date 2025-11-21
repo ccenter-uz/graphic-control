@@ -191,7 +191,7 @@ export const NewPreferenceStep4 = () => {
       });
       navigate("/error");
     } finally {
-      clearLocalStorageExceptMultipleKeys(["token", "username"]);
+      clearLocalStorageExceptMultipleKeys(["GCToken", "username"]);
       setIsLoading(false);
     }
   };
