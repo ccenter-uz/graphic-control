@@ -158,7 +158,7 @@ export const NewPreference = () => {
   };
 
   return (
-    <BaseContainer className="bg-[#F9FDFF]">
+    <BaseContainer className="bg-[#F9FDFF] borderr">
       <HeaderContainer className="flex items-center justify-between">
         <BackLink to="/" />
         <HeaderTitle>{t("pages.new_preference.title")}</HeaderTitle>

@@ -93,8 +93,10 @@ export const Home = () => {
 
             setIsBtnEditable(
               canUserAddPreference(
-                Number(requestedMonth) + 1,
-                +requestedYear,
+                Number(requestedMonth) === 12 ? 1 : Number(requestedMonth) + 1,
+                Number(requestedMonth) === 12
+                  ? +requestedYear + 1
+                  : +requestedYear,
               ) || false,
             );
           } else {
@@ -134,8 +136,6 @@ export const Home = () => {
     fetchUserInfo();
   }, []);
 
-  console.log(isBtnEditable, "lorem1");
-
   const handleNewPreferenceClick = () => {
     if (isBtnEditable) {
       navigate("/new-preference");
@@ -144,10 +144,8 @@ export const Home = () => {
     }
   };
 
-  console.log(isBtnEditable, "lorem2");
-
   return (
-    <BaseContainer className="h-screen bg-[#f9fdff]">
+    <BaseContainer className="h-screen bg-[#f9fdff] borderr">
       <HomeHeader />
       <div className="grid gap-7 mt-11 px-6">
         <button onClick={handleNewPreferenceClick}>
