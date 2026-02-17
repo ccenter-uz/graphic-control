@@ -145,7 +145,7 @@ export const Home = () => {
   };
 
   return (
-    <BaseContainer className="h-screen bg-[#f9fdff] borderr">
+    <BaseContainer className="h-screen bg-[#f9fdff]">
       <HomeHeader />
       <div className="grid gap-7 mt-11 px-6">
         <button onClick={handleNewPreferenceClick}>
