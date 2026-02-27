@@ -18,6 +18,7 @@ import CheckboxGroup from "@shared/ui/checkbox-group";
 import HeaderContainer from "@shared/ui/header-container";
 import HeaderTitle from "@shared/ui/header-title";
 import { SubheaderInfo } from "@shared/ui/subheader-info";
+import SwipeBack from "@shared/ui/swipe-back";
 
 interface iSubheaderInfo {
   id: number;
@@ -146,6 +147,7 @@ export const SinglePreference = () => {
           isEditAvailable={isEditAvailable}
         />
       )}
+      <SwipeBack />
     </BaseContainer>
   );
 };

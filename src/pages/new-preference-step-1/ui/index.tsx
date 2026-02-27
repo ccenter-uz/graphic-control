@@ -10,6 +10,7 @@ import { NewPreferenceContext } from "@shared/contexts/new-preference-context";
 import { areObjectsEqual, getLastDayOfNextMonth } from "@shared/lib/helpers";
 import { IWeekDays } from "@shared/lib/types";
 import BaseButton from "@shared/ui/base-button";
+import SwipeBack from "@shared/ui/swipe-back";
 import WorkingHours from "@shared/ui/working-hours";
 
 export const NewPreferenceStep1 = () => {
@@ -85,6 +86,7 @@ export const NewPreferenceStep1 = () => {
           {t("pages.new_preference_step_1.submit")}
         </BaseButton>
       </Link>
+      <SwipeBack />
     </div>
   );
 };

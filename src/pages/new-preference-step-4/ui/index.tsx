@@ -18,6 +18,7 @@ import { ICheckbox } from "@shared/lib/types";
 import { HttpStatusCode } from "@shared/model/httpStatus";
 import BaseButton from "@shared/ui/base-button";
 import { Loader } from "@shared/ui/loader";
+import SwipeBack from "@shared/ui/swipe-back";
 import WorkingHours from "@shared/ui/working-hours";
 
 const daysOfWeek: { [key: string]: string } = {
@@ -218,6 +219,7 @@ export const NewPreferenceStep4 = () => {
           {isLoading ? <Loader /> : t("pages.new_preference_step_4.submit")}
         </BaseButton>
       </Link>
+      <SwipeBack />
     </div>
   );
 };
